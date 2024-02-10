@@ -1,0 +1,22 @@
+.container{
+      height: auto;
+      width: 90vw;
+      margin-top: 3rem;
+      
+}
+
+.btnContainer{
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+}
+.btn{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+
+.btn button{
+      
+      background-color: brown;
+}

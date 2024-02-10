@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Checkbutton from "@/components/choice/Checkbutton";
+import Buttongroup from "@/components/choice/Buttongroup";
 
 export default function page() {
   return (
     <div>
-      this is choice
+      {/* <Checkbutton/> */}
+      <Buttongroup />
     </div>
-  )
+  );
 }

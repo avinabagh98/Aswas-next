@@ -1,0 +1,61 @@
+.container {
+      height: 100vh;
+      width: 100vw;
+      background-color: #fceaea;
+  }
+
+  .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 10vh;
+      padding: 5px;
+      background-color: skyblue;
+      z-index: 100;
+      
+  }
+  
+  .headerContent{
+      display:flex;
+      justify-content:left;
+      align-items: center;
+  }
+  
+  .headerOffcanvaBtn{
+      height: 50px;
+      width: 100px;
+      margin-left: 1rem;
+      display: flex;
+      justify-content: left;
+      align-items: center;
+  }
+  
+  .logo {
+      
+      height: 50px;
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+  }
+  
+  .logoText{
+      color: azure;
+      font-size:30px;
+      font-family:sans-serif;
+  }
+  
+  .logo img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+  }
+
+  .body{
+    height:100%;
+    width:auto;
+    margin-top: 10vh;
+    padding: 1rem;
+    background-color: aquamarine;
+  }
