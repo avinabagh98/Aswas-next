@@ -1,0 +1,9 @@
+/* globals.css */
+
+:root {
+      --darkestblue: #1a237e;
+      --darkblue: #00008b;
+      --skyblue: #87ceeb;
+      --white: #f5f5f5;
+      --text-color: #212529;
+}
