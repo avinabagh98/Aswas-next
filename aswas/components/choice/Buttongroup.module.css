@@ -1,22 +1,36 @@
-.container{
+.container {
       height: auto;
       width: 90vw;
       margin-top: 3rem;
-      
+
 }
 
-.btnContainer{
+.btnContainer {
       margin-top: 2rem;
       display: flex;
       align-items: center;
+
 }
-.btn{
+
+.btnCol {
       display: flex;
       justify-content: center;
       align-items: center;
 }
 
-.btn button{
-      
-      background-color: brown;
+.btnSpan {
+      height: 55px;
+      width: 117px;
+      border-radius: 5px;
+      background-color: rgb(33, 144, 241);
+}
+
+.btnCol button {
+      height: 50px;
+      width: 116px;
+      border: none;
+      border-radius: 5px;
+      color: whitesmoke;
+      background-color: darkblue;
+      cursor: pointer;
 }
