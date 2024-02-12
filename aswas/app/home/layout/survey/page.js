@@ -8,7 +8,7 @@ export default function page() {
     <div>
       this is survey page
       <Surveyques labelText="this is a label you can change through props dynamically" />
-      <Surveyoption labelText="testing" />
+      <Surveyoption optionText={"This is dynamically passed optionText"} />
     </div>
   );
 }

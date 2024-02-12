@@ -7,4 +7,7 @@
       --white: #f5f5f5;
       --text-color: #212529;
       --border-color: #474545;
+      --formTextSize: 13px;
+      --globalMargin: 10px;
+      --globalPadding: 10px;
 }

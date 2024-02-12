@@ -1,0 +1,44 @@
+.container {
+      /* margin: 5px;
+      padding: 5px; */
+      height: auto;
+      width: 90%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+
+.text {
+      font-size: var(--formTextSize);
+}
+
+.buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+
+.buttons input {
+      display: none;
+      cursor: pointer;
+}
+
+.buttons label {
+      margin-right: var(--globalMargin);
+      height: 30px;
+      width: 40px;
+      font-size: var(--formTextSize);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+}
+
+.labelNo {
+      background-color: red;
+}
+
+
+.labelYes {
+      background-color: green;
+}

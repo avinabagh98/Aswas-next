@@ -1,12 +1,15 @@
 .container {
       height: auto;
       width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-top: var(--globalMargin);
+      margin-bottom: var(--globalMargin);
+
 }
 
 .container label {
       color: var(--text-color);
+      font-size: var(--formTextSize);
+      margin-bottom: var(--globalMargin);
 }
 
 .surveyInput {
