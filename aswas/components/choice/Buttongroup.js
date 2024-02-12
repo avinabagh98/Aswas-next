@@ -10,7 +10,9 @@ export default function Buttongroup() {
         <Row className={styles.btnContainer}>
           <Col xs={4} className={styles.btnCol}>
             <span className={styles.btnSpan}>
-              <button>VCMO</button>
+              <a href="/home">
+                <button>VCMO</button>
+              </a>
             </span>
           </Col>
 

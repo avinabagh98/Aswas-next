@@ -1,0 +1,17 @@
+.container {
+      height: auto;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+}
+
+.container label {
+      color: var(--text-color);
+}
+
+.surveyInput {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      background: none;
+
+}
