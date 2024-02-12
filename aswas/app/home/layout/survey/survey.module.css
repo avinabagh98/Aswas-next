@@ -6,6 +6,16 @@
       align-items: center;
 }
 
+.name {
+      height: auto;
+      width: 90%;
+      margin-top: 20px;
+      padding: 5px;
+      color: var(--text-color);
+      background-color: var(--skyblue);
+
+}
+
 
 .titlebar {
       width: 100%;

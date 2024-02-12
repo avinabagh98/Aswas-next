@@ -17,6 +17,11 @@ export default function page() {
           <Textparser text={"Round-2"} />
         </span>
       </div>
+
+      <span className={styles.name}>
+        <Textparser text={"Kamal Debnath - House-No.-2"} />
+      </span>
+
       <div className={styles.content}>
         <span>
           <Surveyques labelText="this is a label you can change through props dynamically" />

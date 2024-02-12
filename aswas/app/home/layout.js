@@ -3,6 +3,7 @@
 import { Row, Offcanvas, Button } from "react-bootstrap";
 import { useState } from "react";
 import styles from "./home.module.css";
+import bg from "../../public/images/app_background_image.jpg";
 
 export default function homelayout({ children }) {
   const [show, setShow] = useState(false);
@@ -12,7 +13,13 @@ export default function homelayout({ children }) {
 
   return (
     <>
-      <div className={styles.container}>
+      <div
+        style={{
+          backgroundImage: `url(${bg.src})`,
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
         {/* Mobile Screen Header */}
         <Row className={styles.header}>
           <div className={styles.headerContent}>

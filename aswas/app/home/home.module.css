@@ -1,7 +1,9 @@
 .container {
     height: 100vh;
     width: 100vw;
-    background-color: #fceaea;
+    background-image: url("/aswas/public/images/app_background_image.jpg");
+    background-size: cover;
+    background-position: center;
 }
 
 .header {
