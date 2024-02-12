@@ -1,8 +1,10 @@
 .container {
-      /* margin: 5px;
-      padding: 5px; */
+      /* margin: 5px; */
+      /* padding: 5px; */
+      margin-top: var(--globalMargin);
+      margin-bottom: var(--globalMargin);
       height: auto;
-      width: 90%;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -20,7 +22,6 @@
 
 .buttons input {
       display: none;
-      cursor: pointer;
 }
 
 .buttons label {

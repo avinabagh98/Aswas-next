@@ -1,6 +1,6 @@
 .container {
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     background-color: #fceaea;
 }
 
@@ -61,11 +61,11 @@
 }
 
 .body {
+    /* padding: 0; */
     height: 100%;
     width: 100%;
     margin-top: 10vh;
-    padding: 1rem;
-    /* background-color: aquamarine; */
+    padding-left: var(--globalPadding)
 }
 
 /* Offcanvas styling */
