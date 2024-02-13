@@ -1,12 +1,12 @@
 .container {
       height: auto;
       width: 90vw;
-      margin-top: 3rem;
+      /* margin-top: 3rem; */
 
 }
 
 .btnContainer {
-      margin-top: 2rem;
+      margin-top: 1rem;
       display: flex;
       align-items: center;
 
@@ -22,7 +22,7 @@
       height: 55px;
       width: 117px;
       border-radius: 5px;
-      background-color: rgb(33, 144, 241);
+      background-color: #2190f1;
 }
 
 .btnCol button {
@@ -33,4 +33,12 @@
       color: whitesmoke;
       background-color: darkblue;
       cursor: pointer;
+}
+
+.btnCol button:hover {
+      background-color: #2190f1;
+}
+
+.btnSpan:hover {
+      background-color: darkblue;
 }

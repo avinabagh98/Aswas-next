@@ -4,42 +4,45 @@
     gap: 6px;
 }
 
-.btnContainer {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: darkgreen;
-
-}
-
 .radio {
     display: none;
-
 }
 
-.label {
-    height: 50px;
-    width: 60px;
-    font-size: 12px;
-    text-align: center;
 
-    cursor: pointer;
-    padding: 4px;
-    border: 1px solid #ccc;
+.btnSpan {
+    height: 55px;
+    width: auto;
     border-radius: 5px;
-    margin-right: 10px;
+    background-color: #2190f1;
 }
 
-.checked {
-
-    background-color: #4CAF50;
-    color: white;
-
+.btnSpanLabel {
+    height: 50px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: whitesmoke;
+    background-color: darkblue;
+    cursor: pointer;
 }
 
-.unchecked {
+.btnSpanLabelchecked {
+    height: 50px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: var(--text-color);
+    background-color: skyblue;
+    cursor: pointer;
+}
 
-    background-color: #f1f1f1;
-    color: #333;
+.btnSpanchecked {
+    height: 55px;
+    width: auto;
+    border-radius: 5px;
+    background-color: darkblue;
 }

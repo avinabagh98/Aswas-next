@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
-
+import bg from "../public/images/app_background_image.jpg";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -12,7 +12,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body
+        className={inter.className}
+        suppressHydrationWarning={true}
+        style={{
+          backgroundImage: `url(${bg.src})`,
+          width: "100%",
+          height: "100%",
+        }}
+      >
         {children}
       </body>
     </html>
