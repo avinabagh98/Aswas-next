@@ -67,7 +67,7 @@
     padding-left: var(--globalPadding)
 }
 
-/* Offcanvas styling */
+/* Offcanvas styling ---------------------------------------------------------*/
 .offCanvasHeader {
     display: flex;
     justify-content: center;
@@ -124,6 +124,11 @@
     left: 0;
     color: var(--white);
     background-color: var(--darkestblue);
+}
+
+.offCanvasBodyMenuFooter a {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* PAGE SECTION ----------------------------------------------------- */

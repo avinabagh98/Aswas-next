@@ -6,8 +6,11 @@ export default function Footer() {
       <h5>STATE URBAN DEVELOPMENT AGENCY (SUDA)</h5>
       <h6>URBAN DEVELOPMENT AND MUNICIPAL AFFAIRS DEPARTMENT</h6>
       <p>GOVT OF WEST BENGAL</p>
-      <img src="images/prevent_img_icon.png" className={styles.prevent}></img>
-      <img src="images/spalsh_scree_bottom_design.png"></img>
+      <img
+        src="http://localhost:3000/images/prevent_img_icon.png"
+        className={styles.prevent}
+      ></img>
+      <img src="http://localhost:3000/images/spalsh_scree_bottom_design.png"></img>
     </div>
   );
 }

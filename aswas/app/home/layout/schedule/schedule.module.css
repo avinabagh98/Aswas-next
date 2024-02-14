@@ -1,0 +1,32 @@
+.text {
+      color: var(--text-color);
+      margin: var(--globalMargin);
+}
+
+.tableHead {
+      width: 100%;
+}
+
+.tableHead th {
+      color: var(--white);
+      background-color: var(--text-color-skyblue);
+}
+
+.tableBody {
+      width: auto;
+}
+
+.tableBody .completed {
+      background-color: var(--green);
+}
+
+
+.tableBody .ongoing {
+      background-color: var(--skyblue);
+}
+
+
+.tableBody .upcoming {
+      background-color: var(--text-color);
+      color: var(--white);
+}

@@ -13,7 +13,7 @@ export default function layout({ children }) {
           </span>
           <span>Round-1</span>
         </div>
-        {children}
+        <span className="m-2">{children}</span>
       </div>
     </>
   );

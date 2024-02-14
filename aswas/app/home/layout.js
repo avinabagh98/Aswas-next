@@ -59,14 +59,18 @@ export default function homelayout({ children }) {
                 </div>
 
                 <div className={styles.offCanvasBodyMenuFooter}>
-                  <div className={styles.MenuLink}>
-                    <img src="/images/settings_menu_icon.png"></img>
-                    SETTINGS
-                  </div>
-                  <div className={styles.MenuLink}>
-                    <img src="/images/logout_menu_icon.png"></img>
-                    LOG OUT
-                  </div>
+                  <a href="/home/layout/settings">
+                    <div className={styles.MenuLink}>
+                      <img src="/images/settings_menu_icon.png"></img>
+                      SETTINGS
+                    </div>
+                  </a>
+                  <a>
+                    <div className={styles.MenuLink}>
+                      <img src="/images/logout_menu_icon.png"></img>
+                      LOG OUT
+                    </div>
+                  </a>
                 </div>
               </Offcanvas.Body>
             </Offcanvas>
