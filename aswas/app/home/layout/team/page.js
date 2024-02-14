@@ -21,7 +21,7 @@ export default function page() {
           <input placeholder="Auto Search"></input>
           <Button
             variant="secondary"
-            href="/home/layout/survey"
+            href="/home/layout/householdentry"
             className={styles.btn}
           >
             ADD NEW
@@ -44,8 +44,10 @@ export default function page() {
                     <td>{row.round}</td>
                     <td>{row.household}</td>
                     <td className="d-flex gap-2 justify-content-center ">
-                      <button className="btn btn-success">Survey</button>
-                      <button className="btn btn-primary">Edit</button>
+                      <Button variant="success" href="/home/layout/survey">
+                        Survey
+                      </Button>
+                      <Button variant="primary">Edit</Button>
                     </td>
                   </tr>
                 );

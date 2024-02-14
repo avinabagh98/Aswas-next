@@ -1,12 +1,12 @@
-import styles from "./surveyques.module.css";
+import styles from "./SurveyDropdown.module.css";
 
-export default function Surveyques({ labelText }) {
+export default function SurveyDropdown({ labelText }) {
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.dropdowncontainer}>
         <label>{labelText}</label>
-        <select className={styles.surveySelect}>
-          <option value={"val"}>val</option>
+        <select>
+          <option value={"val"}></option>
         </select>
       </div>
     </>

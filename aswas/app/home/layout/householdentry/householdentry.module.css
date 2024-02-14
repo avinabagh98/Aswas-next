@@ -1,0 +1,18 @@
+.householdentrycontainer {
+      margin: var(--globalMargin-half);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+}
+
+.householdentrycontainer .titlebar {
+      height: auto;
+      width: 90%;
+      margin: var(--globalMargin-half);
+      padding: var(--globalPadding-half) var(--globalPadding);
+      font-size: var(--formTextSize);
+      color: var(--white);
+      background-color: var(--skyblue);
+}

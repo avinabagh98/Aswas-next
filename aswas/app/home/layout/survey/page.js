@@ -44,7 +44,6 @@ export default function page() {
           <img src="/images/camera_icon_to_upload.png"></img>
         </div>
         <Button variant="success" href="/home/layout/team">
-          {" "}
           Submit
         </Button>
       </div>
