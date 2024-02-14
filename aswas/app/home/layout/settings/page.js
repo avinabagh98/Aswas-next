@@ -46,7 +46,9 @@ export default function page() {
           <input type="password" id="newpassword"></input>
         </span>
       </div>
-      <button>UPDATE</button>
+      <a href="/home/layout/schedule">
+        <button>UPDATE</button>
+      </a>
     </div>
   );
 }

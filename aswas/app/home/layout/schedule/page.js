@@ -1,6 +1,9 @@
+"use client";
+
 import Textparser from "@/components/home/Textparser";
 import styles from "./schedule.module.css";
 import { Table } from "react-bootstrap";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const data = [
@@ -9,6 +12,8 @@ export default function page() {
     { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
     { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
   ];
+
+  const route = useRouter();
 
   return (
     <>
@@ -41,7 +46,14 @@ export default function page() {
               return (
                 <tr key={index}>
                   <td className={classname}>{row.round}</td>
-                  <td className={classname}>{row.date}</td>
+                  <td
+                    className={classname}
+                    onClick={() => {
+                      route.push("/home/layout/team");
+                    }}
+                  >
+                    {row.date}
+                  </td>
                   <td className={classname}>{row.action}</td>
                 </tr>
               );

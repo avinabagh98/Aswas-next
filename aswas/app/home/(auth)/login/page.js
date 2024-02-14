@@ -1,7 +1,11 @@
+"use client";
+
 import Footer from "@/components/prelogin/Footer";
 import styles from "./login.module.css";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+  const route = useRouter();
   return (
     <>
       <div className={styles.loginContainer}>
@@ -15,7 +19,9 @@ export default function page() {
             <label htmlFor="password">PASSWORD</label>
             <input type="password" id="password"></input>
           </span>
-          <button>LOG IN</button>
+          <button onClick={() => route.push("/home/layout/schedule")}>
+            LOG IN
+          </button>
           <a href="#">
             <p> Forgot Your Password?</p>
           </a>

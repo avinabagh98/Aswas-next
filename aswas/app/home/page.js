@@ -5,10 +5,12 @@ import styles from "./home.module.css";
 import Buttongroup from "@/components/choice/Buttongroup";
 import Checkbutton from "@/components/choice/Checkbutton";
 import Footer from "@/components/prelogin/Footer";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const [radioValue, setRadioValue] = useState("");
   const [roleValue, setRoleValue] = useState("");
+  const route = useRouter();
 
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
@@ -33,6 +35,9 @@ export default function page() {
   useEffect(() => {
     if (roleValue) {
       console.log(roleValue);
+      if (roleValue === "hth-member") {
+        route.push("/home/login");
+      }
     }
   }, [roleValue]);
 

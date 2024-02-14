@@ -1,5 +1,5 @@
 import styles from "./team.module.css";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
 export default function page() {
   const data = [
@@ -19,7 +19,13 @@ export default function page() {
       <div className={styles.teamContainer}>
         <div className={styles.searchbar}>
           <input placeholder="Auto Search"></input>
-          <button>ADD NEW</button>
+          <Button
+            variant="secondary"
+            href="/home/layout/survey"
+            className={styles.btn}
+          >
+            ADD NEW
+          </Button>
         </div>
 
         <div className={styles.tableContainer}>

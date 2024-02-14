@@ -26,13 +26,16 @@
       padding: var(--globalPadding);
 }
 
-.searchbar button {
+.searchbar .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 80px;
       height: 44px;
-      font-size: 12px;
+      font-size: 11px;
       border: 1px solid;
-      background-color: var(--text-color);
       color: var(--white);
+      padding: 0;
 
 
 }

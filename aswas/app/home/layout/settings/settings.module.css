@@ -53,6 +53,8 @@
       background-color: var(--green);
       color: var(--white);
       cursor: pointer;
-      align-self: center;
+}
 
+.settingsContainer a {
+      align-self: center;
 }

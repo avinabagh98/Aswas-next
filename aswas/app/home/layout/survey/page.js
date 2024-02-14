@@ -43,7 +43,10 @@ export default function page() {
           <Textparser text={"Take Picture of the waste"} />
           <img src="/images/camera_icon_to_upload.png"></img>
         </div>
-        <Button variant="success"> Submit</Button>
+        <Button variant="success" href="/home/layout/team">
+          {" "}
+          Submit
+        </Button>
       </div>
     </div>
   );
