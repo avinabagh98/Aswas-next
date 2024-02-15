@@ -35,9 +35,8 @@ export default function page() {
   useEffect(() => {
     if (roleValue) {
       console.log(roleValue);
-      if (roleValue === "hth-member") {
-        route.push("/home/login");
-      }
+      localStorage.setItem("role", roleValue);
+      route.push("/home/login");
     }
   }, [roleValue]);
 
