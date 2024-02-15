@@ -30,3 +30,24 @@
       background-color: var(--text-color);
       color: var(--white);
 }
+
+/* /////////////////////////////////////////////////////////// */
+
+.tableContainer2 {
+      width: 100%;
+      margin: var(--globalMargin-half);
+
+}
+
+.tableContainer2 th {
+      color: var(--white);
+      background-color: var(--darkblue);
+}
+
+.tableContainer2 td {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      background-color: var(--skyblue);
+}
