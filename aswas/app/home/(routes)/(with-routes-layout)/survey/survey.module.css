@@ -55,3 +55,14 @@
       width: 100px;
       object-fit: contain;
 }
+
+.dateContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      margin-top: var(--globalMargin);
+      margin-bottom: var(--globalMargin);
+      gap: var(--globalGap);
+}
