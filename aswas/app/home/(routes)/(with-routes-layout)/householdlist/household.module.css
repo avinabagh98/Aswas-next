@@ -1,0 +1,86 @@
+.teamContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: var(--globalMargin);
+      gap: 20px;
+
+}
+
+.teamContainer input {
+      width: 100%;
+      height: 35px;
+      padding: var(--globalPadding-half);
+}
+
+.tableContainer table {
+      width: 100%;
+}
+
+.tableHead th {
+      background-color: var(--text-color-skyblue);
+      color: var(--white);
+}
+
+.action,
+.actionVct {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      width: auto;
+}
+
+.actionVct {
+      gap: var(--globalGap);
+}
+
+.searchbar {
+      width: 100%;
+      /* height: 60px; */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+
+.searchbar input {
+      width: 300px;
+      height: 40px;
+      padding: var(--globalPadding);
+}
+
+.searchbar .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 44px;
+      font-size: 11px;
+      border: 1px solid;
+      color: var(--white);
+      padding: 0;
+
+
+}
+
+.tableContainer img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+}
+
+.workDescription {
+      width: 70%;
+      height: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      padding: var(--globalPadding-half);
+      background-color: var(--darkblue);
+      color: var(--white);
+      font-size: 15px;
+      text-decoration: none;
+
+}
