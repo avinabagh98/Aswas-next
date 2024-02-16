@@ -19,9 +19,7 @@ export default function page() {
             <label htmlFor="password">PASSWORD</label>
             <input type="password" id="password"></input>
           </span>
-          <button onClick={() => route.push("/home/layout/schedule")}>
-            LOG IN
-          </button>
+          <button onClick={() => route.push("/home/schedule")}>LOG IN</button>
           <a href="#">
             <p> Forgot Your Password?</p>
           </a>

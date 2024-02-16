@@ -1,0 +1,10 @@
+.tableContainer {
+      width: 100%;
+}
+
+
+.tableContainer img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+}
