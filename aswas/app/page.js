@@ -13,7 +13,7 @@ export default function Home() {
     console.log("Redirecting...");
     setTimeout(() => {
       router.push("/home");
-    }, 5000);
+    }, 3000);
   });
 
   return (

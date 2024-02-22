@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "./settings.module.css";
-import Checkbutton from "@/components/choice/Checkbutton";
+import Checkbutton from "@/components/role-lang/Checkbutton";
 
 export default function page() {
   const [name, setName] = useState("Default state");

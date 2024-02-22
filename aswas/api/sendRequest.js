@@ -19,6 +19,6 @@ export const sendRequest = async (method, endpoint, data, customConfig = {}) => 
     }
 };
 
-export const addPost = async (data) => {
-    return sendRequest('post', 'api/shops', data);
-};
+// export const addPost = async (data) => {
+//     return sendRequest('post', 'api/shops', data);
+// };
