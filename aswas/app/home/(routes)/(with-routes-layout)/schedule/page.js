@@ -4,8 +4,10 @@ import Textparser from "@/components/home/Textparser";
 import styles from "./schedule.module.css";
 import { Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-
+import { sendRequest } from "@/api/sendRequest";
 export default function page() {
+
+  const endpoint = "https://jsonplaceholder.typicode.com/posts";
   try {
     const userRole = localStorage.getItem("role");
     const data = [
@@ -14,6 +16,10 @@ export default function page() {
       { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
       { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
     ];
+
+    sendRequest("get", endpoint).then((data) => {
+      console.log(data);
+    })
 
     const route = useRouter();
 

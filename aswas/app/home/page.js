@@ -8,37 +8,34 @@ import Footer from "@/components/prelogin/Footer";
 import { useRouter } from "next/navigation";
 
 export default function page() {
-  const [radioValue, setRadioValue] = useState("");
+  // const [data, setData] = useState({ "language": "en", "role": "user" });
+  const [language, setLanguage] = useState("");
   const [roleValue, setRoleValue] = useState("");
   const route = useRouter();
 
+  const data = {
+    "language": language,
+    "role": roleValue
+  };
+
+  // const setData = (data) => {
+  //   localStorage.setItem("data", JSON.stringify(data));
+  // };
+
   const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
+    setLanguage(event.target.value);
   };
 
   const handleBtnChange = (event) => {
     setRoleValue(event.target.id);
+    route.push('/home/login');
   };
 
   useEffect(() => {
-    //logic default language eng
-    // if(radioValue === "") {
-    //   setRadioValue("english");
-    //   console.log(radioValue);
-    // }
+    localStorage.setItem("data", JSON.stringify(data));
+  }, [data]);
 
-    if (radioValue) {
-      console.log(radioValue);
-    }
-  }, [radioValue]);
 
-  useEffect(() => {
-    if (roleValue) {
-      console.log(roleValue);
-      localStorage.setItem("role", roleValue);
-      route.push("/home/login");
-    }
-  }, [roleValue]);
 
   return (
     <div className={styles.pageContainer}>
@@ -46,7 +43,7 @@ export default function page() {
         <h2>SELECT LANGUAGE</h2>
         <Checkbutton
           handleRadioChange={handleRadioChange}
-          radioValue={radioValue}
+          radioValue={language}
         />
       </span>
       <span className={styles.roleContainer}>
