@@ -6,15 +6,15 @@ import styles from "./schedule.module.css";
 import { Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
-import DataFetcher from "@/components/Datafetcher";
 import DynamicTable from "@/components/DynamicTable/Dynamictable";
+import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 export default function page() {
 
   const api = "https://jsonplaceholder.typicode.com/posts";
   try {
 
-    const userRole = DataFetcher({ keyName: "role" });
-    const language = DataFetcher({ keyName: "language" });
+    const userRole = LocalStorageFetcher({ keyName: "role" });
+    const language = LocalStorageFetcher({ keyName: "language" });
     const [apiData, setApiData] = useState([]);
 
     // const data = [

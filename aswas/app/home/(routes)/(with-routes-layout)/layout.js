@@ -2,9 +2,9 @@
 
 import styles from "./layout.module.css";
 import Textparser from "@/components/home/Textparser";
-
+import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 export default function layout({ children }) {
-  const userRole = localStorage.getItem("role");
+  const userRole = LocalStorageFetcher({ keyName: "role" });
 
   return (
     <>

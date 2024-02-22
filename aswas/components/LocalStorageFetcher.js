@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 
-const DataFetcher = ({ keyName }) => {
+const LocalStorageFetcher = ({ keyName }) => {
     const [value, setValue] = useState(null);
 
     useEffect(() => {
@@ -22,4 +22,4 @@ const DataFetcher = ({ keyName }) => {
     return value
 };
 
-export default DataFetcher;
+export default LocalStorageFetcher;
