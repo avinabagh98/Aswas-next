@@ -10,6 +10,14 @@ export default function Page() {
   const [language, setLanguage] = useState("");
   const [translate, setTranslate] = useState({});
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const formData = {
+    username: username,
+    password: password
+  }
+
 
   useEffect(() => {
     // Fetch language from local storage
@@ -34,6 +42,12 @@ export default function Page() {
 
   }, []);
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    route.push("/home/schedule")
+  };
+
 
   return (
     <>
@@ -42,18 +56,18 @@ export default function Page() {
         <div className={styles.loginForm}>
           <span>
             <label htmlFor="username">{translate.form?.username}</label>
-            <input type="text" id="username"></input>
+            <input onChange={(e) => setUsername(e.target.value)} type="text" id="username"></input>
           </span>
           <span>
             <label htmlFor="password">{translate.form?.password}</label>
-            <input type="password" id="password"></input>
+            <input onChange={(e) => setPassword(e.target.value)} type="password" id="password"></input>
           </span>
-          <button onClick={() => route.push("/home/schedule")}>LOG IN</button>
+          <button onClick={submitHandler}>LOG IN</button>
           <a href="#">
             <p> Forgot Your Password?</p>
           </a>
         </div>
-      </div>
+      </div >
       <Footer />
     </>
   );
