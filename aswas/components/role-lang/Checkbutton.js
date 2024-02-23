@@ -1,15 +1,10 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
 import styles from "./Checkbutton.module.css";
 
 export default function Checkbutton({ handleRadioChange, radioValue }) {
-  // const [radioValue, setRadioValue] = useState("");
 
-  // const handleRadioChange = (event) => {
-  //   setRadioValue(event.target.value);
-  // };
   return (
     <>
       <div className={styles.checkbuttonContainer}>
