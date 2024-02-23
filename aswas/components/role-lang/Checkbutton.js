@@ -15,27 +15,25 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
       <div className={styles.checkbuttonContainer}>
         <form>
           <span
-            className={`${
-              radioValue === "english" ? styles.btnSpanchecked : styles.btnSpan
-            }`}
+            className={`${radioValue === "en" ? styles.btnSpanchecked : styles.btnSpan
+              }`}
           >
             <div>
               <input
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault1"
-                value="english"
+                value="en"
                 className={styles.radio}
-                checked={radioValue === "english"}
+                checked={radioValue === "en"}
                 onChange={handleRadioChange}
               />
               <label
                 htmlFor="flexRadioDefault1"
-                className={`${
-                  radioValue === "english"
-                    ? styles.btnSpanLabelchecked
-                    : styles.btnSpanLabel
-                }`}
+                className={`${radioValue === "en"
+                  ? styles.btnSpanLabelchecked
+                  : styles.btnSpanLabel
+                  }`}
               >
                 English
               </label>
@@ -43,27 +41,25 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
           </span>
 
           <span
-            className={`${
-              radioValue === "bengali" ? styles.btnSpanchecked : styles.btnSpan
-            }`}
+            className={`${radioValue === "bn" ? styles.btnSpanchecked : styles.btnSpan
+              }`}
           >
             <div>
               <input
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault2"
-                value="bengali"
+                value="bn"
                 className={styles.radio}
-                checked={radioValue === "bengali"}
+                checked={radioValue === "bn"}
                 onChange={handleRadioChange}
               />
               <label
                 htmlFor="flexRadioDefault2"
-                className={`${
-                  radioValue === "bengali"
-                    ? styles.btnSpanLabelchecked
-                    : styles.btnSpanLabel
-                }`}
+                className={`${radioValue === "bn"
+                  ? styles.btnSpanLabelchecked
+                  : styles.btnSpanLabel
+                  }`}
               >
                 Bengali
               </label>
@@ -71,27 +67,25 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
           </span>
 
           <span
-            className={`${
-              radioValue === "hindi" ? styles.btnSpanchecked : styles.btnSpan
-            }`}
+            className={`${radioValue === "hi" ? styles.btnSpanchecked : styles.btnSpan
+              }`}
           >
             <div>
               <input
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault3"
-                value="hindi"
+                value="hi"
                 className={styles.radio}
-                checked={radioValue === "hindi"}
+                checked={radioValue === "hi"}
                 onChange={handleRadioChange}
               />
               <label
                 htmlFor="flexRadioDefault3"
-                className={`${
-                  radioValue === "hindi"
-                    ? styles.btnSpanLabelchecked
-                    : styles.btnSpanLabel
-                }`}
+                className={`${radioValue === "hi"
+                  ? styles.btnSpanLabelchecked
+                  : styles.btnSpanLabel
+                  }`}
               >
                 Hindi
               </label>
@@ -99,9 +93,8 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
           </span>
 
           <span
-            className={`${
-              radioValue === "nepali" ? styles.btnSpanchecked : styles.btnSpan
-            }`}
+            className={`${radioValue === "nepali" ? styles.btnSpanchecked : styles.btnSpan
+              }`}
           >
             <div>
               <input
@@ -115,11 +108,10 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
               />
               <label
                 htmlFor="flexRadioDefault4"
-                className={`${
-                  radioValue === "nepali"
-                    ? styles.btnSpanLabelchecked
-                    : styles.btnSpanLabel
-                }`}
+                className={`${radioValue === "nepali"
+                  ? styles.btnSpanLabelchecked
+                  : styles.btnSpanLabel
+                  }`}
               >
                 Nepali
               </label>
