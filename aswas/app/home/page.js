@@ -10,14 +10,12 @@ import { useRouter } from "next/navigation";
 export default function page() {
   const [language, setLanguage] = useState("");
   const [roleValue, setRoleValue] = useState("");
-  const [location, setLocation] = useState({});
   const route = useRouter();
 
 
   const data = {
     "language": language,
-    "role": roleValue,
-    "location": location
+    "role": roleValue
   };
 
   const handleRadioChange = (event) => {
@@ -32,23 +30,6 @@ export default function page() {
   useEffect(() => {
 
     localStorage.setItem("data", JSON.stringify(data));
-    const geolocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setLocation({
-            'latitude': position.coords.latitude,
-            'longitude': position.coords.longitude
-          })
-        })
-      }
-
-      else {
-        // alert("Geolocation not available")
-        setLocation({ 'error': "Not Available" });
-      }
-    }
-
-    geolocation();
   }, [data]);
 
 

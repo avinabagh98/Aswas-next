@@ -101,53 +101,53 @@ export default function page() {
         </Table>
       </>
     ) : userRole === "hth-supervisor" ? (
-      // <>
-      //   <div className={styles.text}>
-      //     <Textparser text={"this is a dummy text"} />
-      //   </div>
+      <>
+        <div className={styles.text}>
+          <Textparser text={"this is a dummy text"} />
+        </div>
 
-      //   <div className={styles.tableContainer}>
-      //     <Table>
-      //       <thead className={styles.tableHead}>
-      //         <tr>
-      //           <th>Round</th>
-      //           <th>Date</th>
-      //           <th>Action</th>
-      //         </tr>
-      //       </thead>
-      //       <tbody className={styles.tableBody}>
-      //         {data.map((row, index) => {
-      //           const { action } = row;
-      //           let classname;
-      //           if (action === "Completed") {
-      //             classname = styles.hthSupervisorCompleted;
-      //           }
-      //           // if (action === "On Going") {
-      //           //   classname = styles.ongoing;
-      //           // }
-      //           if (action === "Upcoming") {
-      //             classname = styles.hthSupervisorUpcoming;
-      //           }
-      //           return (
-      //             <tr key={index}>
-      //               <td className={classname}>{row.round}</td>
-      //               <td
-      //                 className={classname}
-      //                 onClick={() => {
-      //                   route.push("/home/team");
-      //                 }}
-      //               >
-      //                 {row.date}
-      //               </td>
-      //               <td className={classname}>{row.action}</td>
-      //             </tr>
-      //           );
-      //         })}
-      //       </tbody>
-      //     </Table>
-      //   </div>
-      // </>
-      <><DynamicTable dataArray={apiData} /></>
+        <div className={styles.tableContainer}>
+          <Table>
+            <thead className={styles.tableHead}>
+              <tr>
+                <th>Round</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className={styles.tableBody}>
+              {data.map((row, index) => {
+                const { action } = row;
+                let classname;
+                if (action === "Completed") {
+                  classname = styles.hthSupervisorCompleted;
+                }
+                // if (action === "On Going") {
+                //   classname = styles.ongoing;
+                // }
+                if (action === "Upcoming") {
+                  classname = styles.hthSupervisorUpcoming;
+                }
+                return (
+                  <tr key={index}>
+                    <td className={classname}>{row.round}</td>
+                    <td
+                      className={classname}
+                      onClick={() => {
+                        route.push("/home/team");
+                      }}
+                    >
+                      {row.date}
+                    </td>
+                    <td className={classname}>{row.action}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+      </>
+      // <><DynamicTable dataArray={apiData} /></>
     ) : (
       <> userRole === " ??? " </>
     );
