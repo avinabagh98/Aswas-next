@@ -1,18 +1,21 @@
 "use client";
 
+import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
+import LanguageFetcher from "@/components/LanguageFetcher";
 
 export default function page() {
+  const translate = LanguageFetcher();
   const data = [
-    { round: 1, household: "Kamal Deb Nath" },
+    { round: 1, household: `Arun Naskar House no.4` },
     { round: 2, household: "Arun Naskar" },
     { round: 3, household: "Kamal Deb Nath" },
     { round: 4, household: "Kamal Deb Nath" },
   ];
   const route = useRouter();
-  const userRole = localStorage.getItem("role");
+  const userRole = LocalStorageFetcher({ keyName: "role" });
   return userRole === "hth" ? (
     <>
       <div className={styles.teamContainer}>
@@ -77,7 +80,7 @@ export default function page() {
                     <td>
                       {row.household}
                       <a className={styles.workDescription} href="#">
-                        Work Description
+                        {translate?.সুপারভাইসারদরে_নজিস্ব_কাজরে_ববিরণ}
                       </a>
                     </td>
                     <td className={styles.action}>

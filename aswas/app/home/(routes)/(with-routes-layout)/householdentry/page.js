@@ -1,24 +1,26 @@
-import React from "react";
+"use client";
 import SurveyDropdown from "@/components/home/SurveyDropdown";
 import Surveyques from "@/components/home/Surveyques";
 import Textparser from "@/components/home/Textparser";
 import styles from "./householdentry.module.css";
 import { Button } from "react-bootstrap";
+import LanguageFetcher from "@/components/LanguageFetcher";
 
 export default function page() {
+  const translate = LanguageFetcher();
   return (
     <>
       <div className={styles.householdentrycontainer}>
         <div className={styles.titlebar}>
           <Textparser text={"New House holds Entry"} />
         </div>
-        <SurveyDropdown labelText={"Ward No. *"} />
-        <Surveyques labelText={"Household Name. *"} />
-        <Surveyques labelText={"Aadhaar No*"} />
-        <Surveyques labelText={"Mobile No. *"} />
-        <Surveyques labelText={"Family Members *"} />
-        <SurveyDropdown labelText={"Owner Type *"} />
-        <Surveyques labelText={"Holding Number"} />
+        <SurveyDropdown labelText={translate?.ward_no} />
+        <Surveyques labelText={translate?.household_name} />
+        <Surveyques labelText={translate?.aadhar_no} />
+        <Surveyques labelText={translate?.mobile_no} />
+        <Surveyques labelText={translate?.family_members} />
+        <SurveyDropdown labelText={translate?.owner_type} />
+        <Surveyques labelText={translate?.holding_number} />
         <Button variant="success" href="/home/layout/team">
           SUBMIT
         </Button>

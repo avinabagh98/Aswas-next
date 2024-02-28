@@ -103,15 +103,9 @@ export default function page() {
       <div className={styles.content}>
         <span>
           <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyoption
-            optionText={"This is dynamically passed optionText gdgdgdrgdr"}
-          />
-          <Surveyoption
-            optionText={"This is dynamically passed optionText gdgdgdrgdr"}
-          />
-          <Surveyoption
-            optionText={"This is dynamically passed optionText gdgdgdrgdr"}
-          />
+          <Surveyoption optionText={translate?.field_1_form_5} />
+          <Surveyoption optionText={translate?.field_1_form_5} />
+          <Surveyoption optionText={translate?.field_1_form_5} />
           <Surveyques labelText={translate?.field_1_form_5} />
           <Surveyques labelText={translate?.field_1_form_5} />
           <Surveyques labelText={translate?.field_1_form_5} />
@@ -144,23 +138,22 @@ export default function page() {
       <div className={styles.content}>
         <span>
           <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyoption
-            optionText={"This is dynamically passed optionText gdgdgdrgdr"}
+          <Surveyoption optionText={translate?.field_1_form_5} />
+          <Surveyoption optionText={translate?.field_2_form_5} />
+          <Surveyoption optionText={translate?.field_3_form_5} />
+          <Surveyques labelText={translate?.field_4_form_5} />
+          <Surveyques labelText={translate?.field_5_form_5} />
+          <Surveyques labelText={translate?.field_6_form_5} />
+          <Surveyques labelText={translate?.field_7_form_5} />
+          <Surveyques
+            labelText={
+              translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
+            }
           />
-          <Surveyoption
-            optionText={"This is dynamically passed optionText gdgdgdrgdr"}
-          />
-          <Surveyoption
-            optionText={"This is dynamically passed optionText gdgdgdrgdr"}
-          />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText="Comments (if have any)" />
+          <Surveyques labelText={translate?.Comment} />
         </span>
         <div className={styles.imgContainer}>
-          <Textparser text={"Take Picture of the waste"} />
+          <Textparser text={translate?.জমে_থাকা_আবর্জনা_বা_জলের_ছবি_তুলুন} />
           <img src="/images/camera_icon_to_upload.png"></img>
         </div>
         <Button variant="success" href="/home/layout/team">

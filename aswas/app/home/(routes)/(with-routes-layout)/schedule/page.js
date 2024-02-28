@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import Textparser from "@/components/home/Textparser";
 import styles from "./schedule.module.css";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
 import DynamicTable from "@/components/DynamicTable/Dynamictable";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
+import SingleButton from "@/components/home/SingleButton";
 export default function page() {
   const api = "https://jsonplaceholder.typicode.com/posts";
   try {
@@ -16,7 +17,7 @@ export default function page() {
     // const [apiData, setApiData] = useState([]);
 
     const data = [
-      { round: 1, date: "2022-04-24 To 2022-04-25", action: "Completed" },
+      { round: 1, date: "2022-04-24 To 2022-04-25", action: "Ongoing" },
       { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },
       { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
       { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
@@ -118,7 +119,7 @@ export default function page() {
     ) : userRole === "hth-supervisor" ? (
       <>
         <div className={styles.text}>
-          <Textparser text={"this is a dummy text"} />
+          <Textparser text={"Schedule"} />
         </div>
 
         <div className={styles.tableContainer}>
@@ -137,15 +138,16 @@ export default function page() {
                 if (action === "Completed") {
                   classname = styles.hthSupervisorCompleted;
                 }
-                // if (action === "On Going") {
-                //   classname = styles.ongoing;
-                // }
+                if (action === "Ongoing") {
+                  classname = styles.ongoing;
+                }
                 if (action === "Upcoming") {
                   classname = styles.hthSupervisorUpcoming;
                 }
                 return (
                   <tr key={index}>
                     <td className={classname}>{row.round}</td>
+
                     <td
                       className={classname}
                       onClick={() => {
@@ -154,7 +156,17 @@ export default function page() {
                     >
                       {row.date}
                     </td>
-                    <td className={classname}>{row.action}</td>
+
+                    {action === "Ongoing" ? (
+                      <td className={classname}>
+                        <SingleButton
+                          btnText={"Members Survey"}
+                          href={"/home/householdlist"}
+                        />
+                      </td>
+                    ) : (
+                      <td className={classname}>{row.action}</td>
+                    )}
                   </tr>
                 );
               })}

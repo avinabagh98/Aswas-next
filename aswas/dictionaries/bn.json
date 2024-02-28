@@ -242,5 +242,7 @@
     "previous_picture_upload": "Previous Picture# Upload .jpg..png..jpeg File Only(Max size 1MB)",
     "municipality": "Municipality",
     "permanent_risk_breeding_site_list": "Risk/Breeding Sites List",
-    "road_name_address": "রাস্তার নাম / ঠিকানা"
+    "road_name_address": "রাস্তার নাম / ঠিকানা",
+    "Comment":"মন্তব্য (যদি থাকে)"
+    
 }

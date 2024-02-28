@@ -1,5 +1,8 @@
 .text {
-      color: var(--text-color);
+      height: 35px;
+      padding: var(--globalPadding-half);
+      background-color: rgb(154, 154, 154);
+      color: var(--white);
       margin: var(--globalMargin);
 }
 
@@ -24,6 +27,11 @@
 
 .tableBody .ongoing {
       background-color: var(--skyblue);
+}
+
+.btn {
+
+      background-color: red;
 }
 
 .tableBody .hthSupervisorUpcoming,

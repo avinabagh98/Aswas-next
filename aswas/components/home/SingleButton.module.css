@@ -1,0 +1,31 @@
+.btnContainer {
+      display: flex;
+      align-items: center;
+
+}
+
+.btnSpan {
+
+      height: 55px;
+      width: 117px;
+      border-radius: 5px;
+      background-color: #2190f1;
+}
+
+.btnContainer button {
+      height: 50px;
+      width: 116px;
+      border: none;
+      border-radius: 5px;
+      color: whitesmoke;
+      background-color: darkblue;
+      cursor: pointer;
+}
+
+.btnSpan button:hover {
+      background-color: #2190f1;
+}
+
+.btnSpan:hover {
+      background-color: darkblue;
+}
