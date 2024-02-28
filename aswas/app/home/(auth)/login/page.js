@@ -2,72 +2,54 @@
 import Footer from "@/components/prelogin/Footer";
 import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
-import { getDictionary } from "@/getDictionary";
 import { useState, useEffect } from "react";
+import LanguageFetcher from "@/components/LanguageFetcher";
 
 export default function Page() {
   const route = useRouter();
-  const [language, setLanguage] = useState("");
-  const [translate, setTranslate] = useState({});
+  const translate = LanguageFetcher();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const formData = {
     username: username,
-    password: password
-  }
-
-
-  useEffect(() => {
-    // Fetch language from local storage
-    const dataString = localStorage.getItem('data');
-    const dataObject = JSON.parse(dataString);
-    const storedLanguage = dataObject?.language || "en";
-
-    // Update language state
-    setLanguage(storedLanguage);
-
-    // Fetch translation based on language
-    async function fetchTranslation(lang) {
-      try {
-        const translation = await getDictionary(lang);
-        setTranslate(translation);
-      } catch (error) {
-        console.error("Error fetching translation:", error);
-      }
-    }
-
-    fetchTranslation(storedLanguage);
-
-  }, []);
+    password: password,
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(formData);
-    route.push("/home/schedule")
+    route.push("/home/schedule");
   };
-
 
   return (
     <>
       <div className={styles.loginContainer}>
-        <h2>{translate.form?.user_login}</h2>
+        <h2>{translate?.user_login}</h2>
         <div className={styles.loginForm}>
           <span>
-            <label htmlFor="username">{translate.form?.user_name}</label>
-            <input onChange={(e) => setUsername(e.target.value)} type="text" id="username"></input>
+            <label htmlFor="username">{translate?.user_name}</label>
+            <input
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              id="username"
+            ></input>
           </span>
           <span>
-            <label htmlFor="password">{translate.form?.password}</label>
-            <input onChange={(e) => setPassword(e.target.value)} type="password" id="password"></input>
+            <label htmlFor="password">{translate?.password}</label>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              id="password"
+            ></input>
           </span>
-          <button onClick={submitHandler}>LOG IN</button>
+          <button onClick={submitHandler}>{translate?.login}</button>
           <a href="#">
-            <p> Forgot Your Password?</p>
+            <p>{translate?.forgot_your_password}</p>
           </a>
         </div>
-      </div >
+      </div>
       <Footer />
     </>
   );
