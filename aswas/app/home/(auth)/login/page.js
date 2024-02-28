@@ -52,10 +52,10 @@ export default function Page() {
   return (
     <>
       <div className={styles.loginContainer}>
-        <h2>USER LOGIN</h2>
+        <h2>{translate.form?.user_login}</h2>
         <div className={styles.loginForm}>
           <span>
-            <label htmlFor="username">{translate.form?.username}</label>
+            <label htmlFor="username">{translate.form?.user_name}</label>
             <input onChange={(e) => setUsername(e.target.value)} type="text" id="username"></input>
           </span>
           <span>
