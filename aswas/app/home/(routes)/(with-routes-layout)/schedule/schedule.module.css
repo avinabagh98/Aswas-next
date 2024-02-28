@@ -52,3 +52,51 @@
       align-items: left;
       background-color: var(--skyblue);
 }
+
+
+/* VCT-MEMBER///////////////////////////////////////////////  */
+
+.vct_mem_teamContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: var(--globalMargin);
+      gap: 20px;
+
+}
+
+.vct_mem_teamContainer input {
+      width: 100%;
+      height: 35px;
+      padding: var(--globalPadding-half);
+}
+
+.vct_mem_tableContainer table {
+      width: 100%;
+}
+
+.vct_mem_tableHead th {
+      background-color: var(--text-color-skyblue);
+      color: var(--white);
+}
+
+.action,
+.vct_mem_actionVct {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      width: auto;
+}
+
+.vct_mem_actionVct {
+      gap: var(--globalGap);
+}
+
+
+.vct_mem_tableContainer img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+}

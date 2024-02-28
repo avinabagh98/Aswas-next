@@ -93,7 +93,7 @@ export default function page() {
         </div>
       </div>
     </>
-  ) : userRole === "vct" ? (
+  ) : userRole === "vct-member" ? (
     <>
       <div className={styles.teamContainer}>
         <input placeholder="Auto Search"></input>

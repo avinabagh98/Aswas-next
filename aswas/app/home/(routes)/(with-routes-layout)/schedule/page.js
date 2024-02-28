@@ -9,26 +9,22 @@ import { sendRequest } from "@/api/sendRequest";
 import DynamicTable from "@/components/DynamicTable/Dynamictable";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 export default function page() {
-
   const api = "https://jsonplaceholder.typicode.com/posts";
   try {
-
     const userRole = LocalStorageFetcher({ keyName: "role" });
     const language = LocalStorageFetcher({ keyName: "language" });
-    const [apiData, setApiData] = useState([]);
+    // const [apiData, setApiData] = useState([]);
 
-    // const data = [
-    //   { round: 1, date: "2022-04-24 To 2022-04-25", action: "Completed" },
-    //   { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },
-    //   { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
-    //   { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
-    // ];
+    const data = [
+      { round: 1, date: "2022-04-24 To 2022-04-25", action: "Completed" },
+      { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },
+      { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
+      { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
+    ];
 
-
-
-    sendRequest("get", api).then((data) => {
-      setApiData(data.data)
-    })
+    // sendRequest("get", api).then((data) => {
+    //   setApiData(data.data);
+    // });
 
     const route = useRouter();
 
@@ -80,25 +76,44 @@ export default function page() {
       //   </div>
       // </>
 
-      <><DynamicTable dataArray={apiData} /></>
+      <>
+        <DynamicTable dataArray={apiData} />
+      </>
     ) : userRole === "vct-member" ? (
       <>
-        <Table className={styles.tableContainer2}>
-          <thead>
-            <tr>
-              <th>TEAM LIST</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Team1</td>
-              <td>Team2</td>
-              <td>Team3</td>
-              <td>Team4</td>
-              <td>Team5</td>
-            </tr>
-          </tbody>
-        </Table>
+        <div className={styles.vct_mem_teamContainer}>
+          <input placeholder="Auto Search"></input>
+          <div className={styles.vct_mem_tableContainer}>
+            <Table>
+              <thead className={styles.vct_mem_tableHead}>
+                <tr>
+                  <th>Sl</th>
+                  <th>Household</th>
+                  <th className="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{row.round}</td>
+                      <td>{row.household}</td>
+                      <td className={styles.vct_mem_actionVct}>
+                        <a href="/home/survey">
+                          <img src="/images/vct_household_item_icon.png"></img>
+                        </a>
+
+                        <a href="#">
+                          <img src="/images/hth_supervisor_team_member_location_icon.png"></img>
+                        </a>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
+        </div>
       </>
     ) : userRole === "hth-supervisor" ? (
       <>
@@ -147,8 +162,8 @@ export default function page() {
           </Table>
         </div>
       </>
-      // <><DynamicTable dataArray={apiData} /></>
     ) : (
+      // <><DynamicTable dataArray={apiData} /></>
       <> userRole === " ??? " </>
     );
   } catch (error) {
