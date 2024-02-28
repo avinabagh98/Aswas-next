@@ -1,8 +1,8 @@
-.text {
+.hth_mem_text {
       height: 35px;
       padding: var(--globalPadding-half);
-      background-color: rgb(154, 154, 154);
-      color: var(--white);
+      font-size: 13px;
+      color: var(--text-color);
       margin: var(--globalMargin);
 }
 

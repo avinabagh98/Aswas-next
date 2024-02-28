@@ -3,6 +3,7 @@
 import styles from "./team.module.css";
 import { Button, Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 
 export default function page() {
   try {
@@ -25,7 +26,7 @@ export default function page() {
       { round: 10, household: "Kamal Deb Nath" },
     ];
     const route = useRouter();
-    const userRole = localStorage.getItem("role");
+    const userRole = LocalStorageFetcher({ keyName: "role" });
 
     return userRole === "hth-supervisor" ? (
       <>
@@ -81,7 +82,7 @@ export default function page() {
           </tbody>
         </Table>
       </>
-    ) : userRole === "hth" ? (
+    ) : userRole === "hth-member" ? (
       <>
         <div className={styles.teamContainer}>
           <div className={styles.searchbar}>
@@ -111,7 +112,7 @@ export default function page() {
                       <td>{row.round}</td>
                       <td>{row.household}</td>
                       <td className="d-flex gap-2 justify-content-center ">
-                        <Button variant="success" href="/home/layout/survey">
+                        <Button variant="success" href="/home/survey">
                           Survey
                         </Button>
                         <Button variant="primary">Edit</Button>

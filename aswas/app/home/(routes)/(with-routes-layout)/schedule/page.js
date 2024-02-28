@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import Textparser from "@/components/home/Textparser";
 import styles from "./schedule.module.css";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import { sendRequest } from "@/api/sendRequest";
-import DynamicTable from "@/components/DynamicTable/Dynamictable";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import SingleButton from "@/components/home/SingleButton";
+import LanguageFetcher from "@/components/LanguageFetcher";
 export default function page() {
+  const translate = LanguageFetcher();
   const api = "https://jsonplaceholder.typicode.com/posts";
   try {
     const userRole = LocalStorageFetcher({ keyName: "role" });
@@ -23,62 +23,58 @@ export default function page() {
       { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
     ];
 
-    // sendRequest("get", api).then((data) => {
-    //   setApiData(data.data);
-    // });
-
     const route = useRouter();
 
     return userRole === "hth-member" ? (
-      // <>
-      //   <div className={styles.text}>
-      //     <Textparser text={"this is a dummy text"} />
-      //   </div>
-
-      //   <div className={styles.tableContainer}>
-      //     <Table>
-      //       <thead className={styles.tableHead}>
-      //         <tr>
-      //           <th>Round</th>
-      //           <th>Date</th>
-      //           <th>Action</th>
-      //         </tr>
-      //       </thead>
-      //       <tbody className={styles.tableBody}>
-      //         {data.map((row, index) => {
-      //           const { action } = row;
-      //           let classname;
-      //           if (action === "Completed") {
-      //             classname = styles.completed;
-      //           }
-      //           if (action === "On Going") {
-      //             classname = styles.ongoing;
-      //           }
-      //           if (action === "Upcoming") {
-      //             classname = styles.upcoming;
-      //           }
-      //           return (
-      //             <tr key={index}>
-      //               <td className={classname}>{row.round}</td>
-      //               <td
-      //                 className={classname}
-      //                 onClick={() => {
-      //                   route.push("/home/team");
-      //                 }}
-      //               >
-      //                 {row.date}
-      //               </td>
-      //               <td className={classname}>{row.action}</td>
-      //             </tr>
-      //           );
-      //         })}
-      //       </tbody>
-      //     </Table>
-      //   </div>
-      // </>
-
       <>
-        <DynamicTable dataArray={apiData} />
+        <div className={styles.hth_mem_text}>
+          <Textparser
+            text={
+              translate?.পতঙ্গ_বাহিত_রোগ_প্রতিরোধ_ও_নিয়ন্ত্রণে_বাড়ি_বাড়ি_সার্ভে
+            }
+          />
+        </div>
+
+        <div className={styles.tableContainer}>
+          <Table>
+            <thead className={styles.tableHead}>
+              <tr>
+                <th>Round</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className={styles.tableBody}>
+              {data.map((row, index) => {
+                const { action } = row;
+                let classname;
+                if (action === "Completed") {
+                  classname = styles.completed;
+                }
+                if (action === "Ongoing") {
+                  classname = styles.ongoing;
+                }
+                if (action === "Upcoming") {
+                  classname = styles.upcoming;
+                }
+                return (
+                  <tr key={index}>
+                    <td className={classname}>{row.round}</td>
+                    <td
+                      className={classname}
+                      onClick={() => {
+                        route.push("/home/team");
+                      }}
+                    >
+                      {row.date}
+                    </td>
+                    <td className={classname}>{row.action}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </>
     ) : userRole === "vct-member" ? (
       <>

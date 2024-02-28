@@ -85,7 +85,7 @@ export default function page() {
     }
   };
 
-  return userRole === "hth" ? (
+  return userRole === "hth-member" ? (
     <div className={styles.container}>
       <div className={styles.titlebar}>
         <span>
