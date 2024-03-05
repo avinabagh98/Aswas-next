@@ -1,11 +1,11 @@
 import styles from "./Surveyoption.module.css";
 import { useState } from "react";
 
-export default function Surveyoption({ optionText }) {
-  const [radioValue, setRadioValue] = useState("");
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-  };
+export default function Surveyoption({ optionText, handleRadioChange }) {
+  // const [radioValue, setRadioValue] = useState("");
+  // const handleRadioChange = (event) => {
+  //   setRadioValue(event.target.value);
+  // };
   return (
     <>
       <div className={styles.container}>
@@ -20,7 +20,7 @@ export default function Surveyoption({ optionText }) {
               name="radio"
               id="radio1"
               value="yes"
-              checked={radioValue === "yes"}
+              // checked={radioValue === "yes"}
               onChange={handleRadioChange}
             />
           </span>
@@ -33,7 +33,7 @@ export default function Surveyoption({ optionText }) {
               name="radio"
               id="radio2"
               value="no"
-              checked={radioValue === "no"}
+              // checked={radioValue === "no"}
               onChange={handleRadioChange}
             />
           </span>

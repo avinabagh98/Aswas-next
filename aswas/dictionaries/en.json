@@ -250,5 +250,6 @@
     "year": "Year",
     "previous_picture_upload": "Previous Picture# Upload .jpg..png..jpeg File Only(Max size 1MB)",
     "municipality": "Municipality",
-    "permanent_risk_breeding_site_list": "Risk/Breeding Sites List"
+    "permanent_risk_breeding_site_list": "Risk/Breeding Sites List",
+    "isLocked": "Is the house is locked/misbehaved"
 }

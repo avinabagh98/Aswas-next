@@ -242,5 +242,6 @@
     "previous_picture_upload": "Previous Picture# Upload .jpg..png..jpeg File Only(Max size 1MB)",
     "municipality": "Municipality",
     "permanent_risk_breeding_site_list": "Risk/Breeding Sites List",
-    "road_name_address": "सड़क का नाम / पता"
+    "road_name_address": "सड़क का नाम / पता",
+    "isLocked": "घर ताला लगा है / सर्वेयर के साथ दुराचार किया गया है"
 }

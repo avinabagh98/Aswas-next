@@ -11,17 +11,25 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 
 export default function page() {
   const translate = LanguageFetcher();
+
   const [cameraClicked, setCameraClicked] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
+  const [isLocked, setIsLocked] = useState(true);
+  const [radioValue, setRadioValue] = useState("");
   const [image, setImage] = useState();
   const [location, setLocation] = useState({});
+
   const userRole = LocalStorageFetcher({ keyName: "role" });
+
   const surveyData = {
     image: image,
     location: location,
+    isLocked: isLocked
   };
 
+
   useEffect(() => {
+    console.log(surveyData);
     const geolocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -38,6 +46,10 @@ export default function page() {
 
     geolocation();
   }, []);
+
+  useEffect(() => {
+    console.log("islocked", isLocked);
+  }, [isLocked]);
 
   //Functions
   const resizeFile = (file) =>
@@ -85,6 +97,25 @@ export default function page() {
     }
   };
 
+  // const handleRadioChange = (event) => {
+  //   setIsLocked(event.target.value);
+  //   console.log(surveyData);
+  //   console.log(radioValue);
+  // };
+
+  const handleRadioChange = (event) => {
+    const value = event.target.value;
+    setRadioValue(value);
+
+    // Update isLocked state based on radio button value
+    if (value === "no") {
+      setIsLocked(false); // Set isLocked to false if "No" is selected
+    } else {
+      setIsLocked(true); // Set isLocked to true if "Yes" is selected
+    }
+  };
+
+
   return userRole === "hth-member" ? (
     <div className={styles.container}>
       <div className={styles.titlebar}>
@@ -101,23 +132,35 @@ export default function page() {
       </span>
 
       <div className={styles.content}>
-        <span>
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyoption optionText={translate?.field_1_form_5} />
-          <Surveyoption optionText={translate?.field_1_form_5} />
-          <Surveyoption optionText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-          <Surveyques labelText={translate?.field_1_form_5} />
-        </span>
-        <div className={styles.imgContainer}>
-          <Textparser text={"Take Picture of the waste"} />
-          <img src="/images/camera_icon_to_upload.png"></img>
-        </div>
-        <Button variant="success" href="/home/layout/team">
-          Submit
-        </Button>
+        {isLocked ? (
+          <Surveyoption optionText={translate?.isLocked} handleRadioChange={handleRadioChange} />
+        ) : null}
+        {isLocked ? null : (
+          <>
+            <span>
+              <Surveyques labelText={translate?.field_1_form_5} />
+              <Surveyoption optionText={translate?.field_1_form_5} />
+              <Surveyoption optionText={translate?.field_2_form_5} />
+              <Surveyoption optionText={translate?.field_3_form_5} />
+              <Surveyques labelText={translate?.field_4_form_5} />
+              <Surveyques labelText={translate?.field_5_form_5} />
+              <Surveyques labelText={translate?.field_6_form_5} />
+              <Surveyques labelText={translate?.field_7_form_5} />
+              <Surveyques
+                labelText={
+                  translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
+                }
+              />
+
+            </span>
+            <div className={styles.imgContainer}>
+              <Textparser text={translate?.জমে_থাকা_আবর্জনা_বা_জলের_ছবি_তুলুন} />
+              <img src="/images/camera_icon_to_upload.png"></img>
+            </div>
+            <Button variant="success" href="/home/layout/team">
+              Submit
+            </Button></>
+        )}
       </div>
     </div>
   ) : userRole === "hth-supervisor" ? (
