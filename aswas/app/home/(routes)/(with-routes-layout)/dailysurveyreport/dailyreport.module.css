@@ -30,3 +30,41 @@
 .button:hover {
     background-color: #0056b3;
 }
+
+/* ///////////////////////Daily Team Report CSS/////////////////////////////////// */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.scheduleContainer {
+    margin-bottom: 20px;
+}
+
+.datePickerContainer {
+    margin-bottom: 20px;
+}
+
+.tableContainer {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: left;
+}
