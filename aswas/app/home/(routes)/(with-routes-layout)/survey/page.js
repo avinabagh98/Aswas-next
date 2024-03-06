@@ -14,18 +14,30 @@ export default function page() {
 
   const [cameraClicked, setCameraClicked] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
   const [radioValue, setRadioValue] = useState("");
   const [image, setImage] = useState();
   const [location, setLocation] = useState({});
+  const [field_2_form_5, setField_2_form_5] = useState();
+
 
   const userRole = LocalStorageFetcher({ keyName: "role" });
 
   const surveyData = {
     image: image,
     location: location,
-    isLocked: isLocked
+    isLocked: isLocked,
+
   };
+
+  const [surveyResponses, setSurveyResponses] = useState({
+    // Initialize the state object with default values
+    field_1_form_5: "",
+    field_2_form_5: "",
+    field_3_form_5: "",
+    // Add more fields as needed
+  });
+
 
 
   useEffect(() => {
@@ -97,22 +109,11 @@ export default function page() {
     }
   };
 
-  // const handleRadioChange = (event) => {
-  //   setIsLocked(event.target.value);
-  //   console.log(surveyData);
-  //   console.log(radioValue);
-  // };
 
   const handleRadioChange = (event) => {
     const value = event.target.value;
+    // console.log(value, name);
     setRadioValue(value);
-
-    // Update isLocked state based on radio button value
-    if (value === "no") {
-      setIsLocked(false); // Set isLocked to false if "No" is selected
-    } else {
-      setIsLocked(true); // Set isLocked to true if "Yes" is selected
-    }
   };
 
 
@@ -139,13 +140,17 @@ export default function page() {
           <>
             <span>
               <Surveyques labelText={translate?.field_1_form_5} />
-              <Surveyoption optionText={translate?.field_1_form_5} />
-              <Surveyoption optionText={translate?.field_2_form_5} />
-              <Surveyoption optionText={translate?.field_3_form_5} />
-              <Surveyques labelText={translate?.field_4_form_5} />
-              <Surveyques labelText={translate?.field_5_form_5} />
-              <Surveyques labelText={translate?.field_6_form_5} />
+              <Surveyoption optionText={translate?.field_2_form_5} handleRadioChange={handleRadioChange} />
+              <Surveyoption optionText={translate?.field_3_form_5} handleRadioChange={handleRadioChange} />
+              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না} handleRadioChange={handleRadioChange} />
+              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না} handleRadioChange={handleRadioChange} />
+              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না} handleRadioChange={handleRadioChange} />
+              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না} handleRadioChange={handleRadioChange} />
+              <Surveyques labelText={translate?.জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল} />
+              <Surveyques labelText={translate?.এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল} />
               <Surveyques labelText={translate?.field_7_form_5} />
+              <Surveyques labelText={translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল} />
+              <Surveyques labelText={translate?.Landmark} />
               <Surveyques
                 labelText={
                   translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল

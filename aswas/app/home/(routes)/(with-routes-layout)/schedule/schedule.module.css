@@ -2,8 +2,13 @@
       height: 35px;
       padding: var(--globalPadding-half);
       font-size: 13px;
-      color: var(--text-color);
+      font-weight: 400;
+      color: var(--white);
       margin: var(--globalMargin);
+      background-color: grey;
+      display: flex;
+      align-items: center;
+
 }
 
 .tableHead {
@@ -107,4 +112,13 @@
       width: 32px;
       height: 32px;
       object-fit: contain;
+}
+
+
+
+/* /////////////////////// HTH SUPERVISOR ///////////////////////////////// */
+
+.dailySurveyReportContainer,
+.dailySurveyReport {
+      width: 100%;
 }

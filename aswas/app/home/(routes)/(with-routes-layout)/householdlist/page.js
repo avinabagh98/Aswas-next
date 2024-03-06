@@ -16,7 +16,7 @@ export default function page() {
   ];
   const route = useRouter();
   const userRole = LocalStorageFetcher({ keyName: "role" });
-  return userRole === "hth" ? (
+  return userRole === "hth-member" ? (
     <>
       <div className={styles.teamContainer}>
         <div className={styles.searchbar}>

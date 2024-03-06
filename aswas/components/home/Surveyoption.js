@@ -1,11 +1,8 @@
 import styles from "./Surveyoption.module.css";
 import { useState } from "react";
 
-export default function Surveyoption({ optionText, handleRadioChange }) {
-  // const [radioValue, setRadioValue] = useState("");
-  // const handleRadioChange = (event) => {
-  //   setRadioValue(event.target.value);
-  // };
+export default function Surveyoption({ name, optionText, handleRadioChange }) {
+
   return (
     <>
       <div className={styles.container}>
@@ -16,8 +13,9 @@ export default function Surveyoption({ optionText, handleRadioChange }) {
               Yes
             </label>
             <input
+
               type="radio"
-              name="radio"
+              name={name}
               id="radio1"
               value="yes"
               // checked={radioValue === "yes"}
@@ -30,7 +28,7 @@ export default function Surveyoption({ optionText, handleRadioChange }) {
             </label>
             <input
               type="radio"
-              name="radio"
+              name={name}
               id="radio2"
               value="no"
               // checked={radioValue === "no"}

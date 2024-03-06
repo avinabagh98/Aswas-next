@@ -21,7 +21,7 @@ export default function page() {
         <Surveyques labelText={translate?.family_members} />
         <SurveyDropdown labelText={translate?.owner_type} />
         <Surveyques labelText={translate?.holding_number} />
-        <Button variant="success" href="/home/layout/team">
+        <Button variant="success" href="/home/team">
           SUBMIT
         </Button>
       </div>

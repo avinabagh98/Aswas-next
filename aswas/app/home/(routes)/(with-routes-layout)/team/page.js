@@ -89,7 +89,7 @@ export default function page() {
             <input placeholder="Auto Search"></input>
             <Button
               variant="secondary"
-              href="/home/layout/householdentry"
+              href="/home/householdentry"
               className={styles.btn}
             >
               ADD NEW
@@ -115,7 +115,7 @@ export default function page() {
                         <Button variant="success" href="/home/survey">
                           Survey
                         </Button>
-                        <Button variant="primary">Edit</Button>
+                        <Button href="/home/householdentry" variant="primary">Edit</Button>
                       </td>
                     </tr>
                   );

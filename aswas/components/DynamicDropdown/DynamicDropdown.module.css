@@ -1,0 +1,66 @@
+.dropdownContainer {
+    width: 100%;
+}
+
+.dropdownLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.dropdownSelect {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.dropdownOption {
+    padding: 8px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.dropdownOption:hover {
+    background-color: #f0f0f0;
+}
+
+
+@media screen and (max-width: 412px) and (max-height: 915px) {
+    .dropdownContainer {
+        width: 100%;
+    }
+
+    .dropdownLabel {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .dropdownSelect {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        box-sizing: border-box;
+    }
+
+    .dropdownOption {
+        padding: 8px;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+    }
+
+    .dropdownOption:hover {
+        background-color: #f0f0f0;
+    }
+}

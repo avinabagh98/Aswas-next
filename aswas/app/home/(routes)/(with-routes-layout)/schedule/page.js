@@ -8,13 +8,18 @@ import { useRouter } from "next/navigation";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import SingleButton from "@/components/home/SingleButton";
 import LanguageFetcher from "@/components/LanguageFetcher";
+import DynamicDropdown from "@/components/DynamicDropdown/DynamicDropdown";
 export default function page() {
   const translate = LanguageFetcher();
   const api = "https://jsonplaceholder.typicode.com/posts";
   try {
+    const route = useRouter();
+
     const userRole = LocalStorageFetcher({ keyName: "role" });
     const language = LocalStorageFetcher({ keyName: "language" });
-    // const [apiData, setApiData] = useState([]);
+
+
+    //DUMMY DATA/////
 
     const data = [
       { round: 1, date: "2022-04-24 To 2022-04-25", action: "Ongoing" },
@@ -23,15 +28,11 @@ export default function page() {
       { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
     ];
 
-    const route = useRouter();
 
     return userRole === "hth-member" ? (
       <>
         <div className={styles.hth_mem_text}>
-          <Textparser
-            text={
-              translate?.পতঙ্গ_বাহিত_রোগ_প্রতিরোধ_ও_নিয়ন্ত্রণে_বাড়ি_বাড়ি_সার্ভে
-            }
+          <Textparser text="Schedule"
           />
         </div>
 
@@ -169,6 +170,8 @@ export default function page() {
             </tbody>
           </Table>
         </div>
+
+        <div><SingleButton btnText="Daily Survey Report" href={"/home/dailysurveyreport"} /></div>
       </>
     ) : (
       // <><DynamicTable dataArray={apiData} /></>
