@@ -11,6 +11,12 @@ import { useEffect } from "react";
 export default function page() {
   const { teamNumber } = useTeam(); //
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log("clicked");
+    route.push("/home/survey");
+  };
+
   const translate = LanguageFetcher();
   const data = [
     { round: 1, household: `Arun Naskar House no.4` },

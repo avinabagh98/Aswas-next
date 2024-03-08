@@ -4,6 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import bg from "../public/images/app_background_image.jpg";
 import { TeamProvider } from "@/context/TeamContext"; // Import your context provider
+import { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -24,9 +27,11 @@ export default function RootLayout({ children }) {
         }}
       >
         {/* Wrap your application with the context provider */}
-        <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
-          <TeamProvider>{children}</TeamProvider>
-        </SkeletonTheme>
+        <TeamProvider>
+          <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
+            {children}
+          </SkeletonTheme>
+        </TeamProvider>
       </body>
     </html>
   );

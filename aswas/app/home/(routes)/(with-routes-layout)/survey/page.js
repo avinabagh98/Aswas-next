@@ -20,8 +20,6 @@ export default function page() {
   const [radioValue, setRadioValue] = useState("");
   const [image, setImage] = useState();
   const [location, setLocation] = useState({});
-  const [field_2_form_5, setField_2_form_5] = useState();
-
 
   const userRole = LocalStorageFetcher({ keyName: "role" });
 
@@ -29,7 +27,6 @@ export default function page() {
     image: image,
     location: location,
     isLocked: isLocked,
-
   };
 
   const [surveyResponses, setSurveyResponses] = useState({
@@ -39,8 +36,6 @@ export default function page() {
     field_3_form_5: "",
     // Add more fields as needed
   });
-
-
 
   useEffect(() => {
     console.log(surveyData);
@@ -111,7 +106,6 @@ export default function page() {
     }
   };
 
-
   const handleRadioChange = (event) => {
     const value = event.target.value;
     // console.log(value, name);
@@ -135,42 +129,74 @@ export default function page() {
 
       <div className={styles.content}>
         {isLocked ? (
-          <Surveyoption optionText={translate?.isLocked} handleRadioChange={handleRadioChange} />
+          <Surveyoption
+            optionText={translate?.isLocked}
+            handleRadioChange={handleRadioChange}
+          />
         ) : null}
         {isLocked ? null : (
           <>
             <span>
               <Surveyques labelText={translate?.field_1_form_5} />
-              <Surveyoption optionText={translate?.field_2_form_5} handleRadioChange={handleRadioChange} />
-              <Surveyoption optionText={translate?.field_3_form_5} handleRadioChange={handleRadioChange} />
-              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না} handleRadioChange={handleRadioChange} />
-              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না} handleRadioChange={handleRadioChange} />
-              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না} handleRadioChange={handleRadioChange} />
-              <Surveyoption optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না} handleRadioChange={handleRadioChange} />
-              <Surveyques labelText={translate?.জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল} />
-              <Surveyques labelText={translate?.এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল} />
+              <Surveyoption
+                optionText={translate?.field_2_form_5}
+                handleRadioChange={handleRadioChange}
+              />
+              <Surveyoption
+                optionText={translate?.field_3_form_5}
+                handleRadioChange={handleRadioChange}
+              />
+              <Surveyoption
+                optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
+                handleRadioChange={handleRadioChange}
+              />
+              <Surveyoption
+                optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
+                handleRadioChange={handleRadioChange}
+              />
+              <Surveyoption
+                optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
+                handleRadioChange={handleRadioChange}
+              />
+              <Surveyoption
+                optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
+                handleRadioChange={handleRadioChange}
+              />
+              <Surveyques
+                labelText={
+                  translate?.জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল
+                }
+              />
+              <Surveyques
+                labelText={translate?.এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
+              />
               <Surveyques labelText={translate?.field_7_form_5} />
-              <Surveyques labelText={translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল} />
+              <Surveyques
+                labelText={
+                  translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
+                }
+              />
               <Surveyques labelText={translate?.Landmark} />
               <Surveyques
                 labelText={
                   translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
                 }
               />
-
             </span>
             <div className={styles.imgContainer}>
-              <Textparser text={translate?.জমে_থাকা_আবর্জনা_বা_জলের_ছবি_তুলুন} />
+              <Textparser
+                text={translate?.জমে_থাকা_আবর্জনা_বা_জলের_ছবি_তুলুন}
+              />
               <img src="/images/camera_icon_to_upload.png"></img>
             </div>
             <Button variant="success" href="/home/layout/team">
               Submit
-            </Button></>
+            </Button>
+          </>
         )}
       </div>
     </div>
   ) : userRole === "hth-supervisor" ? (
-
     <div className={styles.container}>
       <h1>testing {teamNumber}</h1>
       <div className={styles.titlebar}>

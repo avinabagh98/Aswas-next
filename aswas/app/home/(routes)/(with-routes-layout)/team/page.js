@@ -131,44 +131,38 @@ export default function page() {
         </div>
       </>
     ) : (
-      <div className="team-list">
-        <div className="search-bar">
-          <Skeleton height={40} width={"80%"} />
-          <Skeleton height={40} width={100} />
-        </div>
-        <div className="table-container">
-          <table className="table">
-            {/* Define skeleton for table rows and columns */}
-            <thead>
-              <tr>
-                <th>
-                  <Skeleton height={20} width={50} />
-                </th>
-                <th>
-                  <Skeleton height={20} width={150} />
-                </th>
-                <th className="text-center">
-                  <Skeleton height={20} width={100} />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Repeat skeleton rows based on the expected data */}
-              <tr>
+      <>
+        <Table className={styles.tableContainer2_skeleton}>
+          <thead>
+            <tr>
+              <th>
+                <Skeleton width={200} />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(5)].map((_, index) => (
+              <tr key={index}>
                 <td>
-                  <Skeleton height={20} width={50} />
+                  <Skeleton width={100} />
                 </td>
                 <td>
-                  <Skeleton height={20} width={150} />
+                  <Skeleton width={100} />
                 </td>
-                <td className="text-center">
-                  <Skeleton height={30} width={100} />
+                <td>
+                  <Skeleton width={100} />
+                </td>
+                <td>
+                  <Skeleton width={100} />
+                </td>
+                <td>
+                  <Skeleton width={100} />
                 </td>
               </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+            ))}
+          </tbody>
+        </Table>
+      </>
     );
   } catch (error) {
     console.log(error);

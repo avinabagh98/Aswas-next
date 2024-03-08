@@ -16,6 +16,7 @@
       width: 100%;
       /* height: 60px; */
       display: flex;
+      flex-direction: row;
       justify-content: space-between;
       align-items: center;
 }
@@ -59,4 +60,9 @@
       justify-content: center;
       align-items: left;
       background-color: var(--skyblue);
+}
+
+/* ////////// Skeleton Classes //////////////// */
+.tableContainer2_skeleton {
+      background-color: white;
 }

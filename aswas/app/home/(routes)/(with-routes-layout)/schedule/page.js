@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import SingleButton from "@/components/home/SingleButton";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import DynamicDropdown from "@/components/DynamicDropdown/DynamicDropdown";
+import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
+import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
+
 export default function page() {
   const translate = LanguageFetcher();
   const api = "https://jsonplaceholder.typicode.com/posts";
@@ -17,7 +19,6 @@ export default function page() {
 
     const userRole = LocalStorageFetcher({ keyName: "role" });
     const language = LocalStorageFetcher({ keyName: "language" });
-
 
     //DUMMY DATA/////
 
@@ -28,12 +29,10 @@ export default function page() {
       { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
     ];
 
-
     return userRole === "hth-member" ? (
       <>
         <div className={styles.hth_mem_text}>
-          <Textparser text="Schedule"
-          />
+          <Textparser text="Schedule" />
         </div>
 
         <div className={styles.tableContainer}>
@@ -171,11 +170,52 @@ export default function page() {
           </Table>
         </div>
 
-        <div><SingleButton btnText="Daily Survey Report" href={"/home/dailysurveyreport"} /></div>
+        <div>
+          <SingleButton
+            btnText="Daily Survey Report"
+            href={"/home/dailysurveyreport"}
+          />
+        </div>
       </>
     ) : (
-      // <><DynamicTable dataArray={apiData} /></>
-      <> userRole === " ??? " </>
+      <>
+        <div className={styles.text}>
+          <Skeleton height={20} width={"100%"} />
+        </div>
+
+        <div className={styles.tableContainer}>
+          <Table>
+            <thead className={styles.tableHead}>
+              <tr>
+                <th>
+                  <Skeleton height={20} width={50} />
+                </th>
+                <th>
+                  <Skeleton height={20} width={50} />
+                </th>
+                <th>
+                  <Skeleton height={20} width={80} />
+                </th>
+              </tr>
+            </thead>
+            <tbody className={styles.tableBody}>
+              {[...Array(5)].map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <Skeleton height={20} width={50} />
+                  </td>
+                  <td>
+                    <Skeleton height={20} width={50} />
+                  </td>
+                  <td>
+                    <Skeleton height={20} width={100} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      </>
     );
   } catch (error) {
     console.log(error);

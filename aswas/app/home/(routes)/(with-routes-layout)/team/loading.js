@@ -1,80 +1,56 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import styles from "./team.module.css";
+import { Table, Button } from "react-bootstrap";
 
 const CustomLoading = () => {
   // Simulate a role for demonstration purposes
   const userRole = "hth-supervisor"; // or 'hth-member'
 
   return (
-    <div
-      className={
-        userRole === "hth-supervisor" ? "table-container" : "team-container"
-      }
-    >
-      {userRole === "hth-supervisor" ? (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>
-                <Skeleton height={20} width={200} />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <Skeleton height={20} width={150} />
-              </td>
-              <td>
-                <Skeleton height={20} width={150} />
-              </td>
-              {/* Add more skeleton rows if needed */}
-            </tr>
-          </tbody>
-        </table>
-      ) : (
-        <div className="team-list">
-          <div className="search-bar">
-            <Skeleton height={40} width={"80%"} />
-            <Skeleton height={40} width={100} />
+    <>
+      <>
+        <div className={styles.teamContainer}>
+          <div className={styles.searchbar}>
+            <Skeleton width={300} height={30} />
+            <Skeleton width={80} height={30} />
           </div>
-          <div className="table-container">
-            <table className="table">
-              {/* Define skeleton for table rows and columns */}
-              <thead>
+
+          <div className={styles.tableContainer}>
+            <Table>
+              <thead className={styles.tableHead}>
                 <tr>
-                  <th>
-                    <Skeleton height={20} width={50} />
-                  </th>
-                  <th>
-                    <Skeleton height={20} width={150} />
-                  </th>
-                  <th className="text-center">
-                    <Skeleton height={20} width={100} />
-                  </th>
+                  <th></th>
+                  <th></th>
+                  <th className="text-center"></th>
                 </tr>
               </thead>
-              <tbody>
-                {/* Repeat skeleton rows based on the expected data */}
-                <tr>
-                  +
-                  <td>
-                    <Skeleton height={20} width={50} />
-                  </td>
-                  <td>
-                    <Skeleton height={20} width={150} />
-                  </td>
-                  <td className="text-center">
-                    <Skeleton height={30} width={100} />
-                  </td>
-                </tr>
+              <tbody className={styles.tableBody}>
+                {[...Array(5)].map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Skeleton width={50} />
+                    </td>
+                    <td>
+                      <Skeleton width={200} />
+                    </td>
+                    <td className="d-flex gap-2 justify-content-center">
+                      <Button variant="success">
+                        <Skeleton width={60} />
+                      </Button>
+                      <Button variant="primary">
+                        <Skeleton width={60} />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
-            </table>
+            </Table>
           </div>
         </div>
-      )}
-    </div>
+      </>
+    </>
   );
 };
 
