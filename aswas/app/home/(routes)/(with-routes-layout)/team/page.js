@@ -5,6 +5,9 @@ import { Button, Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 export default function page() {
   try {
     const routeHandler = (e) => {
@@ -115,7 +118,9 @@ export default function page() {
                         <Button variant="success" href="/home/survey">
                           Survey
                         </Button>
-                        <Button href="/home/householdentry" variant="primary">Edit</Button>
+                        <Button href="/home/householdentry" variant="primary">
+                          Edit
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -126,7 +131,44 @@ export default function page() {
         </div>
       </>
     ) : (
-      <> userRole === " ??? " </>
+      <div className="team-list">
+        <div className="search-bar">
+          <Skeleton height={40} width={"80%"} />
+          <Skeleton height={40} width={100} />
+        </div>
+        <div className="table-container">
+          <table className="table">
+            {/* Define skeleton for table rows and columns */}
+            <thead>
+              <tr>
+                <th>
+                  <Skeleton height={20} width={50} />
+                </th>
+                <th>
+                  <Skeleton height={20} width={150} />
+                </th>
+                <th className="text-center">
+                  <Skeleton height={20} width={100} />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Repeat skeleton rows based on the expected data */}
+              <tr>
+                <td>
+                  <Skeleton height={20} width={50} />
+                </td>
+                <td>
+                  <Skeleton height={20} width={150} />
+                </td>
+                <td className="text-center">
+                  <Skeleton height={30} width={100} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     );
   } catch (error) {
     console.log(error);

@@ -5,14 +5,11 @@ import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { useTeam } from '@/contexts/TeamContext'; //
+import { useTeam } from "@/contexts/TeamContext"; //
 import { useEffect } from "react";
 
 export default function page() {
-
   const { teamNumber } = useTeam(); //
-
-
 
   const translate = LanguageFetcher();
   const data = [
@@ -30,7 +27,7 @@ export default function page() {
           <input placeholder="Auto Search"></input>
           <Button
             variant="secondary"
-            href="/home/layout/householdentry"
+            href="/home/householdentry"
             className={styles.btn}
           >
             ADD NEW
