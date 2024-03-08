@@ -9,18 +9,19 @@ export default function Page() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState();
   const [password, setPassword] = useState("");
 
-  const formData = {
+  const loginData = {
     username: username,
     password: password,
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log(loginData);
     route.push("/home/schedule");
+    localStorage.setItem("username", loginData.username);
   };
 
   return (
