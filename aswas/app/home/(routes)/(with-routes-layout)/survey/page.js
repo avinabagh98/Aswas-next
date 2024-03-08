@@ -8,10 +8,12 @@ import { Button } from "react-bootstrap";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import Resizer from "react-image-file-resizer";
 import LanguageFetcher from "@/components/LanguageFetcher";
+import { useTeam } from "@/context/TeamContext";
 
 export default function page() {
-  const translate = LanguageFetcher();
+  const { teamNumber } = useTeam();
 
+  const translate = LanguageFetcher();
   const [cameraClicked, setCameraClicked] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
@@ -116,7 +118,6 @@ export default function page() {
     setRadioValue(value);
   };
 
-
   return userRole === "hth-member" ? (
     <div className={styles.container}>
       <div className={styles.titlebar}>
@@ -169,7 +170,9 @@ export default function page() {
       </div>
     </div>
   ) : userRole === "hth-supervisor" ? (
+
     <div className={styles.container}>
+      <h1>testing {teamNumber}</h1>
       <div className={styles.titlebar}>
         <span>
           <Textparser text={"Form-No-2"} />

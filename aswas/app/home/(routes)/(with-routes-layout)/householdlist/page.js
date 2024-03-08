@@ -5,14 +5,18 @@ import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { useTeam } from '@/contexts/TeamContext'; //
-import { useEffect } from "react";
+import { useTeam } from '@/context/TeamContext';
 
 export default function page() {
 
-  const { teamNumber } = useTeam(); //
+  const { teamNumber, setTeamNumber } = useTeam(); //
 
-
+  const handleClick = (e, roundVal) => {
+    e.preventDefault();
+    console.log('Button clicked!');
+    setTeamNumber(roundVal);
+    route.push('/home/survey')
+  };
 
   const translate = LanguageFetcher();
   const data = [
@@ -88,9 +92,10 @@ export default function page() {
                     <td>{row.round}</td>
                     <td>
                       {row.household}
-                      <a className={styles.workDescription} href="#">
+                      <button className={styles.workDescription} onClick={handleClick}>
                         {translate?.সুপারভাইসারদরে_নজিস্ব_কাজরে_ববিরণ}
-                      </a>
+                      </button>
+
                     </td>
                     <td className={styles.action}>
                       <a href="#">
