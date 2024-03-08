@@ -5,8 +5,15 @@ import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
+import { useTeam } from '@/contexts/TeamContext'; //
+import { useEffect } from "react";
 
 export default function page() {
+
+  const { teamNumber } = useTeam(); //
+
+
+
   const translate = LanguageFetcher();
   const data = [
     { round: 1, household: `Arun Naskar House no.4` },
@@ -62,6 +69,8 @@ export default function page() {
   ) : userRole === "hth-supervisor" ? (
     <>
       <div className={styles.teamContainer}>
+        <h2>Team Number: {teamNumber}</h2>
+
         <input placeholder="Auto Search"></input>
         <div className={styles.tableContainer}>
           <Table>

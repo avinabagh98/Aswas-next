@@ -33,7 +33,7 @@ export default function page() {
         <Table className={styles.tableContainer2}>
           <thead>
             <tr>
-              <th>TEAM LIST</th>
+              <th>TEAM WORKING DETAILS</th>
             </tr>
           </thead>
           <tbody>

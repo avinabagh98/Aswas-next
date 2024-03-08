@@ -158,7 +158,7 @@ export default function page() {
                       <td className={classname}>
                         <SingleButton
                           btnText={"Members Survey"}
-                          href={"/home/householdlist"}
+                          href={"/home/team"}
                         />
                       </td>
                     ) : (
