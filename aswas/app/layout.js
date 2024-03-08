@@ -3,8 +3,7 @@ import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import bg from "../public/images/app_background_image.jpg";
-import { TeamProvider } from "@/contexts/TeamContext"; // Import your context provider
-import { SkeletonTheme } from "react-loading-skeleton";
+import { TeamProvider } from "@/context/TeamContext"; // Import your context provider
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
