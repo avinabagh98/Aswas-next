@@ -8,7 +8,7 @@ import Footer from "@/components/prelogin/Footer";
 import { useRouter } from "next/navigation";
 
 export default function page() {
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState("en");
   const [roleValue, setRoleValue] = useState("");
   const route = useRouter();
 

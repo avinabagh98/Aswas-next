@@ -1,22 +1,28 @@
 "use client";
 
 import { Row, Offcanvas } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./home.module.css";
+// import {ShowOffCanvas} from "@/components/ShowOffCanvas";
 
 export default function homelayout({ children }) {
   const [show, setShow] = useState(false);
+  const [ShowOffCanvas, setShowOffCanvas] = useState(true);
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
+
   return (
     <>
-      <div className={styles.rowContainer}>
+      <div className={styles.rowContainer}> 
         {/* Mobile Screen Header */}
         <Row className={styles.header}>
-          <div className={styles.headerContent}>
-            <div className={styles.headerOffcanvaBtn}>
+          <div className={ShowOffCanvas?styles.headerContent:styles.offcanvas_false_headerContent}>
+            {ShowOffCanvas ?<>
+              <div className={styles.headerOffcanvaBtn}>
               <a onClick={handleShow}>
                 <img src="/images/top_menu_drawer.png" alt="logo1"></img>
               </a>
@@ -73,7 +79,7 @@ export default function homelayout({ children }) {
                   </a>
                 </div>
               </Offcanvas.Body>
-            </Offcanvas>
+            </Offcanvas></> : <></> }
 
             <div className={styles.logo}>
               <img

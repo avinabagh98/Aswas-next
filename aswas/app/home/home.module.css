@@ -22,6 +22,12 @@
     align-items: center;
 }
 
+.offcanvas_false_headerContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .headerOffcanvaBtn {
     height: 50px;
     width: 100px;

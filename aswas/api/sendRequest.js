@@ -1,11 +1,12 @@
 import axios from 'axios';
+const cors = require('cors');
 
 export const sendRequest = async (method, endpoint, data, customConfig = {}) => {
     const defaultConfig = {
         method,
         maxBodyLength: Infinity,
-        // url: ${process.env.NEXT_PUBLIC_BASE_URL}${endpoint},
-        url: "https://jsonplaceholder.typicode.com/posts",
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`,
+        // url: "https://jsonplaceholder.typicode.com/posts",
         data,
     };
 

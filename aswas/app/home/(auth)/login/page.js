@@ -4,24 +4,29 @@ import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
+import { sendRequest } from "@/api/sendRequest";
+
 
 export default function Page() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
   const [username, setUsername] = useState();
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState();
 
   const loginData = {
     username: username,
     password: password,
   };
 
-  const submitHandler = (e) => {
+  const loginHandler = (e) => {
     e.preventDefault();
-    console.log(loginData);
-    route.push("/home/schedule");
-    localStorage.setItem("username", loginData.username);
+    console.log("loginData:", loginData);
+    sendRequest("post", "/login", loginData);
+    
+    // route.push("/home/schedule");
+    // localStorage.setItem("username", loginData.username);
+    
   };
 
   return (
@@ -45,7 +50,7 @@ export default function Page() {
               id="password"
             ></input>
           </span>
-          <button onClick={submitHandler}>{translate?.login}</button>
+          <button onClick={loginHandler}>{translate?.login}</button>
           <a href="#">
             <p>{translate?.forgot_your_password}</p>
           </a>
