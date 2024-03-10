@@ -1,5 +1,4 @@
 import axios from 'axios';
-const cors = require('cors');
 
 export const sendRequest = async (method, endpoint, data, customConfig = {}) => {
     const defaultConfig = {

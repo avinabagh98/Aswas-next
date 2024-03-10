@@ -1,11 +1,15 @@
 import styles from "./surveyques.module.css";
 
-export default function Surveyques({ labelText }) {
+export default function Surveyques({ id, labelText, handleVal }) {
   return (
     <>
       <div className={styles.container}>
         <label>{labelText}</label>
-        <input className={styles.surveyInput}></input>
+        <input
+          id={id}
+          onChange={(e) => handleVal(id, e.target.value)}
+          className={styles.surveyInput}
+        ></input>
       </div>
     </>
   );

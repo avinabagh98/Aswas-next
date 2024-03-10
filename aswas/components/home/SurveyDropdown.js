@@ -5,12 +5,13 @@ export default function SurveyDropdown({
   labelText,
   numberOfOptions,
   options,
+  handleVal,
 }) {
   return (
     <>
       <div className={styles.dropdowncontainer}>
         <label>{labelText}</label>
-        <select id={id}>
+        <select id={id} onChange={(e) => handleVal(id, e.target.value)}>
           {Array.from({ length: numberOfOptions }, (_, index) => (
             <option key={index} value={options[index]}>
               {options[index]}

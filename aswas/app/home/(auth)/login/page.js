@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { sendRequest } from "@/api/sendRequest";
 
-
 export default function Page() {
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -19,14 +18,28 @@ export default function Page() {
     password: password,
   };
 
+  // const loginHandler = async (e) => {
+  //   e.preventDefault();
+  //   console.log("loginData:", loginData);
+
+  //   try {
+  //     const response = await sendRequest("post", "/login", loginData, {
+  //       "Content-Type": "application/json",
+  //     });
+
+  //     // Handle the response here
+  //     console.log("Login response:", response);
+  //     // You can add logic here to redirect the user or show a success message
+  //   } catch (error) {
+  //     // Handle errors, such as network errors or server errors
+  //     console.error("Login error:", error);
+  //     // You can add logic here to display an error message to the user
+  //   }
+  // };
+
   const loginHandler = (e) => {
     e.preventDefault();
-    console.log("loginData:", loginData);
-    sendRequest("post", "/login", loginData);
-    
-    // route.push("/home/schedule");
-    // localStorage.setItem("username", loginData.username);
-    
+    route.push("/home/schedule");
   };
 
   return (

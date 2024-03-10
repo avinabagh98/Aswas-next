@@ -89,7 +89,7 @@ export default function page() {
       <>
         <div className={styles.teamContainer}>
           <div className={styles.searchbar}>
-            <input placeholder="Auto Search"></input>
+            <input placeholder="Search"></input>
             <Button
               variant="secondary"
               href="/home/householdentry"
