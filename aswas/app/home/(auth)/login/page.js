@@ -5,8 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { sendRequest } from "@/api/sendRequest";
+import { ShowOffCanvas } from "@/components/ShowOffCanvas";
 
 export default function Page() {
+  useEffect(() => {
+    ShowOffCanvas(true);
+  }, []);
+
   const route = useRouter();
   const translate = LanguageFetcher();
 
@@ -39,6 +44,8 @@ export default function Page() {
 
   const loginHandler = (e) => {
     e.preventDefault();
+    localStorage.setItem("username", username);
+    localStorage.setItem("isOffCanvasVisible", true);
     route.push("/home/schedule");
   };
 

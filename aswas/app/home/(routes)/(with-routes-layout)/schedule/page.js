@@ -12,16 +12,20 @@ import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
 
 export default function page() {
+  const isOffCanvasVisible = localStorage.getItem("isOffCanvasVisible");
   const translate = LanguageFetcher();
   const api = "https://jsonplaceholder.typicode.com/posts";
+
+  useEffect(() => {
+    console.log(isOffCanvasVisible);
+  }, [isOffCanvasVisible]);
+
   try {
     const route = useRouter();
-
     const userRole = LocalStorageFetcher({ keyName: "role" });
     const language = LocalStorageFetcher({ keyName: "language" });
 
     //DUMMY DATA/////
-
     const data = [
       { round: 1, date: "2022-04-24 To 2022-04-25", action: "Ongoing" },
       { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },

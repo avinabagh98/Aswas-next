@@ -6,16 +6,19 @@ import Buttongroup from "@/components/role-lang/Buttongroup";
 import Checkbutton from "@/components/role-lang/Checkbutton";
 import Footer from "@/components/prelogin/Footer";
 import { useRouter } from "next/navigation";
+import { ShowOffCanvas } from "@/components/ShowOffCanvas";
 
 export default function page() {
+  useEffect(() => {
+    ShowOffCanvas(false);
+  }, []);
   const [language, setLanguage] = useState("en");
   const [roleValue, setRoleValue] = useState("");
   const route = useRouter();
 
-
   const data = {
-    "language": language,
-    "role": roleValue
+    language: language,
+    role: roleValue,
   };
 
   const handleRadioChange = (event) => {
@@ -24,15 +27,13 @@ export default function page() {
 
   const handleBtnChange = (event) => {
     setRoleValue(event.target.id);
-    route.push('/home/login');
+
+    route.push("/home/login");
   };
 
   useEffect(() => {
-
     localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
-
-
 
   return (
     <div className={styles.pageContainer}>
