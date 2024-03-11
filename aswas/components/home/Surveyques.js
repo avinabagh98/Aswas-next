@@ -4,7 +4,7 @@ export default function Surveyques({ id, labelText, handleVal }) {
   return (
     <>
       <div className={styles.container}>
-        <label>{labelText}</label>
+        <label htmlFor={id}>{labelText}</label>
         <input
           id={id}
           onChange={(e) => handleVal(id, e.target.value)}

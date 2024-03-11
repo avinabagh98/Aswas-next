@@ -62,6 +62,8 @@ export default function page() {
   const [Landmark, setLandmark] = useState("");
   const [remarks, setRemarks] = useState("");
 
+  const [selectedOption, setSelectedOption] = useState({}); //changed
+
   const surveyDataHM = {
     location,
     isLocked,
@@ -199,6 +201,14 @@ export default function page() {
     }
   };
 
+  const handleRadioChange2 = (id, value) => {
+    //changed
+    setSelectedOption((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
   const handleVal = (id, val) => {
     if (id === "field_1_form_5") {
       setField_1_form_5(val);
@@ -252,13 +262,25 @@ export default function page() {
 
       <div className={styles.content}>
         {isLocked ? (
-          <Surveyoption
-            id={"isLocked"}
-            name={"isLocked"}
-            optionText={translate?.isLocked}
-            handleRadioChange={handleRadioChange}
-            radioValue={radioValue}
-          />
+          <>
+            <Surveyoption
+              id={"isLocked"}
+              name={"isLocked"}
+              optionText={translate?.isLocked}
+              handleRadioChange={handleRadioChange}
+              handleRadioChange2={handleRadioChange2} //changed
+              radioValue={selectedOption["isLocked"]}
+            />
+
+            <Surveyoption //changed
+              id="option1"
+              name="option1"
+              optionText="Option 1"
+              handleRadioChange={handleRadioChange}
+              handleRadioChange2={handleRadioChange2}
+              radioValue={selectedOption["option1"]}
+            />
+          </>
         ) : null}
         {isLocked ? null : (
           <>
@@ -268,47 +290,58 @@ export default function page() {
                 labelText={translate?.field_1_form_5}
                 handleVal={handleVal}
               />
+
               <Surveyoption
                 id={"field_2_form_5"}
                 name={"field_2_form_5"}
                 optionText={translate?.field_2_form_5}
                 handleRadioChange={handleRadioChange}
-                radioValue={radioValue}
+                handleRadioChange2={handleRadioChange2}
+                radioValue={selectedOption["field_2_form_5"]}
               />
               <Surveyoption
                 id={"field_3_form_5"}
                 name={"field_3_form_5"}
                 optionText={translate?.field_3_form_5}
                 handleRadioChange={handleRadioChange}
-                radioValue={radioValue}
+                handleRadioChange2={handleRadioChange2}
+                radioValue={selectedOption["field_3_form_5"]}
               />
               <Surveyoption
                 id={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
                 name={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
                 optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
                 handleRadioChange={handleRadioChange}
-                radioValue={radioValue}
+                handleRadioChange2={handleRadioChange2}
+                radioValue={selectedOption["বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"]}
               />
               <Surveyoption
                 id={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
                 name={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
                 optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
                 handleRadioChange={handleRadioChange}
-                radioValue={radioValue}
+                handleRadioChange2={handleRadioChange2}
+                radioValue={
+                  selectedOption["বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"]
+                }
               />
               <Surveyoption
                 id={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
                 name={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
                 optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
                 handleRadioChange={handleRadioChange}
-                radioValue={radioValue}
+                handleRadioChange2={handleRadioChange2}
+                radioValue={selectedOption["বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"]}
               />
               <Surveyoption
                 id={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
                 name={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
                 optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
                 handleRadioChange={handleRadioChange}
-                radioValue={radioValue}
+                handleRadioChange2={handleRadioChange2}
+                radioValue={
+                  selectedOption["বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"]
+                }
               />
               <Surveyques
                 id={"জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল"}
