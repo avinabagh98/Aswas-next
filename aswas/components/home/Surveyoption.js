@@ -64,8 +64,8 @@ export default function Surveyoption({
   id,
   name,
   optionText,
-  handleRadioChange,
-  handleRadioChange2,
+  handleRadioChange_value,
+  handleRadioChange_color,
   radioValue,
 }) {
   const idYes = `${id}_yes`;
@@ -94,10 +94,10 @@ export default function Surveyoption({
               value="yes"
               checked={radioValue === "yes"}
               onChange={() => {
-                handleRadioChange2(id, "yes");
+                handleRadioChange_color(id, "yes");
               }}
               onClick={(event) => {
-                handleRadioChange(event);
+                handleRadioChange_value(event);
               }}
             />
           </span>
@@ -117,10 +117,10 @@ export default function Surveyoption({
               value="no"
               checked={radioValue === "no"}
               onChange={() => {
-                handleRadioChange2(id, "no");
+                handleRadioChange_color(id, "no");
               }}
               onClick={(event) => {
-                handleRadioChange(event);
+                handleRadioChange_value(event);
               }}
             />
           </span>
