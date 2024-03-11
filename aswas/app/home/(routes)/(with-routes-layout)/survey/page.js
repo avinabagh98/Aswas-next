@@ -61,7 +61,6 @@ export default function page() {
   ] = useState("");
   const [Landmark, setLandmark] = useState("");
   const [remarks, setRemarks] = useState("");
-
   const [selectedOption, setSelectedOption] = useState({}); //changed
 
   const surveyDataHM = {
@@ -429,42 +428,48 @@ export default function page() {
             name={"field_2_form_5"}
             optionText={translate?.field_2_form_5}
             handleRadioChange_value={handleRadioChange_value}
-            radioValue={radioValue}
+            handleRadioChange_color={handleRadioChange_color}
+            radioValue={selectedOption["field_2_form_5"]}
           />
           <Surveyoption
             id={"field_3_form_5"}
             name={"field_3_form_5"}
             optionText={translate?.field_3_form_5}
             handleRadioChange_value={handleRadioChange_value}
-            radioValue={radioValue}
+            handleRadioChange_color={handleRadioChange_color}
+            radioValue={selectedOption["field_3_form_5"]}
           />
           <Surveyoption
             id={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
             name={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
             optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
             handleRadioChange_value={handleRadioChange_value}
-            radioValue={radioValue}
+            handleRadioChange_color={handleRadioChange_color}
+            radioValue={selectedOption["বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"]}
           />
           <Surveyoption
             id={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
             name={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
             optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
             handleRadioChange_value={handleRadioChange_value}
-            radioValue={radioValue}
+            handleRadioChange_color={handleRadioChange_color}
+            radioValue={selectedOption["বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"]}
           />
           <Surveyoption
             id={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
             name={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
             optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
             handleRadioChange_value={handleRadioChange_value}
-            radioValue={radioValue}
+            handleRadioChange_color={handleRadioChange_color}
+            radioValue={selectedOption["বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"]}
           />
           <Surveyoption
             id={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
             name={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
             optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
             handleRadioChange_value={handleRadioChange_value}
-            radioValue={radioValue}
+            handleRadioChange_color={handleRadioChange_color}
+            radioValue={selectedOption["বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"]}
           />
           <Surveyques
             id={"জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল"}
