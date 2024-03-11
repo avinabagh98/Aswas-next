@@ -33,6 +33,12 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+
+}
+
+.label_not_selected {
+      color: var(--white);
+      background-color: var(--darkblue);
 }
 
 .labelNo {
