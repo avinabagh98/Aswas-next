@@ -8,13 +8,20 @@ import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 
 export default function homelayout({ children }) {
   const [isOffCanvasVisible, setIsOffCanvasVisible] = useState(true);
+  const [userRole, setUserRole] = useState("");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const route = useRouter();
-  const userRole = LocalStorageFetcher({ keyName: "role" });
+  // setUserRole(LocalStorageFetcher({ keyName: "role" }));
+
+  useEffect(() => {
+    setUserRole((localStorage.getItem("roleis")));
+    console.log("in layout role is", userRole);
+  }, [userRole])
+
 
   const handleLogout = () => {
     console.log("log out clicked");

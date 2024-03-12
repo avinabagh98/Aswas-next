@@ -44,8 +44,7 @@ export default function Page() {
 
   const loginHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem("username", username);
-    localStorage.setItem("isOffCanvasVisible", true);
+    // localStorage.setItem("username", username);
     route.push("/home/schedule");
   };
 

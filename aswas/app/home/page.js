@@ -6,12 +6,10 @@ import Buttongroup from "@/components/role-lang/Buttongroup";
 import Checkbutton from "@/components/role-lang/Checkbutton";
 import Footer from "@/components/prelogin/Footer";
 import { useRouter } from "next/navigation";
-import { ShowOffCanvas } from "@/components/ShowOffCanvas";
+
 
 export default function page() {
-  useEffect(() => {
-    ShowOffCanvas(false);
-  }, []);
+
   const [language, setLanguage] = useState("en");
   const [roleValue, setRoleValue] = useState("");
   const route = useRouter();
@@ -27,13 +25,15 @@ export default function page() {
 
   const handleBtnChange = (event) => {
     setRoleValue(event.target.id);
-
+    
     route.push("/home/login");
   };
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
-  }, [data]);
+    localStorage.setItem("roleis", roleValue);
+    console.log("In home page role set to", roleValue);
+  }, [data, roleValue]);
 
   return (
     <div className={styles.pageContainer}>
