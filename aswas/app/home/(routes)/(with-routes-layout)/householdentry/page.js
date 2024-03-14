@@ -13,27 +13,6 @@ import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function page() {
-  const router = useRouter();
-
-  useEffect(() => {
-    setToken(localStorage.getItem("token"));
-    const geolocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        });
-      } else {
-        // alert("Geolocation not available")
-        setLocation(null);
-      }
-    };
-
-    geolocation();
-  }, []);
-
   // State variables
   const [token, setToken] = useState("");
   const [household, setHousehold] = useState("1");
@@ -48,9 +27,14 @@ export default function page() {
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState("");
   const [ward_id, setWardId] = useState("");
+  const [household_id, setHouseholdId] = useState("");
 
   //Language Function Fetcher
   const translate = LanguageFetcher();
+
+  //Router
+  const route = useRouter();
+
   // Dropdown options
   const ward_options = ["Choose", "Option 1", "Option 2", "Option 3"];
   const option2 = ["Select", "Own", "Rent"];
@@ -72,6 +56,73 @@ export default function page() {
     ward_id,
   };
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setToken(localStorage.getItem("token"));
+          setWardId(localStorage.getItem("ward_id"));
+          const householdId = localStorage.getItem("household_id");
+          if (householdId) {
+            setHouseholdId(householdId);
+            //API call -- Read household by id
+            const response = await sendRequest(
+              "get",
+              `/properties/${householdId}`,
+              null,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (response.status === 1) {
+              console.log(response.data);
+              const data = response.data;
+              setName(data.name || "");
+              setPhone(data.phone || "");
+              setHoldingNumber(data.holding_number || "");
+              setAadharNumber(data.aadhaar_number || "");
+              setMembers(data.members || "");
+              setRent(data.rent || "");
+              setPropertyType(data.property_type_id || "");
+              setPrivate_(data.private_ || "");
+              setAddress(data.address || "");
+              setLocation(data.location || "");
+              setWardId(data.ward_id || "");
+            } else {
+              swal("Error", response.msg, "error");
+            }
+          }
+        }
+      } catch (error) {
+        swal("Error", error.message, "error");
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const geolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        });
+      } else {
+        // alert("Geolocation not available")
+        setLocation(null);
+      }
+    };
+
+    geolocation();
+  }, []);
+
   //Functions
   const submitHandler = async (e) => {
     if (name === "" || members === "" || rent === "") {
@@ -80,9 +131,19 @@ export default function page() {
       e.preventDefault();
       console.log(formData);
       try {
+        //API call parameters set
+        let endpoint = "/properties";
+        let method = "post";
+
+        //Conditional Method selection
+        if (household_id) {
+          endpoint += `/${household_id}`;
+          method = "put";
+        }
+        //API call -- Create household
         const householdEntry_response = await sendRequest(
-          "post",
-          "/properties",
+          method,
+          endpoint,
           formData,
           {
             headers: {
@@ -90,15 +151,16 @@ export default function page() {
             },
           }
         );
-
+        //API Response
         if (householdEntry_response.status === 1) {
-          console.log("response", householdEntry_response.data);
+          console.log("response after update", householdEntry_response.data);
+          localStorage.removeItem("household_id");
         }
       } catch (error) {
         swal("Error", error.message, "error");
       }
 
-      // router.push("/home/householdlist");
+      route.push("/home/team");
     }
   };
 
@@ -119,7 +181,12 @@ export default function page() {
       setMembers(val);
     }
     if (id === "ownertype") {
-      setRent(val);
+      if (val === "Rent") {
+        setRent("1");
+      }
+      if (val === "Own") {
+        setRent("0");
+      }
     }
     if (id === "holding_number") {
       setHoldingNumber(val);
@@ -136,26 +203,31 @@ export default function page() {
 
           <Surveyques
             id="household_name"
+            value={name}
             labelText={translate?.household_name}
             handleVal={handleVal}
           />
           <Surveyques
             id="aadhar"
+            value={aadhaar_number}
             labelText={translate?.aadhar_no}
             handleVal={handleVal}
           />
           <Surveyques
             id="phone"
+            value={phone}
             labelText={translate?.mobile_no}
             handleVal={handleVal}
           />
           <Surveyques
             id="family_members"
+            value={members}
             labelText={translate?.family_members}
             handleVal={handleVal}
           />
           <SurveyDropdown
             id={"ownertype"}
+            value={rent === "1" ? "Rent" : "Own"}
             labelText={translate?.owner_type}
             numberOfOptions={3}
             options={option2}
@@ -163,11 +235,12 @@ export default function page() {
           />
           <Surveyques
             id={"holding_number"}
+            value={holding_number}
             labelText={translate?.holding_number}
             handleVal={handleVal}
           />
           <Button variant="success" onClick={submitHandler}>
-            SUBMIT
+            {household_id ? "Update" : "Submit"}
           </Button>
         </div>
       </>

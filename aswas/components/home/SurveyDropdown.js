@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./SurveyDropdown.module.css";
 
 export default function SurveyDropdown({
@@ -6,19 +7,22 @@ export default function SurveyDropdown({
   numberOfOptions,
   options,
   handleVal,
+  value,
 }) {
   return (
-    <>
-      <div className={styles.dropdowncontainer}>
-        <label htmlFor={id}>{labelText}</label>
-        <select id={id} onChange={(e) => handleVal(id, e.target.value)}>
-          {Array.from({ length: numberOfOptions }, (_, index) => (
-            <option key={index} value={options[index]}>
-              {options[index]}
-            </option>
-          ))}
-        </select>
-      </div>
-    </>
+    <div className={styles.dropdowncontainer}>
+      <label htmlFor={id}>{labelText}</label>
+      <select
+        id={id}
+        onChange={(e) => handleVal(id, e.target.value)}
+        value={value}
+      >
+        {options.slice(0, numberOfOptions).map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }

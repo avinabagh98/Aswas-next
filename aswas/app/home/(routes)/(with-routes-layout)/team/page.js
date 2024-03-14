@@ -6,12 +6,10 @@ import { Button, Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
 
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function page() {
-
   const [token, setToken] = useState();
   const [userRole, setUserRole] = useState();
   const [api_data, setAPI_Data] = useState([]);
@@ -24,44 +22,43 @@ export default function page() {
         const token = await localStorage.getItem("token");
         if (!token) {
           route.push("/home/login");
-        }
-        else {
+        } else {
           setUserRole(localStorage.getItem("role_name"));
           setToken(token);
-          const response = await sendRequest('get', '/properties', null, {
+          const response = await sendRequest("get", "/properties", null, {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           });
           if (response.status === 1) {
-            console.log("response", response.data);
             setAPI_Data(response.data);
-            console.log(api_data);
-          }
-          else {
+          } else {
             swal("Error", response.msg, "error");
           }
-
         }
       }
       fetchData();
-
     } catch (error) {
       swal("Error", error.message, "error");
     }
-
   }, []);
 
   useEffect(() => {
     console.log(api_data);
   }, [api_data]);
 
-
   try {
     const routeHandler = (e) => {
       e.preventDefault();
       const value = e.target.id;
       route.push(`/home/team/${value}`);
+    };
+
+    const editHandler = (e) => {
+      e.preventDefault();
+      const household_id = e.target.id;
+      localStorage.setItem("household_id", household_id);
+      route.push("/home/householdentry");
     };
 
     // const data = [
@@ -163,10 +160,18 @@ export default function page() {
                       <td>{row.id}</td>
                       <td>{row.name}</td>
                       <td className="d-flex gap-2 justify-content-center ">
-                        <Button variant="success" href="/home/survey">
+                        <Button
+                          id={row.id}
+                          variant="success"
+                          href="/home/survey"
+                        >
                           Survey
                         </Button>
-                        <Button href="/home/householdentry" variant="primary">
+                        <Button
+                          id={row.id}
+                          variant="primary"
+                          onClick={editHandler}
+                        >
                           Edit
                         </Button>
                       </td>
