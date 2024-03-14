@@ -10,12 +10,13 @@ import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
 import swal from "sweetalert";
 import { useRouter } from "next/navigation";
+import { sendRequest } from "@/api/sendRequest";
 
 export default function page() {
-
   const router = useRouter();
 
   useEffect(() => {
+    setToken(localStorage.getItem("token"));
     const geolocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -33,10 +34,9 @@ export default function page() {
     geolocation();
   }, []);
 
-
   // State variables
   const [token, setToken] = useState("");
-  const [household, setHousehold] = useState("");
+  const [household, setHousehold] = useState("1");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [holding_number, setHoldingNumber] = useState("");
@@ -69,21 +69,37 @@ export default function page() {
     private_,
     address,
     location,
-    ward_id
+    ward_id,
   };
 
   //Functions
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     if (name === "" || members === "" || rent === "") {
       swal("Error", "Please fill all the fields", "error");
-    }
-    else {
+    } else {
       e.preventDefault();
+      console.log(formData);
+      try {
+        const householdEntry_response = await sendRequest(
+          "post",
+          "/properties",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      router.push("/home/householdlist");
+        if (householdEntry_response.status === 1) {
+          console.log("response", householdEntry_response.data);
+        }
+      } catch (error) {
+        swal("Error", error.message, "error");
+      }
+
+      // router.push("/home/householdlist");
     }
-
-
   };
 
   const handleVal = (id, val) => {

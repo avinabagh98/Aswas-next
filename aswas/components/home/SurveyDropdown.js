@@ -10,7 +10,7 @@ export default function SurveyDropdown({
   return (
     <>
       <div className={styles.dropdowncontainer}>
-        <label>{labelText}</label>
+        <label htmlFor={id}>{labelText}</label>
         <select id={id} onChange={(e) => handleVal(id, e.target.value)}>
           {Array.from({ length: numberOfOptions }, (_, index) => (
             <option key={index} value={options[index]}>
