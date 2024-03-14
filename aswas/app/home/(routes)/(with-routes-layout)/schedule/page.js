@@ -10,28 +10,94 @@ import SingleButton from "@/components/home/SingleButton";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
+import swal from "sweetalert";
+import { sendRequest } from "@/api/sendRequest";
 
 export default function page() {
-  const isOffCanvasVisible = localStorage.getItem("isOffCanvasVisible");
+
+  const route = useRouter();
   const translate = LanguageFetcher();
   const api = "https://jsonplaceholder.typicode.com/posts";
 
+
+  const [userRole, setUserRole] = useState(null);
+  const [language, setLanguage] = useState(null);
+  const [token, setToken] = useState("");
+  const [api_data_schedule, setAPI_Data_Schedule] = useState([]);
+  const [api_data_userDetails, setAPI_Data_userDetails] = useState([]);
+  const [team_id, setTeam_id] = useState();
+
+
   useEffect(() => {
-    console.log(isOffCanvasVisible);
-  }, [isOffCanvasVisible]);
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        }
+        else {
+          setUserRole(localStorage.getItem("role_name"));
+          setToken(token);
+          const schedule_response = await sendRequest('get', '/schedules', null, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+          const user_details_response = await sendRequest('get', '/user-details', null, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+          if (schedule_response.status === 1) {
+            console.log("response", schedule_response.data);
+            setAPI_Data_Schedule(schedule_response.data);
+          }
+          else {
+            swal("Error", schedule_response.msg, "error");
+          }
+
+          if (user_details_response.status === 1) {
+            console.log("response", user_details_response.data);
+            setAPI_Data_userDetails(user_details_response.data);
+            setTeam_id(user_details_response.data.team_id);
+            localStorage.setItem("team_id", team_id);
+          }
+          else {
+            swal("Error", user_details_response.msg, "error");
+          }
+
+        }
+      }
+      fetchData();
+
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
+
+  }, []);
+
+  useEffect(() => {
+    console.log(api_data_schedule); // This will log the updated value of api_data
+    console.log(api_data_userDetails);
+    console.log(team_id);
+  }, [api_data_schedule, api_data_userDetails]);
+
+
+
 
   try {
-    const route = useRouter();
-    const userRole = LocalStorageFetcher({ keyName: "role" });
-    const language = LocalStorageFetcher({ keyName: "language" });
 
     //DUMMY DATA/////
-    const data = [
-      { round: 1, date: "2022-04-24 To 2022-04-25", action: "Ongoing" },
-      { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },
-      { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
-      { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
-    ];
+    // const data = [
+    //   { round: 1, date: "2022-04-24 To 2022-04-25", action: "Ongoing" },
+    //   { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },
+    //   { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
+    //   { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
+    // ];
+
+    const data = api_data_schedule;
 
     return userRole === "hth-member" ? (
       <>
@@ -50,15 +116,15 @@ export default function page() {
             </thead>
             <tbody className={styles.tableBody}>
               {data.map((row, index) => {
-                const { action } = row;
+                const { status } = row;
                 let classname;
-                if (action === "Completed") {
+                if (status === "CLOSED") {
                   classname = styles.completed;
                 }
-                if (action === "Ongoing") {
+                if (status === "ONGOING") {
                   classname = styles.ongoing;
                 }
-                if (action === "Upcoming") {
+                if (status === "Upcoming") {
                   classname = styles.upcoming;
                 }
                 return (
@@ -70,9 +136,9 @@ export default function page() {
                         route.push("/home/team");
                       }}
                     >
-                      {row.date}
+                      {row.date_range}
                     </td>
-                    <td className={classname}>{row.action}</td>
+                    <td className={classname}>{row.status}</td>
                   </tr>
                 );
               })}
@@ -133,15 +199,15 @@ export default function page() {
             </thead>
             <tbody className={styles.tableBody}>
               {data.map((row, index) => {
-                const { action } = row;
+                const { status } = row;
                 let classname;
-                if (action === "Completed") {
+                if (status === "CLOSED") {
                   classname = styles.hthSupervisorCompleted;
                 }
-                if (action === "Ongoing") {
+                if (status === "ONGOING") {
                   classname = styles.ongoing;
                 }
-                if (action === "Upcoming") {
+                if (status === "Upcoming") {
                   classname = styles.hthSupervisorUpcoming;
                 }
                 return (
@@ -154,10 +220,10 @@ export default function page() {
                         route.push("/home/team");
                       }}
                     >
-                      {row.date}
+                      {row.date_range}
                     </td>
 
-                    {action === "Ongoing" ? (
+                    {status === "ONGOING" ? (
                       <td className={classname}>
                         <SingleButton
                           btnText={"Members Survey"}
@@ -165,7 +231,7 @@ export default function page() {
                         />
                       </td>
                     ) : (
-                      <td className={classname}>{row.action}</td>
+                      <td className={classname}>{row.status}</td>
                     )}
                   </tr>
                 );
@@ -222,7 +288,6 @@ export default function page() {
       </>
     );
   } catch (error) {
-    console.log(error);
+    swal("Error", error.message, "error");
   }
 }
- 

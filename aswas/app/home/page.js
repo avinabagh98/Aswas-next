@@ -6,17 +6,21 @@ import Buttongroup from "@/components/role-lang/Buttongroup";
 import Checkbutton from "@/components/role-lang/Checkbutton";
 import Footer from "@/components/prelogin/Footer";
 import { useRouter } from "next/navigation";
+import LocalStorageHandler from "@/components/LocalStorageHandler";
 
 
 export default function page() {
 
   const [language, setLanguage] = useState("en");
   const [roleValue, setRoleValue] = useState("");
+  const [rolenName, setRolenName] = useState("");
+
   const route = useRouter();
 
   const data = {
     language: language,
-    role: roleValue,
+    role_id: roleValue,
+    role_name: rolenName
   };
 
   const handleRadioChange = (event) => {
@@ -25,15 +29,20 @@ export default function page() {
 
   const handleBtnChange = (event) => {
     setRoleValue(event.target.id);
-    
+    setRolenName(event.target.name)
     route.push("/home/login");
   };
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
-    localStorage.setItem("roleis", roleValue);
+    localStorage.setItem("role_name", rolenName);
+    // LocalStorageHandler({
+    //   method: "setItem",
+    //   keyName: "data",
+    //   keyValue: data
+    // })
     console.log("In home page role set to", roleValue);
-  }, [data, roleValue]);
+  }, [data, roleValue, rolenName]);
 
   return (
     <div className={styles.pageContainer}>

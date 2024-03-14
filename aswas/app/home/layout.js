@@ -18,8 +18,8 @@ export default function homelayout({ children }) {
   // setUserRole(LocalStorageFetcher({ keyName: "role" }));
 
   useEffect(() => {
-    setUserRole((localStorage.getItem("roleis")));
-    console.log("in layout role is", userRole);
+    setUserRole((localStorage.getItem("role_name")));
+    // console.log("in layout role is", userRole);
   }, [userRole])
 
 

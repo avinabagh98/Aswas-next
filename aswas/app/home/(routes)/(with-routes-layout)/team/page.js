@@ -1,14 +1,62 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import styles from "./team.module.css";
 import { Button, Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import LocalStorageFetcher from "@/components/LocalStorageFetcher";
+import { sendRequest } from "@/api/sendRequest";
+
 
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function page() {
+
+  const [token, setToken] = useState();
+  const [userRole, setUserRole] = useState();
+  const [api_data, setAPI_Data] = useState([]);
+  const route = useRouter();
+
+  useEffect(() => {
+    const team_id = localStorage.getItem("team_id");
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        }
+        else {
+          setUserRole(localStorage.getItem("role_name"));
+          setToken(token);
+          const response = await sendRequest('get', '/properties', null, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          if (response.status === 1) {
+            console.log("response", response.data);
+            setAPI_Data(response.data);
+            console.log(api_data);
+          }
+          else {
+            swal("Error", response.msg, "error");
+          }
+
+        }
+      }
+      fetchData();
+
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
+
+  }, []);
+
+  useEffect(() => {
+    console.log(api_data);
+  }, [api_data]);
+
+
   try {
     const routeHandler = (e) => {
       e.preventDefault();
@@ -16,20 +64,20 @@ export default function page() {
       route.push(`/home/team/${value}`);
     };
 
-    const data = [
-      { round: 1, household: "Kamal Deb Nath" },
-      { round: 2, household: "Arun Naskar" },
-      { round: 3, household: "Kamal Deb Nath" },
-      { round: 4, household: "Kamal Deb Nath" },
-      { round: 5, household: "Kamal Deb Nath" },
-      { round: 6, household: "Kamal Deb Nath" },
-      { round: 7, household: "Kamal Deb Nath" },
-      { round: 8, household: "Kamal Deb Nath" },
-      { round: 9, household: "Kamal Deb Nath" },
-      { round: 10, household: "Kamal Deb Nath" },
-    ];
-    const route = useRouter();
-    const userRole = LocalStorageFetcher({ keyName: "role" });
+    // const data = [
+    //   { round: 1, household: "Kamal Deb Nath" },
+    //   { round: 2, household: "Arun Naskar" },
+    //   { round: 3, household: "Kamal Deb Nath" },
+    //   { round: 4, household: "Kamal Deb Nath" },
+    //   { round: 5, household: "Kamal Deb Nath" },
+    //   { round: 6, household: "Kamal Deb Nath" },
+    //   { round: 7, household: "Kamal Deb Nath" },
+    //   { round: 8, household: "Kamal Deb Nath" },
+    //   { round: 9, household: "Kamal Deb Nath" },
+    //   { round: 10, household: "Kamal Deb Nath" },
+    // ];
+
+    const data = api_data;
 
     return userRole === "hth-supervisor" ? (
       <>
@@ -112,8 +160,8 @@ export default function page() {
                 {data.map((row, index) => {
                   return (
                     <tr key={index}>
-                      <td>{row.round}</td>
-                      <td>{row.household}</td>
+                      <td>{row.id}</td>
+                      <td>{row.name}</td>
                       <td className="d-flex gap-2 justify-content-center ">
                         <Button variant="success" href="/home/survey">
                           Survey

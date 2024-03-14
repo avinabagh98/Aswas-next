@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SurveyDropdown from "@/components/home/SurveyDropdown";
 import Surveyques from "@/components/home/Surveyques";
 import Textparser from "@/components/home/Textparser";
@@ -8,16 +8,47 @@ import { Button } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
+import swal from "sweetalert";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const geolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        });
+      } else {
+        // alert("Geolocation not available")
+        setLocation(null);
+      }
+    };
+
+    geolocation();
+  }, []);
+
+
   // State variables
-  const [ward, setWard] = useState("");
+  const [token, setToken] = useState("");
   const [household, setHousehold] = useState("");
-  const [aadhar, setAadhar] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [family, setFamily] = useState("");
-  const [ownertype, setOwnerType] = useState("");
-  const [holding, setHolding] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [holding_number, setHoldingNumber] = useState("");
+  const [aadhaar_number, setAadharNumber] = useState("");
+  const [members, setMembers] = useState("");
+  const [rent, setRent] = useState("");
+  const [property_type_id, setPropertyType] = useState("");
+  const [private_, setPrivate_] = useState("");
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("");
+  const [ward_id, setWardId] = useState("");
+
   //Language Function Fetcher
   const translate = LanguageFetcher();
   // Dropdown options
@@ -26,42 +57,56 @@ export default function page() {
 
   // Other variables
   const formData = {
-    ward,
+    token,
     household,
-    aadhar,
-    mobile,
-    family,
-    ownertype,
-    holding,
+    name,
+    phone,
+    holding_number,
+    aadhaar_number,
+    members,
+    rent,
+    property_type_id,
+    private_,
+    address,
+    location,
+    ward_id
   };
 
   //Functions
   const submitHandler = (e) => {
-    e.preventDefault();
-    console.log("submitted", formData);
+    if (name === "" || members === "" || rent === "") {
+      swal("Error", "Please fill all the fields", "error");
+    }
+    else {
+      e.preventDefault();
+
+      router.push("/home/householdlist");
+    }
+
+
   };
 
   const handleVal = (id, val) => {
-    if (id === "ward") {
-      setWard(val);
-    }
-    if (id === "household") {
-      setHousehold(val);
+    // if (id === "ward") {
+    //   setWardId(val);
+    // }
+    if (id === "household_name") {
+      setName(val);
     }
     if (id === "aadhar") {
-      setAadhar(val);
+      setAadharNumber(val);
     }
-    if (id === "mobile") {
-      setMobile(val);
+    if (id === "phone") {
+      setPhone(val);
     }
     if (id === "family_members") {
-      setFamily(val);
+      setMembers(val);
     }
     if (id === "ownertype") {
-      setOwnerType(val);
+      setRent(val);
     }
     if (id === "holding_number") {
-      setHolding(val);
+      setHoldingNumber(val);
     }
   };
 
@@ -72,15 +117,9 @@ export default function page() {
           <div className={styles.titlebar}>
             <Textparser text={"New Households Entry"} />
           </div>
-          <SurveyDropdown
-            id="ward"
-            labelText={translate?.ward_no}
-            numberOfOptions={3}
-            options={ward_options}
-            handleVal={handleVal}
-          />
+
           <Surveyques
-            id="household"
+            id="household_name"
             labelText={translate?.household_name}
             handleVal={handleVal}
           />
@@ -90,7 +129,7 @@ export default function page() {
             handleVal={handleVal}
           />
           <Surveyques
-            id="mobile"
+            id="phone"
             labelText={translate?.mobile_no}
             handleVal={handleVal}
           />
@@ -111,7 +150,7 @@ export default function page() {
             labelText={translate?.holding_number}
             handleVal={handleVal}
           />
-          <Button variant="success" href="/home/team" onClick={submitHandler}>
+          <Button variant="success" onClick={submitHandler}>
             SUBMIT
           </Button>
         </div>

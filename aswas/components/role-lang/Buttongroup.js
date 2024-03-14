@@ -11,7 +11,7 @@ export default function Buttongroup({ handleBtnChange }) {
           <Col xs={4} className={styles.btnCol}>
             <span className={styles.btnSpan}>
               <a href="">
-                <button id="vcmo" onClick={handleBtnChange}>
+                <button id="6" name="vcmo" onClick={handleBtnChange}>
                   VCMO
                 </button>
               </a>
@@ -20,14 +20,14 @@ export default function Buttongroup({ handleBtnChange }) {
 
           <Col xs={4} className={styles.btnCol}>
             <span className={styles.btnSpan}>
-              <button id="hth-supervisor" onClick={handleBtnChange}>
+              <button id="7" name="hth-supervisor" onClick={handleBtnChange}>
                 HTH SUPERVISOR
               </button>
             </span>
           </Col>
           <Col xs={4} className={styles.btnCol}>
             <span className={styles.btnSpan}>
-              <button id="hth-member" onClick={handleBtnChange}>
+              <button id="9" name="hth-member" onClick={handleBtnChange}>
                 HTH MEMBER
               </button>
             </span>
@@ -36,7 +36,7 @@ export default function Buttongroup({ handleBtnChange }) {
           <Row className={styles.btnContainer}>
             <Col xs={6} className={styles.btnCol}>
               <span className={styles.btnSpan}>
-                <button id="vct-supervisor" onClick={handleBtnChange}>
+                <button id="8" name="vct-supervisor" onClick={handleBtnChange}>
                   VCT SUPERVISOR
                 </button>
               </span>

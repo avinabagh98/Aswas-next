@@ -6,6 +6,9 @@ import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { sendRequest } from "@/api/sendRequest";
 import { ShowOffCanvas } from "@/components/ShowOffCanvas";
+import axios from "axios";
+import swal from 'sweetalert';
+import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 
 export default function Page() {
   useEffect(() => {
@@ -14,13 +17,15 @@ export default function Page() {
 
   const route = useRouter();
   const translate = LanguageFetcher();
+  const role_id = LocalStorageFetcher({ keyName: "role_id" });
 
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
   const loginData = {
-    username: username,
+    phone: username,
     password: password,
+    role_id: role_id
   };
 
   // const loginHandler = async (e) => {
@@ -42,10 +47,19 @@ export default function Page() {
   //   }
   // };
 
-  const loginHandler = (e) => {
-    e.preventDefault();
-    // localStorage.setItem("username", username);
-    route.push("/home/schedule");
+  const loginHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, loginData);
+      const token = res.data.access_token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("phone", username);
+      swal("Successfully", "logged in", "success");
+      route.push("/home/schedule");
+    } catch (error) {
+      swal("Login Error", "Please enter valid credentials", "error");
+    }
+
   };
 
   return (

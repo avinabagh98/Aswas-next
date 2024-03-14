@@ -26,7 +26,7 @@
 
 .tableBody .hthSupervisorCompleted,
 .tableBody .completed {
-      background-color: var(--green);
+      background-color: var(--red);
 }
 
 
