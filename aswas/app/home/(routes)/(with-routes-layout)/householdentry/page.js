@@ -56,6 +56,7 @@ export default function page() {
     ward_id,
   };
 
+  //Token initialzation and localstorage fetching
   useEffect(() => {
     async function fetchData() {
       try {
@@ -66,9 +67,11 @@ export default function page() {
           setToken(localStorage.getItem("token"));
           setWardId(localStorage.getItem("ward_id"));
           const householdId = localStorage.getItem("household_id");
+
+
           if (householdId) {
             setHouseholdId(householdId);
-            //API call -- Read household by id
+            //Read household by id
             const response = await sendRequest(
               "get",
               `/properties/${householdId}`,
@@ -105,6 +108,8 @@ export default function page() {
     fetchData();
   }, []);
 
+
+  //Location fetching
   useEffect(() => {
     const geolocation = () => {
       if (navigator.geolocation) {
@@ -123,7 +128,7 @@ export default function page() {
     geolocation();
   }, []);
 
-  //Functions
+  // Handler Functions
   const submitHandler = async (e) => {
     if (name === "" || members === "" || rent === "") {
       swal("Error", "Please fill all the fields", "error");
@@ -135,7 +140,7 @@ export default function page() {
         let endpoint = "/properties";
         let method = "post";
 
-        //Conditional Method selection
+        // API SWITCHING BETWEEN PUT OR POST
         if (household_id) {
           endpoint += `/${household_id}`;
           method = "put";
@@ -163,6 +168,8 @@ export default function page() {
       route.push("/home/team");
     }
   };
+
+
 
   const handleVal = (id, val) => {
     // if (id === "ward") {

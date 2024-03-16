@@ -34,8 +34,10 @@ export default function page() {
   };
 
   useEffect(() => {
+    localStorage.getItem("role_id");
     localStorage.setItem("data", JSON.stringify(data));
     localStorage.setItem("role_name", rolenName);
+    localStorage.setItem("role_id", roleValue);
     // LocalStorageHandler({
     //   method: "setItem",
     //   keyName: "data",

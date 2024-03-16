@@ -25,6 +25,8 @@ export default function homelayout({ children }) {
 
   const handleLogout = () => {
     console.log("log out clicked");
+    localStorage.removeItem("token");
+    route.push("/home/login");
     setShow(false);
   };
 

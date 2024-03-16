@@ -12,23 +12,25 @@ import { useTeam } from "@/context/TeamContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useRouter } from "next/navigation";
+import { sendRequest } from "@/api/sendRequest";
+import swal from "sweetalert";
 
 export default function page() {
   const { teamNumber } = useTeam();
-  const userRole = LocalStorageFetcher({ keyName: "role" });
   const translate = LanguageFetcher();
   const route = useRouter();
 
+  // Survey State variables
   const [radioValue, setRadioValue] = useState("");
   const [cameraClicked, setCameraClicked] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
+  const [lockValue, setLockValue] = useState("1");
   const [image, setImage] = useState("");
   const [location, setLocation] = useState({});
   const [field_1_form_5, setField_1_form_5] = useState("");
   const [field_2_form_5, setField_2_form_5] = useState("");
   const [field_3_form_5, setField_3_form_5] = useState("");
-
   const [
     বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না,
     setবাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না,
@@ -63,27 +65,50 @@ export default function page() {
   const [remarks, setRemarks] = useState("");
   const [selectedOption, setSelectedOption] = useState({}); //changed
 
+
+  //Other State Variables
+  const [userRole, setUserRole] = useState("");
+  const [token, setToken] = useState("");
+  const [household_id, setHouseholdId] = useState("");
+  const [team_id, setTeamID] = useState("");
+  const [api_data_survey, setApi_Data_Survey] = useState([]);
+  const [surveyBtnDisable, setSurveyBtnDisable] = useState(false);
+
+
   const surveyDataHM = {
-    location,
-    isLocked,
-    field_1_form_5,
-    field_2_form_5,
-    field_3_form_5,
-    বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না,
-    বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না,
-    বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না,
-    বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না,
-    জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল,
-    এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল,
-    field_7_form_5,
-    কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল,
-    Landmark,
-    image,
+    "token": token,
+    "property_id": household_id,
+    "team_id": team_id,
+    "fever_cases": field_1_form_5,
+    "has_indoor_breeding_spots": field_2_form_5,
+    "has_peridomestic_breeding_spots": field_3_form_5,
+    "has_garbage": বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না,
+    "has_blocked_drains": বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না,
+    "has_puddle": বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না,
+    "has_stagnant_water": বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না,
+    "has_larva_others": "",
+    "has_garbage_others": "",
+    "water_containers": জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল,
+    "had_larva_previously": "",
+    "water_containers_with_larva": এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল,
+    "water_containers_managed": field_7_form_5,
+    "leaflets_distributed": কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল,
+    "resolved_garbage": "",
+    "resolved_blocked_drains": "",
+    "resolved_puddle": "",
+    "resolved_stagnant_water": "",
+    "resolved_larva_others": "",
+    "resolved_garbage_others": "",
+    "resolve_start_date": "",
+    "resolve_end_date": "",
+    "remarks": "",
+    "landmark": Landmark,
+    "image": image
   };
 
   const surveyDataHS = {
     location,
-    isLocked,
+    lockValue,
     field_1_form_5,
     field_2_form_5,
     field_3_form_5,
@@ -100,6 +125,38 @@ export default function page() {
     remarks,
   };
 
+  //Localstorage and Token fetching
+  useEffect(() => {
+    setTeamID(localStorage.getItem("team_id"));
+    setHouseholdId(localStorage.getItem("household_id"));
+
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setUserRole(localStorage.getItem("role_name"));
+          setToken(token);
+          // const response = await sendRequest("get", "/properties", null, {
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //   },
+          // });
+          // if (response.status === 1) {
+          //   setAPI_Data(response.data);
+          // } else {
+          //   swal("Error", response.msg, "error");
+          // }
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
+  }, []);
+
+  // Location Fetching
   useEffect(() => {
     const geolocation = () => {
       if (navigator.geolocation) {
@@ -117,6 +174,11 @@ export default function page() {
 
     geolocation();
   }, []);
+
+  //API Data checking
+  useEffect(() => {
+    console.log(api_data_survey);
+  }, [api_data_survey]);
 
   //Functions
   const resizeFile = (file) =>
@@ -165,6 +227,8 @@ export default function page() {
     }
   };
 
+
+  //Handler Functions
   const handleRadioChange_value = (event) => {
     const id = event.target.id;
     const value = event.target.value;
@@ -174,29 +238,52 @@ export default function page() {
     console.log(name, value);
     if (value === "yes" && name === "isLocked") {
       setIsLocked(true);
+      setLockValue("1");
       console.log("isLocked", isLocked);
+
     }
     if (value === "no" && name === "isLocked") {
       setIsLocked(false);
+      setLockValue("0");
       console.log("isLocked", isLocked);
     }
-    if (name === "field_2_form_5") {
-      setField_2_form_5(value);
+    if (value === "yes" && name === "field_2_form_5") {
+      setField_2_form_5("1");
     }
-    if (name === "field_3_form_5") {
-      setField_3_form_5(value);
+    if (value === "no" && name === "field_2_form_5") {
+      setField_2_form_5("0");
     }
-    if (name === "বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না") {
-      setবাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না(value);
+    if (value === "yes" && name === "field_3_form_5") {
+      setField_3_form_5("1");
     }
-    if (name === "বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না") {
-      setবাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না(value);
+    if (value === "no" && name === "field_3_form_5") {
+      setField_3_form_5("0");
     }
-    if (name === "বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না") {
-      setবাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না(value);
+
+    if (value === "yes" && name === "বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না") {
+      setবাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না("1");
     }
-    if (name === "বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না") {
-      setবাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না(value);
+    if (value === "no" && name === "বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না") {
+      setবাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না("0");
+    }
+
+    if (value === "yes" && name === "বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না") {
+      setবাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না("1");
+    }
+    if (value === "no" && name === "বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না") {
+      setবাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না("0");
+    }
+    if (value === "yes" && name === "বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না") {
+      setবাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না("1");
+    }
+    if (value === "no" && name === "বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না") {
+      setবাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না("0");
+    }
+    if (value === "yes" && name === "বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না") {
+      setবাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না("1");
+    }
+    if (value === "no" && name === "বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না") {
+      setবাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না("0");
     }
   };
 
@@ -209,6 +296,7 @@ export default function page() {
   };
 
   const handleVal = (id, val) => {
+
     if (id === "field_1_form_5") {
       setField_1_form_5(val);
     }
@@ -233,10 +321,25 @@ export default function page() {
     }
   };
 
-  const handleSubmit = (e, userRole) => {
+  const handleSubmit = async (e, userRole) => {
     e.preventDefault();
+    localStorage.removeItem("household_id");
     if (userRole === "hth-member") {
-      console.log("submitted", surveyDataHM);
+      console.log("submitted HTH-MEM Survey", surveyDataHM);
+      const survey_response = await sendRequest("post", "/surveys", surveyDataHM, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (survey_response.status === 1) {
+        console.log("survey_response hth mem submitted", survey_response.data);
+        setApi_Data_Survey(survey_response.data);
+        setSurveyBtnDisable(true);
+        route.push("/home/householdlist");
+      } else {
+        swal("Error", survey_response.message, "error");
+      }
+
     }
     if (userRole === "hth-supervisor") {
       console.log("submitted", surveyDataHS);
@@ -270,15 +373,6 @@ export default function page() {
               handleRadioChange_color={handleRadioChange_color} //changed
               radioValue={selectedOption["isLocked"]}
             />
-
-            <Surveyoption //changed
-              id="option1"
-              name="option1"
-              optionText="Option 1"
-              handleRadioChange_value={handleRadioChange_value}
-              handleRadioChange_color={handleRadioChange_color}
-              radioValue={selectedOption["option1"]}
-            />
           </>
         ) : null}
         {isLocked ? null : (
@@ -286,6 +380,7 @@ export default function page() {
             <span>
               <Surveyques
                 id="field_1_form_5"
+                value={field_1_form_5}
                 labelText={translate?.field_1_form_5}
                 handleVal={handleVal}
               />
@@ -344,6 +439,7 @@ export default function page() {
               />
               <Surveyques
                 id={"জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল"}
+                value={জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল}
                 labelText={
                   translate?.জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল
                 }
@@ -351,16 +447,19 @@ export default function page() {
               />
               <Surveyques
                 id={"এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল"}
+                value={এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
                 labelText={translate?.এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
                 handleVal={handleVal}
               />
               <Surveyques
                 id={"field_7_form_5"}
+                value={field_7_form_5}
                 labelText={translate?.field_7_form_5}
                 handleVal={handleVal}
               />
               <Surveyques
                 id={"কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল"}
+                value={কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল}
                 labelText={
                   translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
                 }
@@ -368,6 +467,7 @@ export default function page() {
               />
               <Surveyques
                 id={"landmark"}
+                value={Landmark}
                 labelText={translate?.Landmark}
                 handleVal={handleVal}
               />
@@ -391,7 +491,7 @@ export default function page() {
             )}
             <Button
               variant="success"
-              href="#"
+              disabled={surveyBtnDisable}
               onClick={(e) => handleSubmit(e, userRole)}
             >
               Submit
@@ -420,6 +520,7 @@ export default function page() {
         <span>
           <Surveyques
             id="field_1_form_5"
+            value={field_1_form_5}
             labelText={translate?.field_1_form_5}
             handleVal={handleVal}
           />

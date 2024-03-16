@@ -243,5 +243,6 @@
     "municipality": "Municipality",
     "permanent_risk_breeding_site_list": "Risk/Breeding Sites List",
     "road_name_address": "सड़क का नाम / पता",
-    "isLocked": "घर ताला लगा है / सर्वेयर के साथ दुराचार किया गया है"
+    "isLocked": "घर ताला लगा है / सर्वेयर के साथ दुराचार किया गया है",
+    "Landmark": "सीमाचिह्न"
 }

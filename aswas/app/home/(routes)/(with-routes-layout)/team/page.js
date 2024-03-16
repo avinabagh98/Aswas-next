@@ -15,6 +15,7 @@ export default function page() {
   const [api_data, setAPI_Data] = useState([]);
   const route = useRouter();
 
+  //Localstorage and Token fetching
   useEffect(() => {
     const team_id = localStorage.getItem("team_id");
     try {
@@ -74,6 +75,14 @@ export default function page() {
     //   { round: 10, household: "Kamal Deb Nath" },
     // ];
 
+
+    const surveyHandler = (e) => {
+      e.preventDefault();
+      const household_id = e.target.id;
+      localStorage.setItem("household_id", household_id);
+      route.push("/home/survey");
+
+    };
     const data = api_data;
 
     return userRole === "hth-supervisor" ? (
@@ -163,10 +172,11 @@ export default function page() {
                         <Button
                           id={row.id}
                           variant="success"
-                          href="/home/survey"
+                          onClick={surveyHandler}
                         >
                           Survey
                         </Button>
+
                         <Button
                           id={row.id}
                           variant="primary"

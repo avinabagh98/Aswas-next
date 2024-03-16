@@ -1,15 +1,50 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { useTeam } from "@/context/TeamContext"; //
-import { useEffect } from "react";
 
 export default function page() {
   const { teamNumber } = useTeam(); //
+  const translate = LanguageFetcher();
+
+  const [token, setToken] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const route = useRouter();
+
+  //Localstorage and Token fetching
+  useEffect(() => {
+    const team_id = localStorage.getItem("team_id");
+    const household_id = localStorage.getItem("household_id");
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setUserRole(localStorage.getItem("role_name"));
+          setToken(token);
+          // const response = await sendRequest("get", "/properties", null, {
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //   },
+          // });
+          // if (response.status === 1) {
+          //   setAPI_Data(response.data);
+          // } else {
+          //   swal("Error", response.msg, "error");
+          // }
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
+  }, []);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -17,15 +52,19 @@ export default function page() {
     route.push("/home/survey");
   };
 
-  const translate = LanguageFetcher();
+
+
+
+
+
   const data = [
     { round: 1, household: `Arun Naskar House no.4` },
     { round: 2, household: "Arun Naskar" },
     { round: 3, household: "Kamal Deb Nath" },
     { round: 4, household: "Kamal Deb Nath" },
   ];
-  const route = useRouter();
-  const userRole = LocalStorageFetcher({ keyName: "role" });
+
+
   return userRole === "hth-member" ? (
     <>
       <div className={styles.teamContainer}>
