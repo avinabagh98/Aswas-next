@@ -7,13 +7,18 @@ import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { useTeam } from "@/context/TeamContext"; //
+import swal from "sweetalert";
+import { sendRequest } from "@/api/sendRequest";
 
 export default function page() {
   const { teamNumber } = useTeam(); //
   const translate = LanguageFetcher();
 
-  const [token, setToken] = useState("");
   const [userRole, setUserRole] = useState("");
+  const [api_data_HSTeamhHousehold, setAPI_Data_HSTeamhHousehold] = useState(
+    []
+  );
+
   const route = useRouter();
 
   //Localstorage and Token fetching
@@ -27,17 +32,19 @@ export default function page() {
           route.push("/home/login");
         } else {
           setUserRole(localStorage.getItem("role_name"));
-          setToken(token);
-          // const response = await sendRequest("get", "/properties", null, {
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //   },
-          // });
-          // if (response.status === 1) {
-          //   setAPI_Data(response.data);
-          // } else {
-          //   swal("Error", response.msg, "error");
-          // }
+          const response_HS = await sendRequest(
+            "get",
+            `teams/${team_id}/properties`,
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response_HS.status === 1) {
+            setAPI_Data_HSTeamhHousehold(response_HS);
+          }
         }
       }
       fetchData();
@@ -46,24 +53,23 @@ export default function page() {
     }
   }, []);
 
+  //show api data
+  useEffect(() => {
+    console.log("api_data_HSTeamhHousehold", api_data_HSTeamhHousehold);
+  }, [api_data_HSTeamhHousehold]);
+
   const handleClick = (e) => {
     e.preventDefault();
     console.log("clicked");
     route.push("/home/survey");
   };
 
-
-
-
-
-
-  const data = [
-    { round: 1, household: `Arun Naskar House no.4` },
-    { round: 2, household: "Arun Naskar" },
-    { round: 3, household: "Kamal Deb Nath" },
-    { round: 4, household: "Kamal Deb Nath" },
-  ];
-
+  const householdFileShowHandler = async (e) => {
+    e.preventDefault();
+    const household_id = e.target.id;
+    localStorage.setItem("household_id", household_id);
+    route.push("/home/read-property-survey");
+  };
 
   return userRole === "hth-member" ? (
     <>
@@ -111,8 +117,6 @@ export default function page() {
   ) : userRole === "hth-supervisor" ? (
     <>
       <div className={styles.teamContainer}>
-        <h2>Team Number: {teamNumber}</h2>
-
         <input placeholder="Auto Search"></input>
         <div className={styles.tableContainer}>
           <Table>
@@ -124,7 +128,7 @@ export default function page() {
               </tr>
             </thead>
             <tbody>
-              {data.map((row, index) => {
+              {api_data_HSTeamhHousehold.map((row, index) => {
                 return (
                   <tr key={index}>
                     <td>{row.round}</td>
@@ -138,7 +142,7 @@ export default function page() {
                       </button>
                     </td>
                     <td className={styles.action}>
-                      <a href="#">
+                      <a href="#" onClick={householdFileShowHandler}>
                         <img src="/images/hth_supervisor_household_file_show_icon.png"></img>
                       </a>
                     </td>

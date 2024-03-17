@@ -41,26 +41,47 @@
 
 }
 
-/* /////////////////////////////////////////////////////////// */
-
-.tableContainer2 {
+/* //////////////////////////HTH Supervisor CSS///////////////////////////////// */
+/* Table container */
+.tableContainerHS {
       width: 100%;
-      margin: var(--globalMargin-half);
-
+      border-collapse: collapse;
+      margin-bottom: 20px;
 }
 
-.tableContainer2 th {
-      color: var(--white);
-      background-color: var(--darkblue);
+/* Table headers */
+.tableContainerHS th {
+      background-color: #007bff;
+      color: white;
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
 }
 
-.tableContainer2 td {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: left;
-      background-color: var(--skyblue);
+.teamNo {
+      width: 50px;
 }
+
+/* Table data cells */
+.tableContainerHS td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+}
+
+/* Button */
+.tableContainerHS button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+}
+
+/* Button icon */
+.tableContainerHS button img {
+      width: 32px;
+      height: 32px;
+}
+
 
 /* ////////// Skeleton Classes //////////////// */
 .tableContainer2_skeleton {

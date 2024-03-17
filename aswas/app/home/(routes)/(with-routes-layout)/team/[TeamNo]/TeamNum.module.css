@@ -8,3 +8,9 @@
       height: 30px;
       object-fit: contain;
 }
+
+.tableContainer button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+}

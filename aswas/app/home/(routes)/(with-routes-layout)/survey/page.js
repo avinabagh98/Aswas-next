@@ -5,7 +5,6 @@ import Surveyoption from "@/components/home/Surveyoption";
 import styles from "./survey.module.css";
 import Textparser from "@/components/home/Textparser";
 import { Button } from "react-bootstrap";
-import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import Resizer from "react-image-file-resizer";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { useTeam } from "@/context/TeamContext";
@@ -65,7 +64,6 @@ export default function page() {
   const [remarks, setRemarks] = useState("");
   const [selectedOption, setSelectedOption] = useState({}); //changed
 
-
   //Other State Variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -74,36 +72,36 @@ export default function page() {
   const [api_data_survey, setApi_Data_Survey] = useState([]);
   const [surveyBtnDisable, setSurveyBtnDisable] = useState(false);
 
-
   const surveyDataHM = {
-    "token": token,
-    "property_id": household_id,
-    "team_id": team_id,
-    "fever_cases": field_1_form_5,
-    "has_indoor_breeding_spots": field_2_form_5,
-    "has_peridomestic_breeding_spots": field_3_form_5,
-    "has_garbage": বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না,
-    "has_blocked_drains": বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না,
-    "has_puddle": বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না,
-    "has_stagnant_water": বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না,
-    "has_larva_others": "",
-    "has_garbage_others": "",
-    "water_containers": জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল,
-    "had_larva_previously": "",
-    "water_containers_with_larva": এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল,
-    "water_containers_managed": field_7_form_5,
-    "leaflets_distributed": কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল,
-    "resolved_garbage": "",
-    "resolved_blocked_drains": "",
-    "resolved_puddle": "",
-    "resolved_stagnant_water": "",
-    "resolved_larva_others": "",
-    "resolved_garbage_others": "",
-    "resolve_start_date": "",
-    "resolve_end_date": "",
-    "remarks": "",
-    "landmark": Landmark,
-    "image": image
+    token: token,
+    property_id: household_id,
+    team_id: team_id,
+    fever_cases: field_1_form_5,
+    has_indoor_breeding_spots: field_2_form_5,
+    has_peridomestic_breeding_spots: field_3_form_5,
+    has_garbage: বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না,
+    has_blocked_drains: বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না,
+    has_puddle: বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না,
+    has_stagnant_water: বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না,
+    has_larva_others: "",
+    has_garbage_others: "",
+    water_containers: জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল,
+    had_larva_previously: "",
+    water_containers_with_larva: এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল,
+    water_containers_managed: field_7_form_5,
+    leaflets_distributed:
+      কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল,
+    resolved_garbage: "",
+    resolved_blocked_drains: "",
+    resolved_puddle: "",
+    resolved_stagnant_water: "",
+    resolved_larva_others: "",
+    resolved_garbage_others: "",
+    resolve_start_date: "",
+    resolve_end_date: "",
+    remarks: "",
+    landmark: Landmark,
+    image: image,
   };
 
   const surveyDataHS = {
@@ -227,7 +225,6 @@ export default function page() {
     }
   };
 
-
   //Handler Functions
   const handleRadioChange_value = (event) => {
     const id = event.target.id;
@@ -240,7 +237,6 @@ export default function page() {
       setIsLocked(true);
       setLockValue("1");
       console.log("isLocked", isLocked);
-
     }
     if (value === "no" && name === "isLocked") {
       setIsLocked(false);
@@ -296,7 +292,6 @@ export default function page() {
   };
 
   const handleVal = (id, val) => {
-
     if (id === "field_1_form_5") {
       setField_1_form_5(val);
     }
@@ -326,11 +321,16 @@ export default function page() {
     localStorage.removeItem("household_id");
     if (userRole === "hth-member") {
       console.log("submitted HTH-MEM Survey", surveyDataHM);
-      const survey_response = await sendRequest("post", "/surveys", surveyDataHM, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const survey_response = await sendRequest(
+        "post",
+        "/surveys",
+        surveyDataHM,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (survey_response.status === 1) {
         console.log("survey_response hth mem submitted", survey_response.data);
         setApi_Data_Survey(survey_response.data);
@@ -339,7 +339,6 @@ export default function page() {
       } else {
         swal("Error", survey_response.message, "error");
       }
-
     }
     if (userRole === "hth-supervisor") {
       console.log("submitted", surveyDataHS);
@@ -491,7 +490,7 @@ export default function page() {
             )}
             <Button
               variant="success"
-              disabled={surveyBtnDisable}
+              disabled={surveyBtnDisable} //does not work
               onClick={(e) => handleSubmit(e, userRole)}
             >
               Submit

@@ -3,26 +3,27 @@
 import { useState, useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
 import styles from "./TeamNum.module.css";
-import { useTeam } from '@/context/TeamContext'; //
+import { useTeam } from "@/context/TeamContext"; //
 import { useRouter } from "next/navigation";
 
-
 export default function page({ params }) {
-
   const route = useRouter();
   const { teamNumber, setTeamNumber } = useTeam(); //
 
+  const [teamId, setTeamId] = useState(null);
+
+  useEffect(() => {
+    setTeamNumber(params.TeamNo);
+    setTeamId(localStorage.getItem("team_id"));
+  }, []);
+
   const clickHandler = (e) => {
     e.preventDefault();
-    setTeamNumber(params.TeamNo);
-    console.log("clicked");
-    route.push('/home/householdlist')
-
+    route.push("/home/householdlist");
   };
 
   return (
     <>
-      <h1>testing {teamNumber}</h1>
       <Table className={styles.tableContainer}>
         <thead>
           <tr>
