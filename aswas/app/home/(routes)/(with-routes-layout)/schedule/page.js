@@ -17,13 +17,12 @@ export default function page() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
-  const [userRole, setUserRole] = useState(null);
-  const [language, setLanguage] = useState(null);
+  //User Details state variables
   const [token, setToken] = useState("");
+  const [userRole, setUserRole] = useState(null);
+  //other state variables
   const [api_data_schedule, setAPI_Data_Schedule] = useState([]);
   const [api_data_userDetails, setAPI_Data_userDetails] = useState([]);
-  const [team_id, setTeam_id] = useState();
-  const [ward_id, setWard_id] = useState();
 
   useEffect(() => {
     try {
@@ -76,15 +75,34 @@ export default function page() {
     }
   }, []);
 
+  //API Data Showing
   useEffect(() => {
     console.log(api_data_schedule); // This will log the updated value of api_data
     console.log(api_data_userDetails);
-
+    localStorage.setItem("user_id", api_data_userDetails.id);
     localStorage.setItem("team_id", api_data_userDetails.team_id);
-    if (api_data_userDetails.team && api_data_userDetails.team.ward) {
-      localStorage.setItem("ward_id", api_data_userDetails.team.ward.id);
+    if (api_data_userDetails.ward) {
+      localStorage.setItem("ward_id", api_data_userDetails.ward.id);
+    }
+
+    if (api_data_userDetails.municipality) {
+      localStorage.setItem(
+        "municipality_id",
+        api_data_userDetails.municipality.id
+      );
     }
   }, [api_data_schedule, api_data_userDetails]);
+
+  //Handler Functions
+  const handleMembersSurveyBtn = (e) => {
+    e.preventDefault();
+    route.push("/home/team");
+  };
+
+  const handleDailySurveyBtn = (e) => {
+    e.preventDefault();
+    route.push("/home/dailysurveyreport");
+  };
 
   try {
     //DUMMY DATA/////
@@ -212,20 +230,14 @@ export default function page() {
                   <tr key={index}>
                     <td className={classname}>{row.round}</td>
 
-                    <td
-                      className={classname}
-                      onClick={() => {
-                        route.push("/home/team");
-                      }}
-                    >
-                      {row.date_range}
-                    </td>
+                    <td className={classname}>{row.date_range}</td>
 
                     {status === "ONGOING" ? (
                       <td className={classname}>
                         <SingleButton
                           btnText={"Members Survey"}
-                          href={"/home/team"}
+                          href={"#"}
+                          onClick={handleMembersSurveyBtn}
                         />
                       </td>
                     ) : (
@@ -242,6 +254,7 @@ export default function page() {
           <SingleButton
             btnText="Daily Survey Report"
             href={"/home/dailysurveyreport"}
+            onClick={handleDailySurveyBtn}
           />
         </div>
       </>

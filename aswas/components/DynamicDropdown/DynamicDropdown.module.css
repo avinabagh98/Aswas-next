@@ -39,7 +39,7 @@
     .dropdownLabel {
         display: block;
         margin-bottom: 8px;
-        font-size: 14px;
+        font-size: 17px;
         font-weight: bold;
     }
 
@@ -60,7 +60,7 @@
         cursor: pointer;
     }
 
-    .dropdownOption:hover {
-        background-color: #f0f0f0;
+    .dropdownSelect .option:hover {
+        background-color: #94cfff;
     }
 }

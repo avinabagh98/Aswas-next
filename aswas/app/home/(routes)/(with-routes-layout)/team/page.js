@@ -13,6 +13,7 @@ export default function page() {
   const [token, setToken] = useState();
   const [userRole, setUserRole] = useState();
   const [api_data, setAPI_Data] = useState([]);
+  const [api_data_HS, setAPI_Data_HS] = useState([]);
   const route = useRouter();
 
   //Localstorage and Token fetching
@@ -26,15 +27,38 @@ export default function page() {
         } else {
           setUserRole(localStorage.getItem("role_name"));
           setToken(token);
-          const response = await sendRequest("get", "/properties", null, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.status === 1) {
-            setAPI_Data(response.data);
+          //api call for hth mem
+          const response_householdlist = await sendRequest(
+            "get",
+            "/properties",
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response_householdlist.status === 1) {
+            setAPI_Data(response_householdlist.data);
           } else {
-            swal("Error", response.msg, "error");
+            swal("Error", response_householdlist.msg, "error");
+          }
+
+          //api call for hth supervisor
+          const response_teamworkers = await sendRequest(
+            "get",
+            "/team-workers",
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response_teamworkers.status === 1) {
+            setAPI_Data_HS(response_teamworkers.data);
+          } else {
+            swal("Error", response_teamworkers.msg, "error");
           }
         }
       }
@@ -46,7 +70,8 @@ export default function page() {
 
   useEffect(() => {
     console.log(api_data);
-  }, [api_data]);
+    console.log(api_data_HS);
+  }, [api_data, api_data_HS]);
 
   try {
     const routeHandler = (e) => {
@@ -75,19 +100,18 @@ export default function page() {
     //   { round: 10, household: "Kamal Deb Nath" },
     // ];
 
-
     const surveyHandler = (e) => {
       e.preventDefault();
       const household_id = e.target.id;
       localStorage.setItem("household_id", household_id);
       route.push("/home/survey");
-
     };
     const data = api_data;
+    data_hs = api_data_HS;
 
     return userRole === "hth-supervisor" ? (
       <>
-        <Table className={styles.tableContainer2}>
+        {/* <Table className={styles.tableContainer2}>
           <thead>
             <tr>
               <th>TEAM WORKING DETAILS</th>
@@ -137,7 +161,45 @@ export default function page() {
               </td>
             </tr>
           </tbody>
-        </Table>
+        </Table> */}
+        <div className={styles.tableContainer}>
+          <Table>
+            <thead className={styles.tableHead}>
+              <tr>
+                <th>Team No</th>
+                <th>Household</th>
+                <th className="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className={styles.tableBody}>
+              {data_hs.map((row, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{row.id}</td>
+                    <td>{row.name}</td>
+                    <td className="d-flex gap-2 justify-content-center ">
+                      <Button
+                        id={row.id}
+                        variant="success"
+                        onClick={surveyHandler}
+                      >
+                        Survey
+                      </Button>
+
+                      <Button
+                        id={row.id}
+                        variant="primary"
+                        onClick={editHandler}
+                      >
+                        Edit
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </>
     ) : userRole === "hth-member" ? (
       <>

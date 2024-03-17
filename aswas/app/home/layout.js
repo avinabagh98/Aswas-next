@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "./home.module.css";
 import { useRouter } from "next/navigation";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
+import swal from "sweetalert";
 
 export default function homelayout({ children }) {
   const [isOffCanvasVisible, setIsOffCanvasVisible] = useState(true);
@@ -18,16 +19,28 @@ export default function homelayout({ children }) {
   // setUserRole(LocalStorageFetcher({ keyName: "role" }));
 
   useEffect(() => {
-    setUserRole((localStorage.getItem("role_name")));
+    setUserRole(localStorage.getItem("role_name"));
     // console.log("in layout role is", userRole);
-  }, [userRole])
-
+  }, [userRole]);
 
   const handleLogout = () => {
-    console.log("log out clicked");
-    localStorage.removeItem("token");
-    route.push("/home/login");
-    setShow(false);
+    swal({
+      title: "Are you sure?",
+      text: "You want to logout!!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        localStorage.removeItem("token");
+        route.push("/home");
+        setShow(false);
+        swal("You have successfully logged out", {
+          icon: "success",
+        });
+      } else {
+      }
+    });
   };
 
   return (
