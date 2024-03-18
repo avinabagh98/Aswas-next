@@ -13,6 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     console.log("Redirecting...");
+    localStorage.clear();
     setTimeout(() => {
       router.push("/home");
     }, 3000);

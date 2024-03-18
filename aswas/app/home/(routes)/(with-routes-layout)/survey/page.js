@@ -24,7 +24,7 @@ export default function page() {
   const [cameraClicked, setCameraClicked] = useState(false);
   const [captureClicked, setCaptureClicked] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
-  const [lockValue, setLockValue] = useState("1");
+  const [isSurveyed, setIsSurveyed] = useState("");
   const [image, setImage] = useState("");
   const [location, setLocation] = useState({});
   const [field_1_form_5, setField_1_form_5] = useState("");
@@ -70,10 +70,12 @@ export default function page() {
   const [household_id, setHouseholdId] = useState("");
   const [team_id, setTeamID] = useState("");
   const [api_data_survey, setApi_Data_Survey] = useState([]);
+  const [api_data_hosuehold, setAPI_Data_household] = useState([]);
   const [surveyBtnDisable, setSurveyBtnDisable] = useState(false);
 
   const surveyDataHM = {
     token: token,
+    // isSurveyed: isSurveyed,
     property_id: household_id,
     team_id: team_id,
     fever_cases: field_1_form_5,
@@ -106,7 +108,7 @@ export default function page() {
 
   const surveyDataHS = {
     location,
-    lockValue,
+    isSurveyed,
     field_1_form_5,
     field_2_form_5,
     field_3_form_5,
@@ -131,21 +133,25 @@ export default function page() {
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
+        const household_id = localStorage.getItem("household_id");
         if (!token) {
           route.push("/home/login");
         } else {
           setUserRole(localStorage.getItem("role_name"));
           setToken(token);
-          // const response = await sendRequest("get", "/properties", null, {
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //   },
-          // });
-          // if (response.status === 1) {
-          //   setAPI_Data(response.data);
-          // } else {
-          //   swal("Error", response.msg, "error");
-          // }
+          const response = await sendRequest(
+            "get",
+            `/properties/${household_id}`,
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response.status === 1) {
+            setAPI_Data_household(response.data);
+          }
         }
       }
       fetchData();
@@ -235,12 +241,12 @@ export default function page() {
     console.log(name, value);
     if (value === "yes" && name === "isLocked") {
       setIsLocked(true);
-      setLockValue("1");
+      setIsSurveyed("1");
       console.log("isLocked", isLocked);
     }
     if (value === "no" && name === "isLocked") {
       setIsLocked(false);
-      setLockValue("0");
+      setIsSurveyed("0");
       console.log("isLocked", isLocked);
     }
     if (value === "yes" && name === "field_2_form_5") {
@@ -321,23 +327,46 @@ export default function page() {
     localStorage.removeItem("household_id");
     if (userRole === "hth-member") {
       console.log("submitted HTH-MEM Survey", surveyDataHM);
-      const survey_response = await sendRequest(
-        "post",
-        "/surveys",
-        surveyDataHM,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (survey_response.status === 1) {
-        console.log("survey_response hth mem submitted", survey_response.data);
-        setApi_Data_Survey(survey_response.data);
-        setSurveyBtnDisable(true);
-        route.push("/home/householdlist");
+
+      if (
+        surveyDataHM.fever_cases === "" ||
+        surveyDataHM.has_indoor_breeding_spots === "" ||
+        surveyDataHM.has_peridomestic_breeding_spots === "" ||
+        surveyDataHM.has_garbage === "" ||
+        surveyDataHM.has_blocked_drains === "" ||
+        surveyDataHM.has_puddle === "" ||
+        surveyDataHM.has_stagnant_water === "" ||
+        surveyDataHM.water_containers === "" ||
+        surveyDataHM.water_containers_with_larva === "" ||
+        surveyDataHM.water_containers_managed === "" ||
+        surveyDataHM.leaflets_distributed === "" ||
+        surveyDataHM.landmark === ""
+      ) {
+        swal("Error", "Please fill all the fields", "error");
       } else {
-        swal("Error", survey_response.message, "error");
+        try {
+          const survey_response = await sendRequest(
+            "post",
+            "/surveys",
+            surveyDataHM,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (survey_response.status === 1) {
+            console.log(
+              "survey_response hth mem submitted",
+              survey_response.data
+            );
+            setApi_Data_Survey(survey_response.data);
+            setSurveyBtnDisable(true);
+            route.push("/home/team");
+          }
+        } catch (error) {
+          swal("Error", error.message, "error");
+        }
       }
     }
     if (userRole === "hth-supervisor") {
@@ -346,19 +375,21 @@ export default function page() {
     }
   };
 
+  const dropdownOptions = ["Keliye Brindabon dekhiye diyeche", "Tala jhulche"];
+
   return userRole === "hth-member" ? (
     <div className={styles.container}>
-      <div className={styles.titlebar}>
+      {/* <div className={styles.titlebar}>
         <span>
           <Textparser text={"Form-No-2"} />
         </span>
         <span>
           <Textparser text={"Round-2"} />
         </span>
-      </div>
+      </div> */}
 
       <span className={styles.name}>
-        <Textparser text={"Kamal Debnath - House-No.-2"} />
+        <Textparser text={api_data_hosuehold?.name} />
       </span>
 
       <div className={styles.content}>
@@ -374,7 +405,31 @@ export default function page() {
             />
           </>
         ) : null}
-        {isLocked ? null : (
+        {isSurveyed === "0" ? (
+          <>
+            <div className={styles.dropdownContainer}>
+              <label className={styles.dropdownLabel} htmlFor="reason">
+                Please choose a reason:
+              </label>
+              <select id="reason" className={styles.dropdownSelect}>
+                <option value="" disabled selected hidden>
+                  Please choose a reason
+                </option>
+                {dropdownOptions.map((option, index) => (
+                  <option
+                    key={index}
+                    value={option}
+                    className={styles.dropdownOption}
+                  >
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button className={styles.submitBtn}>Submit</button>
+          </>
+        ) : isSurveyed === "1" ? (
           <>
             <span>
               <Surveyques
@@ -496,6 +551,8 @@ export default function page() {
               Submit
             </Button>
           </>
+        ) : (
+          <></>
         )}
       </div>
     </div>

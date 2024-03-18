@@ -14,6 +14,7 @@ export default function page() {
   const [userRole, setUserRole] = useState();
   const [api_data, setAPI_Data] = useState([]);
   const [api_data_HS, setAPI_Data_HS] = useState([]);
+  const [issurveyDone, setIssurveyDone] = useState(false);
   const route = useRouter();
 
   //Localstorage and Token fetching
@@ -140,7 +141,7 @@ export default function page() {
           </div>
 
           <div className={styles.tableContainer}>
-            <Table>
+            <table>
               <thead className={styles.tableHead}>
                 <tr>
                   <th>Sl</th>
@@ -152,13 +153,36 @@ export default function page() {
                 {data.map((row, index) => {
                   return (
                     <tr key={index}>
-                      <td>{row.id}</td>
-                      <td>{row.name}</td>
-                      <td className="d-flex gap-2 justify-content-center ">
+                      <td
+                        className={
+                          row.has_ongoing_hth_member_survey
+                            ? styles.surveyDone
+                            : styles.surveyNotDone
+                        }
+                      >
+                        {row.id}
+                      </td>
+                      <td
+                        className={
+                          row.has_ongoing_hth_member_survey
+                            ? styles.surveyDone
+                            : styles.surveyNotDone
+                        }
+                      >
+                        {row.name}
+                      </td>
+                      <td
+                        className={
+                          row.has_ongoing_hth_member_survey
+                            ? styles.surveyDoneAction
+                            : styles.surveyNotDoneAction
+                        }
+                      >
                         <Button
                           id={row.id}
                           variant="success"
                           onClick={surveyHandler}
+                          disabled={row.has_ongoing_hth_member_survey}
                         >
                           Survey
                         </Button>
@@ -175,7 +199,7 @@ export default function page() {
                   );
                 })}
               </tbody>
-            </Table>
+            </table>
           </div>
         </div>
       </>

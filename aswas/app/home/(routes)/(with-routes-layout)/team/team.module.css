@@ -12,6 +12,15 @@
       width: 100%;
 }
 
+.tableContainer th {
+      background-color: #007bff;
+      color: white;
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+}
+
+
 .searchbar {
       width: 100%;
       /* height: 60px; */
@@ -63,10 +72,20 @@
 }
 
 /* Table data cells */
-.tableContainerHS td {
+.surveyNotDone {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
+}
+
+.surveyNotDoneAction {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
 }
 
 /* Button */
@@ -81,6 +100,27 @@
       width: 32px;
       height: 32px;
 }
+
+.surveyDone {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+      background-color: green;
+      color: var(--white);
+}
+
+.surveyDoneAction {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      background-color: green;
+      color: var(--white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+}
+
 
 
 /* ////////// Skeleton Classes //////////////// */

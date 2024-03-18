@@ -32,9 +32,10 @@ export default function page() {
           route.push("/home/login");
         } else {
           setUserRole(localStorage.getItem("role_name"));
-          const response_HS = await sendRequest(
+          //api call households surveyed by teams
+          const response_TeamHouehold = await sendRequest(
             "get",
-            `teams/${team_id}/properties`,
+            `/teams/${team_id}/properties`,
             null,
             {
               headers: {
@@ -42,8 +43,8 @@ export default function page() {
               },
             }
           );
-          if (response_HS.status === 1) {
-            setAPI_Data_HSTeamhHousehold(response_HS);
+          if (response_TeamHouehold.status === 1) {
+            setAPI_Data_HSTeamhHousehold(response_TeamHouehold.data);
           }
         }
       }
@@ -68,7 +69,7 @@ export default function page() {
     e.preventDefault();
     const household_id = e.target.id;
     localStorage.setItem("household_id", household_id);
-    route.push("/home/read-property-survey");
+    // route.push("/home/read-property-survey");
   };
 
   return userRole === "hth-member" ? (
@@ -131,9 +132,10 @@ export default function page() {
               {api_data_HSTeamhHousehold.map((row, index) => {
                 return (
                   <tr key={index}>
-                    <td>{row.round}</td>
+                    <td>{row.id}</td>
+
                     <td>
-                      {row.household}
+                      {row.name}
                       <button
                         className={styles.workDescription}
                         onClick={handleClick}
@@ -141,8 +143,16 @@ export default function page() {
                         {translate?.সুপারভাইসারদরে_নজিস্ব_কাজরে_ববিরণ}
                       </button>
                     </td>
+
                     <td className={styles.action}>
-                      <a href="#" onClick={householdFileShowHandler}>
+                      <a
+                        href="#"
+                        onClick={() => {
+                          const household_id = row.id;
+                          localStorage.setItem("household_id", household_id);
+                          route.push("/home/read-property-survey");
+                        }}
+                      >
                         <img src="/images/hth_supervisor_household_file_show_icon.png"></img>
                       </a>
                     </td>

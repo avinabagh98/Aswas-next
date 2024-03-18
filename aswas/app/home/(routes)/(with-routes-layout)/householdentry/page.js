@@ -68,7 +68,6 @@ export default function page() {
           setWardId(localStorage.getItem("ward_id"));
           const householdId = localStorage.getItem("household_id");
 
-
           if (householdId) {
             setHouseholdId(householdId);
             //Read household by id
@@ -107,7 +106,6 @@ export default function page() {
     }
     fetchData();
   }, []);
-
 
   //Location fetching
   useEffect(() => {
@@ -169,8 +167,6 @@ export default function page() {
     }
   };
 
-
-
   const handleVal = (id, val) => {
     // if (id === "ward") {
     //   setWardId(val);
@@ -205,7 +201,11 @@ export default function page() {
       <>
         <div className={styles.householdentrycontainer}>
           <div className={styles.titlebar}>
-            <Textparser text={"New Households Entry"} />
+            <Textparser
+              text={
+                household_id ? "Update Householde Entry" : "New Household Entry"
+              }
+            />
           </div>
 
           <Surveyques
