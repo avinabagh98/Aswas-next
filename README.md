@@ -1,6 +1,11 @@
 #ASWAS-NEXT-APP
 
-# Process Breakdown for "Yes" Button Click Event
+# Survey Option Readme
+
+## Overview
+
+This readme provides a step-by-step breakdown of the process that occurs when the "Yes" button is clicked in a survey option component. It explains the sequence of events from the user interaction to the UI update, focusing on the React component architecture and state management.
+
 
 ## Radio Button Click Event:
 
