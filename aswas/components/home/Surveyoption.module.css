@@ -11,6 +11,7 @@
 }
 
 .text {
+      width: 250px;
       font-size: var(--formTextSize);
 }
 
@@ -43,9 +44,11 @@
 
 .labelNo {
       background-color: red;
+      color: var(--white);
 }
 
 
 .labelYes {
       background-color: green;
+      color: var(--white);
 }

@@ -1,6 +1,8 @@
 /* globals.css */
 
 :root {
+      --lightgreen: #9cffa4;
+      --darkgreen: #3c9143;
       --red: #f2695a;
       --darkestblue: #1a237e;
       --darkblue: #00008b;

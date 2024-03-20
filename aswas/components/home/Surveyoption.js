@@ -1,7 +1,5 @@
 import styles from "./Surveyoption.module.css";
-import { useState } from "react";
-
-
+import { useEffect } from "react";
 
 export default function Surveyoption({
   id,
@@ -10,9 +8,18 @@ export default function Surveyoption({
   handleRadioChange_value,
   handleRadioChange_color,
   radioValue,
+  apiResponse, // Receive API response as a prop
 }) {
   const idYes = `${id}_yes`;
   const idNo = `${id}_no`;
+
+  useEffect(() => {
+    if (apiResponse === "1") {
+      handleRadioChange_color(id, "yes");
+    } else if (apiResponse === "0") {
+      handleRadioChange_color(id, "no");
+    }
+  }, [apiResponse]);
 
   return (
     <>

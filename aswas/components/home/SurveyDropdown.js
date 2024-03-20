@@ -4,7 +4,6 @@ import styles from "./SurveyDropdown.module.css";
 export default function SurveyDropdown({
   id,
   labelText,
-  numberOfOptions,
   options,
   handleVal,
   value,
@@ -17,7 +16,7 @@ export default function SurveyDropdown({
         onChange={(e) => handleVal(id, e.target.value)}
         value={value}
       >
-        {options.slice(0, numberOfOptions).map((option, index) => (
+        {options.map((option, index) => (
           <option key={index} value={option}>
             {option}
           </option>

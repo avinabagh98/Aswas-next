@@ -91,6 +91,12 @@ export default function page() {
         api_data_userDetails.municipality.id
       );
     }
+
+    api_data_schedule.map((item) => {
+      if (item.status === "ONGOING") {
+        localStorage.setItem("round", item.round);
+      }
+    });
   }, [api_data_schedule, api_data_userDetails]);
 
   //Handler Functions
@@ -105,14 +111,6 @@ export default function page() {
   };
 
   try {
-    //DUMMY DATA/////
-    // const data = [
-    //   { round: 1, date: "2022-04-24 To 2022-04-25", action: "Ongoing" },
-    //   { round: 2, date: "2022-05-01 To 2022-05-02", action: "Completed" },
-    //   { round: 3, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
-    //   { round: 4, date: "2022-05-01 To 2022-05-02", action: "Upcoming" },
-    // ];
-
     const data = api_data_schedule;
 
     return userRole === "hth-member" ? (
@@ -152,7 +150,7 @@ export default function page() {
                         route.push("/home/team");
                       }}
                     >
-                      {row.date_range}
+                      {row.name}
                     </td>
                     <td className={classname}>{row.status}</td>
                   </tr>
@@ -162,40 +160,51 @@ export default function page() {
           </Table>
         </div>
       </>
-    ) : userRole === "vct-member" ? (
+    ) : userRole === "vct-supervisor" ? (
       <>
-        <div className={styles.vct_mem_teamContainer}>
-          <input placeholder="Auto Search"></input>
-          <div className={styles.vct_mem_tableContainer}>
-            <Table>
-              <thead className={styles.vct_mem_tableHead}>
-                <tr>
-                  <th>Sl</th>
-                  <th>Household</th>
-                  <th className="text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{row.round}</td>
-                      <td>{row.household}</td>
-                      <td className={styles.vct_mem_actionVct}>
-                        <a href="/home/survey">
-                          <img src="/images/vct_household_item_icon.png"></img>
-                        </a>
+        <div className={styles.hth_mem_text}>
+          <Textparser text="Schedule" />
+        </div>
 
-                        <a href="#">
-                          <img src="/images/hth_supervisor_team_member_location_icon.png"></img>
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </div>
+        <div className={styles.tableContainer}>
+          <Table>
+            <thead className={styles.tableHead}>
+              <tr>
+                <th>Round</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className={styles.tableBody}>
+              {data.map((row, index) => {
+                const { status } = row;
+                let classname;
+                if (status === "CLOSED") {
+                  classname = styles.completed;
+                }
+                if (status === "ONGOING") {
+                  classname = styles.ongoing;
+                }
+                if (status === "Upcoming") {
+                  classname = styles.upcoming;
+                }
+                return (
+                  <tr key={index}>
+                    <td className={classname}>{row.round}</td>
+                    <td
+                      className={classname}
+                      onClick={() => {
+                        route.push("/home/team");
+                      }}
+                    >
+                      {row.name}
+                    </td>
+                    <td className={classname}>{row.status}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
         </div>
       </>
     ) : userRole === "hth-supervisor" ? (

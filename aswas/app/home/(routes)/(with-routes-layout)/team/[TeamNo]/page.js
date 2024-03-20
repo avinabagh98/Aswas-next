@@ -54,7 +54,7 @@ export default function page({ params }) {
 
   return (
     <>
-      <Table className={styles.tableContainer}>
+      <table className={styles.tableContainer}>
         <thead>
           <tr>
             <th>SL</th>
@@ -65,9 +65,27 @@ export default function page({ params }) {
         <tbody>
           {api_data_TeamHouehold?.map((item, index) => (
             <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td className="d-flex justify-content-center align-items-center gap-3">
+              <td
+                className={
+                  item.has_ongoing_hth_member_survey ? styles.surveyDone : null
+                }
+              >
+                {item.id}
+              </td>
+              <td
+                className={
+                  item.has_ongoing_hth_member_survey ? styles.surveyDone : null
+                }
+              >
+                {item.name}
+              </td>
+              <td
+                className={
+                  item.has_ongoing_hth_member_survey
+                    ? styles.surveyDoneAction
+                    : styles.action
+                }
+              >
                 <button onClick={(e) => handleButtonClick(e, item.id)}>
                   <img
                     src="/images/hth_supervisor_team_member_file_show_icon.png"
@@ -84,7 +102,7 @@ export default function page({ params }) {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
     </>
   );
 }

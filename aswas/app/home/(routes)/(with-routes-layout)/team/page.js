@@ -5,7 +5,6 @@ import styles from "./team.module.css";
 import { Button, Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -14,48 +13,75 @@ export default function page() {
   const [userRole, setUserRole] = useState();
   const [api_data, setAPI_Data] = useState([]);
   const [api_data_HS, setAPI_Data_HS] = useState([]);
+  const [api_dataVCT, setAPI_DataVCT] = useState([]);
   const [issurveyDone, setIssurveyDone] = useState(false);
+  const [round, setRound] = useState(null);
   const route = useRouter();
 
   //Localstorage and Token fetching
   useEffect(() => {
-    const team_id = localStorage.getItem("team_id");
+    localStorage.removeItem("flag");
+    localStorage.removeItem("household_id(survey-update)");
+    localStorage.removeItem("household_name");
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
+        const roundNo = localStorage.getItem("round");
         if (!token) {
           route.push("/home/login");
         } else {
           setUserRole(localStorage.getItem("role_name"));
           setToken(token);
+          setRound(localStorage.getItem("round"));
+
           //api call for hth mem
-          const response_householdlist = await sendRequest(
-            "get",
-            "/properties",
-            null,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+          if (userRole === "hth-member") {
+            const response_householdlist = await sendRequest(
+              "get",
+              "/properties",
+              null,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (response_householdlist.status === 1) {
+              setAPI_Data(response_householdlist.data);
             }
-          );
-          if (response_householdlist.status === 1) {
-            setAPI_Data(response_householdlist.data);
           }
 
           //api call for hth supervisor
-          const response_teamworkers = await sendRequest(
-            "get",
-            "/team-workers",
-            null,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+          if (userRole === "hth-supervisor") {
+            const response_teamworkers = await sendRequest(
+              "get",
+              "/team-workers",
+              null,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (response_teamworkers.status === 1) {
+              setAPI_Data_HS(response_teamworkers.data);
             }
-          );
-          if (response_teamworkers.status === 1) {
-            setAPI_Data_HS(response_teamworkers.data);
+          }
+          // api call for VCT supervisor
+          if (userRole === "vct-supervisor") {
+            const response_vct = await sendRequest(
+              "get",
+              `/properties/vct-action`,
+              null,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (response_vct.status === 1) {
+              setAPI_DataVCT(response_vct.data);
+            }
           }
         }
       }
@@ -63,12 +89,13 @@ export default function page() {
     } catch (error) {
       swal("Error", error.message, "error");
     }
-  }, []);
+  }, [userRole]);
 
   useEffect(() => {
-    console.log(api_data);
-    console.log(api_data_HS);
-  }, [api_data, api_data_HS]);
+    console.log("Api Data HTH Member", api_data);
+    console.log("Api Data HTH Supervisor", api_data_HS);
+    console.log("api data vct", api_dataVCT);
+  }, [api_data, api_data_HS, api_dataVCT]);
 
   try {
     const routeHandler = (e) => {
@@ -81,6 +108,7 @@ export default function page() {
       e.preventDefault();
       const household_id = e.target.id;
       localStorage.setItem("household_id", household_id);
+      localStorage.setItem("flag", true);
       route.push("/home/householdentry");
     };
 
@@ -90,7 +118,24 @@ export default function page() {
       localStorage.setItem("household_id", household_id);
       route.push("/home/survey");
     };
-    const data = api_data;
+
+    const btnHandler = (e) => {
+      e.preventDefault();
+      const household_id_vct = e.target.id;
+      const household_name_vct = e.target.name;
+      localStorage.setItem("household_id_vct", household_id_vct);
+      localStorage.setItem("household_name", household_name_vct);
+      route.push("/home/survey");
+    };
+
+    const SurveyUpdateHandler = (e) => {
+      e.preventDefault();
+      const household_id = e.target.id;
+      const household_name = e.target.name;
+      localStorage.setItem("household_name", household_name);
+      localStorage.setItem("household_id(survey-update)", household_id);
+      route.push("/home/update-survey");
+    };
 
     return userRole === "hth-supervisor" ? (
       <>
@@ -150,7 +195,7 @@ export default function page() {
                 </tr>
               </thead>
               <tbody className={styles.tableBody}>
-                {data.map((row, index) => {
+                {api_data.map((row, index) => {
                   return (
                     <tr key={index}>
                       <td
@@ -181,8 +226,20 @@ export default function page() {
                         <Button
                           id={row.id}
                           variant="success"
-                          onClick={surveyHandler}
-                          disabled={row.has_ongoing_hth_member_survey}
+                          onClick={(e) => {
+                            if (row.has_ongoing_hth_member_survey) {
+                              e.preventDefault();
+
+                              localStorage.setItem("household_name", row.name);
+                              localStorage.setItem(
+                                "household_id(survey-update)",
+                                row.id
+                              );
+                              route.push("/home/update-survey");
+                            } else {
+                              surveyHandler(e);
+                            }
+                          }}
                         >
                           Survey
                         </Button>
@@ -193,6 +250,50 @@ export default function page() {
                           onClick={editHandler}
                         >
                           Edit
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </>
+    ) : userRole === "vct-supervisor" ? (
+      <>
+        <div className={styles.teamContainer}>
+          <div className={styles.searchbar}>
+            <input placeholder="Search"></input>
+            <Button variant="secondary" href="#" className={styles.btn}>
+              ###
+            </Button>
+          </div>
+
+          <div className={styles.tableContainer}>
+            <table>
+              <thead className={styles.tableHead}>
+                <tr>
+                  <th>Sl</th>
+                  <th>Household</th>
+                  <th className="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody className={styles.tableBody}>
+                {api_dataVCT.map((row, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{row.id}</td>
+                      <td>{row.name}</td>
+                      <td>
+                        <Button
+                          id={row.id}
+                          name={row.name}
+                          variant="success"
+                          onClick={btnHandler}
+                          // disabled={row.has_ongoing_hth_member_survey}
+                        >
+                          Button
                         </Button>
                       </td>
                     </tr>

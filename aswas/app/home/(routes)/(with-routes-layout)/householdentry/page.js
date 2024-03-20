@@ -21,14 +21,17 @@ export default function page() {
   const [holding_number, setHoldingNumber] = useState("");
   const [aadhaar_number, setAadharNumber] = useState("");
   const [members, setMembers] = useState("");
-  const [rent, setRent] = useState("");
+  const [rent, setRent] = useState("0");
   const [property_type_id, setPropertyType] = useState("");
   const [private_, setPrivate_] = useState("");
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState("");
   const [ward_id, setWardId] = useState("");
   const [household_id, setHouseholdId] = useState("");
+  const [locationString, setLocationString] = useState("");
 
+  //ohter variables
+  const [flag, setFlag] = useState(false);
   //Language Function Fetcher
   const translate = LanguageFetcher();
 
@@ -36,24 +39,39 @@ export default function page() {
   const route = useRouter();
 
   // Dropdown options
-  const ward_options = ["Choose", "Option 1", "Option 2", "Option 3"];
-  const option2 = ["Select", "Own", "Rent"];
+  const dropdownOption = ["Own", "Rent"];
 
   // Other variables
+
   const formData = {
-    token,
-    household,
-    name,
-    phone,
-    holding_number,
-    aadhaar_number,
-    members,
-    rent,
-    property_type_id,
-    private_,
-    address,
-    location,
-    ward_id,
+    token: token,
+    household: household,
+    name: name,
+    phone: phone,
+    holding_number: holding_number,
+    aadhaar_number: aadhaar_number,
+    members: members,
+    rent: rent,
+    property_type_id: property_type_id,
+    private_: private_,
+    address: address,
+    location: locationString,
+    ward_id: ward_id,
+  };
+
+  const formDataUpdate = {
+    token: token,
+    household: household,
+    name: name,
+    phone: phone,
+    holding_number: holding_number,
+    aadhaar_number: aadhaar_number,
+    members: members,
+    rent: rent,
+    property_type_id: property_type_id,
+    private_: private_,
+    address: address,
+    ward_id: ward_id,
   };
 
   //Token initialzation and localstorage fetching
@@ -67,8 +85,10 @@ export default function page() {
           setToken(localStorage.getItem("token"));
           setWardId(localStorage.getItem("ward_id"));
           const householdId = localStorage.getItem("household_id");
+          setFlag(localStorage.getItem("flag"));
+          const flag = localStorage.getItem("flag");
 
-          if (householdId) {
+          if (flag && householdId) {
             setHouseholdId(householdId);
             //Read household by id
             const response = await sendRequest(
@@ -82,7 +102,7 @@ export default function page() {
               }
             );
             if (response.status === 1) {
-              console.log(response.data);
+              console.log("Update response Data::", response.data);
               const data = response.data;
               setName(data.name || "");
               setPhone(data.phone || "");
@@ -93,7 +113,6 @@ export default function page() {
               setPropertyType(data.property_type_id || "");
               setPrivate_(data.private_ || "");
               setAddress(data.address || "");
-              setLocation(data.location || "");
               setWardId(data.ward_id || "");
             } else {
               swal("Error", response.msg, "error");
@@ -101,7 +120,7 @@ export default function page() {
           }
         }
       } catch (error) {
-        swal("Error", error.message, "error");
+        swal("Error", error, "error");
       }
     }
     fetchData();
@@ -117,7 +136,7 @@ export default function page() {
             longitude: position.coords.longitude,
           });
         });
-      } else {
+
         // alert("Geolocation not available")
         setLocation(null);
       }
@@ -126,24 +145,31 @@ export default function page() {
     geolocation();
   }, []);
 
+  useEffect(() => {
+    setLocationString(`${location?.latitude},${location?.longitude}`);
+  }, [location, locationString]);
+
   // Handler Functions
   const submitHandler = async (e) => {
     if (name === "" || members === "" || rent === "") {
       swal("Error", "Please fill all the fields", "error");
     } else {
       e.preventDefault();
-      console.log(formData);
+      console.log("FormData :::", formData);
       try {
         //API call parameters set
         let endpoint = "/properties";
         let method = "post";
+        let data = formData;
 
         // API SWITCHING BETWEEN PUT OR POST
-        if (household_id) {
+        if (flag) {
           endpoint += `/${household_id}`;
           method = "put";
+          data = formDataUpdate;
         }
         //API call -- Create household
+
         const householdEntry_response = await sendRequest(
           method,
           endpoint,
@@ -157,7 +183,7 @@ export default function page() {
         //API Response
         if (householdEntry_response.status === 1) {
           console.log("response after update", householdEntry_response.data);
-          localStorage.removeItem("household_id");
+          localStorage.removeItem("flag");
         }
       } catch (error) {
         swal("Error", error.message, "error");
@@ -172,16 +198,16 @@ export default function page() {
     //   setWardId(val);
     // }
     if (id === "household_name") {
-      setName(val);
+      setName(String(val));
     }
     if (id === "aadhar") {
-      setAadharNumber(val);
+      setAadharNumber(String(val) || "");
     }
     if (id === "phone") {
-      setPhone(val);
+      setPhone(String(val) || "");
     }
     if (id === "family_members") {
-      setMembers(val);
+      setMembers(String(val));
     }
     if (id === "ownertype") {
       if (val === "Rent") {
@@ -192,7 +218,7 @@ export default function page() {
       }
     }
     if (id === "holding_number") {
-      setHoldingNumber(val);
+      setHoldingNumber(String(val) || "");
     }
   };
 
@@ -202,9 +228,7 @@ export default function page() {
         <div className={styles.householdentrycontainer}>
           <div className={styles.titlebar}>
             <Textparser
-              text={
-                household_id ? "Update Householde Entry" : "New Household Entry"
-              }
+              text={flag ? "Update Householde Entry" : "New Household Entry"}
             />
           </div>
 
@@ -233,13 +257,13 @@ export default function page() {
             handleVal={handleVal}
           />
           <SurveyDropdown
-            id={"ownertype"}
+            id="ownertype"
             value={rent === "1" ? "Rent" : "Own"}
             labelText={translate?.owner_type}
-            numberOfOptions={3}
-            options={option2}
+            options={dropdownOption}
             handleVal={handleVal}
           />
+
           <Surveyques
             id={"holding_number"}
             value={holding_number}
@@ -247,7 +271,7 @@ export default function page() {
             handleVal={handleVal}
           />
           <Button variant="success" onClick={submitHandler}>
-            {household_id ? "Update" : "Submit"}
+            {flag ? "Update" : "Submit"}
           </Button>
         </div>
       </>

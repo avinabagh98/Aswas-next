@@ -25,6 +25,7 @@ export default function page() {
   useEffect(() => {
     const team_id = localStorage.getItem("team_id");
     const household_id = localStorage.getItem("household_id");
+
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -117,11 +118,11 @@ export default function page() {
     </>
   ) : userRole === "hth-supervisor" ? (
     <>
-      <div className={styles.teamContainer}>
+      <div className={styles.teamContainerHS}>
         <input placeholder="Auto Search"></input>
-        <div className={styles.tableContainer}>
-          <Table>
-            <thead className={styles.tableHead}>
+        <div className={styles.tableContainerHS}>
+          <table>
+            <thead className={styles.tableHeadHS}>
               <tr>
                 <th>Sl</th>
                 <th>Household</th>
@@ -132,24 +133,49 @@ export default function page() {
               {api_data_HSTeamhHousehold.map((row, index) => {
                 return (
                   <tr key={index}>
-                    <td>{row.id}</td>
+                    <td
+                      className={
+                        row.has_ongoing_hth_member_survey
+                          ? styles.surveyDoneHM
+                          : null
+                      }
+                    >
+                      {row.id}
+                    </td>
 
-                    <td>
+                    <td
+                      className={
+                        row.has_ongoing_hth_member_survey
+                          ? styles.surveyDoneHM
+                          : null
+                      }
+                    >
                       {row.name}
                       <button
-                        className={styles.workDescription}
+                        className={
+                          row.has_ongoing_hth_super_survey
+                            ? styles.surveyDoneHS
+                            : styles.workDescription
+                        }
                         onClick={handleClick}
                       >
                         {translate?.সুপারভাইসারদরে_নজিস্ব_কাজরে_ববিরণ}
                       </button>
                     </td>
 
-                    <td className={styles.action}>
+                    <td
+                      className={
+                        row.has_ongoing_hth_member_survey
+                          ? styles.surveyDoneActionHM
+                          : styles.actionHS
+                      }
+                    >
                       <a
                         href="#"
                         onClick={() => {
                           const household_id = row.id;
                           localStorage.setItem("household_id", household_id);
+                          localStorage.setItem("household_name", row.name);
                           route.push("/home/read-property-survey");
                         }}
                       >
@@ -160,7 +186,7 @@ export default function page() {
                 );
               })}
             </tbody>
-          </Table>
+          </table>
         </div>
       </div>
     </>

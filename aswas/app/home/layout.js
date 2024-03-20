@@ -55,7 +55,7 @@ export default function homelayout({ children }) {
                 : styles.offcanvas_false_headerContent
             }
           >
-            {userRole === "hth-supervisor" ? (
+            {userRole === "hth-supervisor" || userRole === "vct-supervisor" ? (
               <>
                 <div className={styles.headerOffcanvaBtn}>
                   <a onClick={handleShow}>

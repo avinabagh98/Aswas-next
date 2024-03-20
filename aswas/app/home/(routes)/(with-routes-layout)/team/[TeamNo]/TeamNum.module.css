@@ -1,16 +1,55 @@
 .tableContainer {
       width: 100%;
+      border-collapse: collapse;
 }
 
-
-.tableContainer img {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
+.tableContainer th,
+.tableContainer td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
 }
 
-.tableContainer button {
+.tableContainer th {
+      background-color: #007bff;
+      color: white;
+}
+
+.surveyDone {
+      /* Define styles for surveyDone class */
+      /* For example: */
+      background-color: green;
+      color: white;
+}
+
+.action {
+      display: flex;
+      align-items: center;
+}
+
+.surveyDoneAction button,
+.surveyDoneAction a,
+.action button,
+.action a {
       border: none;
-      background-color: transparent;
+      background: none;
       cursor: pointer;
+}
+
+.surveyDoneAction button img,
+.surveyDoneAction a img,
+.action button img,
+.action a img {
+      width: 32px;
+      height: 32px;
+      margin-right: 5px;
+      /* Adjust margin as needed */
+}
+
+.surveyDoneAction {
+      display: flex;
+      align-items: center;
+      background-color: green;
+
+
 }
