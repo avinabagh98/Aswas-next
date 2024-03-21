@@ -252,5 +252,7 @@
     "municipality": "Municipality",
     "permanent_risk_breeding_site_list": "Risk/Breeding Sites List",
     "isLocked": "Did you able to do the survey?",
-    "Landmark": "Landmark"
+    "Landmark": "Landmark",
+    "Lat": "Lat",
+    "Long": "Long"
 }

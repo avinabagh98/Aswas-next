@@ -9,7 +9,7 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
 import swal from "sweetalert";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function page() {
@@ -29,9 +29,12 @@ export default function page() {
   const [ward_id, setWardId] = useState("");
   const [household_id, setHouseholdId] = useState("");
   const [locationString, setLocationString] = useState("");
+  const [pond_no, setPond_No] = useState();
+  const [pond_address, setPondAddress] = useState();
 
   //ohter variables
   const [flag, setFlag] = useState(false);
+  const [otherDropdownValue, setOtherDropdownValue] = useState("1");
   //Language Function Fetcher
   const translate = LanguageFetcher();
 
@@ -72,6 +75,15 @@ export default function page() {
     private_: private_,
     address: address,
     ward_id: ward_id,
+  };
+
+  const dropdownObject = {
+    1: "Pond",
+    2: "Drain",
+    3: "Construction Site",
+    4: "Tyre Resoling",
+    5: "Recycling sites",
+    6: "Other outdoor risk",
   };
 
   //Token initialzation and localstorage fetching
@@ -149,6 +161,11 @@ export default function page() {
     setLocationString(`${location?.latitude},${location?.longitude}`);
   }, [location, locationString]);
 
+  useEffect(() => {
+    console.log("household", household);
+    console.log("otherDropdownValue", otherDropdownValue);
+  }, [household, otherDropdownValue]);
+
   // Handler Functions
   const submitHandler = async (e) => {
     if (name === "" || members === "" || rent === "") {
@@ -220,56 +237,174 @@ export default function page() {
     if (id === "holding_number") {
       setHoldingNumber(String(val) || "");
     }
+    if (id === "pond_no") {
+      setPond_No(String(val) || "");
+    }
+    if (id === "pond_address") {
+      setPondAddress(String(val) || "");
+    }
+  };
+
+  const handleOtherDropdown = (e) => {
+    console.log(e.target.value);
+    setOtherDropdownValue(e.target.value);
   };
 
   return (
     (
       <>
         <div className={styles.householdentrycontainer}>
-          <div className={styles.titlebar}>
-            <Textparser
-              text={flag ? "Update Householde Entry" : "New Household Entry"}
-            />
+          <div className={styles.householdType}>
+            <span>
+              <input
+                id="household"
+                type="radio"
+                value={"1"}
+                name="household"
+                checked={household === "1"}
+                className={styles.householdBtn}
+                onChange={(e) => setHousehold(e.target.value)}
+              />
+              <label
+                htmlFor="household"
+                className={
+                  household === "1"
+                    ? styles.householdBtnLabelChecked
+                    : styles.householdBtnLabel
+                }
+              >
+                Household
+              </label>
+            </span>
+
+            <span>
+              <input
+                id="other"
+                type="radio"
+                value={"0"}
+                checked={household === "0"}
+                name="household"
+                className={styles.householdBtn}
+                onChange={(e) => setHousehold(e.target.value)}
+              />
+              <label
+                htmlFor="other"
+                className={
+                  household === "0"
+                    ? styles.householdBtnLabelChecked
+                    : styles.householdBtnLabel
+                }
+              >
+                Other
+              </label>
+            </span>
           </div>
 
-          <Surveyques
-            id="household_name"
-            value={name}
-            labelText={translate?.household_name}
-            handleVal={handleVal}
-          />
-          <Surveyques
-            id="aadhar"
-            value={aadhaar_number}
-            labelText={translate?.aadhar_no}
-            handleVal={handleVal}
-          />
-          <Surveyques
-            id="phone"
-            value={phone}
-            labelText={translate?.mobile_no}
-            handleVal={handleVal}
-          />
-          <Surveyques
-            id="family_members"
-            value={members}
-            labelText={translate?.family_members}
-            handleVal={handleVal}
-          />
-          <SurveyDropdown
-            id="ownertype"
-            value={rent === "1" ? "Rent" : "Own"}
-            labelText={translate?.owner_type}
-            options={dropdownOption}
-            handleVal={handleVal}
-          />
+          {household === "1" ? (
+            <>
+              <div className={styles.titlebar}>
+                <Textparser
+                  text={
+                    flag ? "Update Householde Entry" : "New Household Entry"
+                  }
+                />
+              </div>
+              <Surveyques
+                id="household_name"
+                value={name}
+                labelText={translate?.household_name}
+                handleVal={handleVal}
+              />
+              <Surveyques
+                id="aadhar"
+                value={aadhaar_number}
+                labelText={translate?.aadhar_no}
+                handleVal={handleVal}
+              />
+              <Surveyques
+                id="phone"
+                value={phone}
+                labelText={translate?.mobile_no}
+                handleVal={handleVal}
+              />
+              <Surveyques
+                id="family_members"
+                value={members}
+                labelText={translate?.family_members}
+                handleVal={handleVal}
+              />
+              <SurveyDropdown
+                id="ownertype"
+                value={rent}
+                labelText={translate?.owner_type}
+                options={dropdownOption}
+                handleVal={handleVal}
+              />
+              <Surveyques
+                id={"holding_number"}
+                value={holding_number}
+                labelText={translate?.holding_number}
+                handleVal={handleVal}
+              />
+            </>
+          ) : (
+            <>
+              <div className={styles.titlebar}>
+                <Textparser text={"Other Details"} />
+              </div>
 
-          <Surveyques
-            id={"holding_number"}
-            value={holding_number}
-            labelText={translate?.holding_number}
-            handleVal={handleVal}
-          />
+              <div className={styles.otherDropdown}>
+                <label htmlFor="place"></label>
+                <select
+                  id="place"
+                  name="place"
+                  onChange={handleOtherDropdown}
+                  value={otherDropdownValue}
+                >
+                  {Object.entries(dropdownObject).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <Surveyques
+                id="pond_no"
+                value={pond_no}
+                labelText={translate?.pond_no}
+                handleVal={handleVal}
+              />
+              <Surveyques
+                id="pond_address"
+                value={pond_address}
+                labelText={translate?.pond_address}
+                handleVal={handleVal}
+              />
+              <Surveyques
+                id="holding_number"
+                value={holding_number}
+                labelText={translate?.holding_number}
+                handleVal={handleVal}
+              />
+
+              <Surveyques
+                id="Latitude"
+                value={location.latitude}
+                labelText={translate?.Lat}
+                handleVal={handleVal}
+                disabled={true}
+              />
+
+              <Surveyques
+                id="Longitude"
+                value={location.longitude}
+                labelText={translate?.Long}
+                handleVal={handleVal}
+                disabled={true}
+              />
+            </>
+          )}
+
           <Button variant="success" onClick={submitHandler}>
             {flag ? "Update" : "Submit"}
           </Button>

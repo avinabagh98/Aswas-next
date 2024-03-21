@@ -166,3 +166,56 @@
     flex-direction: column;
     gap: 10px;
 }
+
+
+
+
+/* Adjustments for smaller screens */
+@media only screen and (max-width: 400px) {
+
+    /* Adjust header styles for smaller screens */
+    .header {
+        height: auto;
+        /* Remove fixed height for smaller screens */
+        padding: 10px;
+        /* Add padding for better spacing */
+    }
+
+    /* Adjust offcanvas button styles for smaller screens */
+    .headerOffcanvaBtn {
+        margin-left: 10px;
+        /* Adjust margin for smaller screens */
+    }
+
+    /* Adjust logo styles for smaller screens */
+    .logo {
+        height: 30px;
+        /* Decrease logo height for smaller screens */
+        width: 120px;
+        /* Decrease logo width for smaller screens */
+        margin: 0;
+        /* Remove margin for better alignment */
+    }
+
+    /* Adjust body styles for smaller screens */
+    .body {
+        margin-top: 5vh;
+        /* Adjust margin for smaller screens */
+        padding: 0;
+        /* Remove padding for better alignment */
+    }
+
+    /* Adjust offCanvasBodyMenuFooter styles for smaller screens */
+    .offCanvasBodyMenuFooter {
+        height: auto;
+        /* Remove fixed height for smaller screens */
+        padding: 10px;
+        /* Add padding for better spacing */
+    }
+
+    /* Adjust MenuLink styles for smaller screens */
+    .MenuLink {
+        width: auto;
+        /* Allow width to adjust for smaller screens */
+    }
+}

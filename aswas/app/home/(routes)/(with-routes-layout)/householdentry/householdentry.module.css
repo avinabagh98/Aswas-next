@@ -7,6 +7,48 @@
       align-items: center;
 }
 
+.householdentrycontainer .householdType {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+}
+
+.householdBtn {
+      display: none;
+}
+
+.householdBtnLabel {
+      width: 100px;
+      height: 50px;
+      background-color: #7e7e7e;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 20px;
+      cursor: pointer;
+}
+
+
+.householdBtnLabelChecked {
+      width: 100px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      color: var(--white);
+      background-color: rgb(37, 187, 247);
+      cursor: pointer;
+}
+
+
+/* .householdBtnLabel :checked {
+      background-color: #2196F3
+} */
+
 .householdentrycontainer .titlebar {
       height: auto;
       text-align: center;
@@ -28,4 +70,22 @@
 
 .SkeletonContainer span {
       margin-bottom: var(--globalMargin);
+}
+
+.otherDropdown {
+      margin-top: 10px;
+      width: 100%;
+}
+
+.otherDropdown label {
+      display: block;
+      margin-bottom: 5px;
+}
+
+.otherDropdown select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
 }

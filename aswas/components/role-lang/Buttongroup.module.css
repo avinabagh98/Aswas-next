@@ -1,15 +1,12 @@
 .container {
       height: auto;
       width: 90vw;
-      /* margin-top: 3rem; */
-
 }
 
 .btnContainer {
       margin-top: 1rem;
       display: flex;
       align-items: center;
-
 }
 
 .btnCol {
@@ -41,4 +38,96 @@
 
 .btnSpan:hover {
       background-color: darkblue;
+}
+
+@media only screen and (max-width: 600px) and (min-width: 400px) {
+
+      .container {
+            height: auto;
+            width: 90vw;
+      }
+
+      .btnContainer {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+      }
+
+      .btnCol {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+      .btnSpan {
+            height: 55px;
+            width: 117px;
+            border-radius: 5px;
+            background-color: #2190f1;
+      }
+
+      .btnCol button {
+            height: 50px;
+            width: 116px;
+            border: none;
+            border-radius: 5px;
+            color: whitesmoke;
+            background-color: darkblue;
+            cursor: pointer;
+      }
+
+      .btnCol button:hover {
+            background-color: #2190f1;
+      }
+
+      .btnSpan:hover {
+            background-color: darkblue;
+      }
+}
+
+@media only screen and (max-width: 400px) and (min-width: 300px) {
+
+      .container {
+            height: auto;
+            width: 90vw;
+      }
+
+      .btnContainer {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+      }
+
+      .btnCol {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+      .btnSpan {
+            height: 45px;
+            width: 97px;
+            border-radius: 5px;
+            background-color: #2190f1;
+      }
+
+      .btnCol button {
+            height: 40px;
+            width: 96px;
+            line-height: 14px;
+            font-size: 10px;
+            border: none;
+            border-radius: 5px;
+            color: whitesmoke;
+            background-color: darkblue;
+            cursor: pointer;
+      }
+
+      .btnCol button:hover {
+            background-color: #2190f1;
+      }
+
+      .btnSpan:hover {
+            background-color: darkblue;
+      }
 }
