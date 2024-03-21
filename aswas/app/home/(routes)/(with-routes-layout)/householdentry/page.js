@@ -387,6 +387,33 @@ export default function page() {
                 handleVal={handleVal}
               />
 
+              <div className={styles.otherPropertyType}>
+                <span>
+                  <input
+                    id="private"
+                    type="radio"
+                    name="propType"
+                    value={"1"}
+                    onChange={(e) => {
+                      setPrivate_(e.target.value);
+                    }}
+                  ></input>
+                  <label htmlFor="private">Private</label>
+                </span>
+                <span>
+                  <input
+                    id="public"
+                    type="radio"
+                    name="propType"
+                    value={"0"}
+                    onChange={(e) => {
+                      setPrivate_(e.target.value);
+                    }}
+                  ></input>
+                  <label htmlFor="public">Public</label>
+                </span>
+              </div>
+
               <Surveyques
                 id="Latitude"
                 value={location.latitude}
