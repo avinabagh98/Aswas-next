@@ -12,6 +12,7 @@ import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
 import swal from "sweetalert";
 import { sendRequest } from "@/api/sendRequest";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   const route = useRouter();
@@ -81,14 +82,25 @@ export default function page() {
     console.log(api_data_userDetails);
     localStorage.setItem("user_id", api_data_userDetails.id);
     localStorage.setItem("team_id", api_data_userDetails.team_id);
+    localStorage.setItem("name", api_data_userDetails.name);
+
     if (api_data_userDetails.ward) {
       localStorage.setItem("ward_id", api_data_userDetails.ward.id);
+      localStorage.setItem("ward_name", api_data_userDetails.ward.name);
+    }
+
+    if (api_data_userDetails.team) {
+      localStorage.setItem("team_number", api_data_userDetails.team.number);
     }
 
     if (api_data_userDetails.municipality) {
       localStorage.setItem(
         "municipality_id",
         api_data_userDetails.municipality.id
+      );
+      localStorage.setItem(
+        "municipality_name",
+        api_data_userDetails.municipality.name
       );
     }
 
@@ -110,11 +122,18 @@ export default function page() {
     route.push("/home/dailysurveyreport");
   };
 
+  const clickHandler = (status) => {
+    if (status === "ONGOING") {
+      route.push("/home/team");
+    }
+  };
+
   try {
     const data = api_data_schedule;
 
     return userRole === "hth-member" ? (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={true} />
         <div className={styles.hth_mem_text}>
           <Textparser text="Schedule" />
         </div>
@@ -146,8 +165,10 @@ export default function page() {
                     <td className={classname}>{row.round}</td>
                     <td
                       className={classname}
+                      name={row.status}
                       onClick={() => {
-                        route.push("/home/team");
+                        clickHandler(row.status);
+                        // route.push("/home/team");
                       }}
                     >
                       {row.name}
@@ -162,6 +183,7 @@ export default function page() {
       </>
     ) : userRole === "vct-supervisor" ? (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={true} />
         <div className={styles.hth_mem_text}>
           <Textparser text="Schedule" />
         </div>
@@ -209,6 +231,7 @@ export default function page() {
       </>
     ) : userRole === "hth-supervisor" ? (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={true} />
         <div className={styles.text}>
           <Textparser text={"Schedule"} />
         </div>

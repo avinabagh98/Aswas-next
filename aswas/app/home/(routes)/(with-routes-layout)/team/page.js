@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   const [token, setToken] = useState();
@@ -139,6 +140,7 @@ export default function page() {
 
     return userRole === "hth-supervisor" ? (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={false} />
         <table className={styles.tableContainerHS}>
           <thead>
             <tr>
@@ -173,6 +175,7 @@ export default function page() {
       </>
     ) : userRole === "hth-member" ? (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={false} />
         <div className={styles.teamContainer}>
           <div className={styles.searchbar}>
             <input placeholder="Search"></input>
@@ -262,6 +265,7 @@ export default function page() {
       </>
     ) : userRole === "vct-supervisor" ? (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={false} />
         <div className={styles.teamContainer}>
           <div className={styles.searchbar}>
             <input placeholder="Search"></input>

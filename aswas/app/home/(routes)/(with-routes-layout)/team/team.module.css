@@ -1,9 +1,9 @@
 .teamContainer {
       width: 100%;
+      padding: var(--globalPadding);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin: var(--globalMargin);
       gap: 20px;
 
 }

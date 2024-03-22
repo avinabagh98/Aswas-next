@@ -11,6 +11,11 @@
 
 }
 
+.tableContainer {
+      padding: var(--globalPadding-half);
+      width: 100%;
+}
+
 .tableHead {
       width: 100%;
 }

@@ -7,8 +7,10 @@ import Textparser from "@/components/home/Textparser";
 import { useTeam } from "@/context/TeamContext";
 import { sendRequest } from "@/api/sendRequest";
 import swal from "sweetalert";
-
+import Header from "@/components/Header/Header";
+import { useRouter } from "next/navigation";
 export default function page() {
+  const route = useRouter();
   const { teamNumber } = useTeam();
   const [api_data_vctSurvey, setAPI_Data_vctSurvey] = useState([]);
 
@@ -50,6 +52,7 @@ export default function page() {
   }, []);
   return (
     <>
+      <Header userRole={"hth-member"} isOffCanvasVisible={true} />
       <div className={styles.container}>
         <span className={styles.name}>
           <Textparser text={api_data_vctSurvey?.name} />

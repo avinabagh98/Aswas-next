@@ -6,6 +6,7 @@ import Buttongroup from "@/components/role-lang/Buttongroup";
 import Checkbutton from "@/components/role-lang/Checkbutton";
 import Footer from "@/components/prelogin/Footer";
 import { useRouter } from "next/navigation";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   const [language, setLanguage] = useState("en");
@@ -40,6 +41,7 @@ export default function page() {
 
   return (
     <div className={styles.pageContainer}>
+      <Header defaultHeader={true} />
       <span className={styles.languageContainer}>
         <h2>SELECT LANGUAGE</h2>
         <Checkbutton

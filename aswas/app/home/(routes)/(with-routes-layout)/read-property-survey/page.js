@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
 import LocationFetcher from "@/components/LocationFetcher";
 import swal from "sweetalert";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   const translate = LanguageFetcher();
@@ -300,126 +301,128 @@ export default function page() {
   };
 
   return userRole === "hth-supervisor" ? (
-    <div className={styles.container}>
-      <>
-        <div className={styles.namebar}>
-          <Textparser text={localStorage.getItem("household_name")} />
-        </div>
-        <div className={styles.locationbar}>
-          <Textparser
-            text={`Latitude: ${Location?.latitude} Longitude: ${Location?.longitude}`}
-          />
-        </div>
-        <span>
-          <Surveyques
-            id="field_1_form_5"
-            value={field_1_form_5}
-            labelText={translate?.field_1_form_5}
-            handleVal={handleVal}
-            disabled={userRole === "hth-supervisor"}
-          />
+    <>
+      <Header userRole={"hth-supervisor"} isOffCanvasVisible={false} />
+      <div className={styles.container}>
+        <>
+          <div className={styles.namebar}>
+            <Textparser text={localStorage.getItem("household_name")} />
+          </div>
+          <div className={styles.locationbar}>
+            <Textparser
+              text={`Latitude: ${Location?.latitude} Longitude: ${Location?.longitude}`}
+            />
+          </div>
+          <span>
+            <Surveyques
+              id="field_1_form_5"
+              value={field_1_form_5}
+              labelText={translate?.field_1_form_5}
+              handleVal={handleVal}
+              disabled={userRole === "hth-supervisor"}
+            />
 
-          <Surveyoption
-            id={"field_2_form_5"}
-            name={"field_2_form_5"}
-            optionText={translate?.field_2_form_5}
-            handleRadioChange_value={handleRadioChange_value}
-            handleRadioChange_color={handleRadioChange_color}
-            radioValue={selectedOption["field_2_form_5"]}
-            apiResponse={field_2_form_5}
-          />
-          <Surveyoption
-            id={"field_3_form_5"}
-            name={"field_3_form_5"}
-            optionText={translate?.field_3_form_5}
-            handleRadioChange_value={handleRadioChange_value}
-            handleRadioChange_color={handleRadioChange_color}
-            radioValue={selectedOption["field_3_form_5"]}
-            apiResponse={field_3_form_5}
-          />
-          <Surveyoption
-            id={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
-            name={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
-            optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
-            handleRadioChange_value={handleRadioChange_value}
-            handleRadioChange_color={handleRadioChange_color}
-            radioValue={selectedOption["বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"]}
-            apiResponse={বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
-          />
-          <Surveyoption
-            id={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
-            name={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
-            optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
-            handleRadioChange_value={handleRadioChange_value}
-            handleRadioChange_color={handleRadioChange_color}
-            radioValue={selectedOption["বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"]}
-            apiResponse={বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
-          />
-          <Surveyoption
-            id={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
-            name={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
-            optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
-            handleRadioChange_value={handleRadioChange_value}
-            handleRadioChange_color={handleRadioChange_color}
-            radioValue={selectedOption["বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"]}
-            apiResponse={বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
-          />
-          <Surveyoption
-            id={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
-            name={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
-            optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
-            handleRadioChange_value={handleRadioChange_value}
-            handleRadioChange_color={handleRadioChange_color}
-            radioValue={selectedOption["বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"]}
-            apiResponse={বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
-          />
-          <Surveyques
-            id={"জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল"}
-            value={জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল}
-            labelText={
-              translate?.জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল
-            }
-            handleVal={handleVal}
-            disabled={userRole === "hth-supervisor"}
-          />
-          <Surveyques
-            id={"এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল"}
-            value={এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
-            labelText={translate?.এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
-            handleVal={handleVal}
-            disabled={userRole === "hth-supervisor"}
-          />
-          <Surveyques
-            id={"field_7_form_5"}
-            value={field_7_form_5}
-            labelText={translate?.field_7_form_5}
-            handleVal={handleVal}
-            disabled={userRole === "hth-supervisor"}
-          />
-          <Surveyques
-            id={"কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল"}
-            value={leaflets_distributed}
-            labelText={
-              translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
-            }
-            handleVal={handleVal}
-            disabled={userRole === "hth-supervisor"}
-          />
-          <Surveyques
-            id={"landmark"}
-            value={Landmark}
-            labelText={translate?.Landmark}
-            handleVal={handleVal}
-            disabled={userRole === "hth-supervisor"}
-          />
-        </span>
-        {/* <div className={styles.imgContainer}>
+            <Surveyoption
+              id={"field_2_form_5"}
+              name={"field_2_form_5"}
+              optionText={translate?.field_2_form_5}
+              handleRadioChange_value={handleRadioChange_value}
+              handleRadioChange_color={handleRadioChange_color}
+              radioValue={selectedOption["field_2_form_5"]}
+              apiResponse={field_2_form_5}
+            />
+            <Surveyoption
+              id={"field_3_form_5"}
+              name={"field_3_form_5"}
+              optionText={translate?.field_3_form_5}
+              handleRadioChange_value={handleRadioChange_value}
+              handleRadioChange_color={handleRadioChange_color}
+              radioValue={selectedOption["field_3_form_5"]}
+              apiResponse={field_3_form_5}
+            />
+            <Surveyoption
+              id={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
+              name={"বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"}
+              optionText={translate?.বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
+              handleRadioChange_value={handleRadioChange_value}
+              handleRadioChange_color={handleRadioChange_color}
+              radioValue={selectedOption["বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না"]}
+              apiResponse={বাড়ীর_বাইরে_আব্বর্জনা_আছে_কি_না}
+            />
+            <Surveyoption
+              id={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
+              name={"বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"}
+              optionText={translate?.বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
+              handleRadioChange_value={handleRadioChange_value}
+              handleRadioChange_color={handleRadioChange_color}
+              radioValue={selectedOption["বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না"]}
+              apiResponse={বাড়ীর_বাইরে_বদ্ধ_নৰ্দমা_আছে_কি_না}
+            />
+            <Surveyoption
+              id={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
+              name={"বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"}
+              optionText={translate?.বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
+              handleRadioChange_value={handleRadioChange_value}
+              handleRadioChange_color={handleRadioChange_color}
+              radioValue={selectedOption["বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না"]}
+              apiResponse={বাড়ীর_বাইরে_ৰদ্ধ_ডোবা_আছে_কি_না}
+            />
+            <Surveyoption
+              id={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
+              name={"বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"}
+              optionText={translate?.বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
+              handleRadioChange_value={handleRadioChange_value}
+              handleRadioChange_color={handleRadioChange_color}
+              radioValue={selectedOption["বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না"]}
+              apiResponse={বাড়ীর_বাইরে_নিচু_জলা_জমি_আছে_কি_না}
+            />
+            <Surveyques
+              id={"জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল"}
+              value={জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল}
+              labelText={
+                translate?.জল_জমে_আছে_এমন_মোট_কতগুলি_জায়গা_পাত্র_দেখা_গেল
+              }
+              handleVal={handleVal}
+              disabled={userRole === "hth-supervisor"}
+            />
+            <Surveyques
+              id={"এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল"}
+              value={এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
+              labelText={translate?.এর_মধ্যে_কতগুলিতে_লার্ভা_পাওয়া_গেল}
+              handleVal={handleVal}
+              disabled={userRole === "hth-supervisor"}
+            />
+            <Surveyques
+              id={"field_7_form_5"}
+              value={field_7_form_5}
+              labelText={translate?.field_7_form_5}
+              handleVal={handleVal}
+              disabled={userRole === "hth-supervisor"}
+            />
+            <Surveyques
+              id={"কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল"}
+              value={leaflets_distributed}
+              labelText={
+                translate?.কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল
+              }
+              handleVal={handleVal}
+              disabled={userRole === "hth-supervisor"}
+            />
+            <Surveyques
+              id={"landmark"}
+              value={Landmark}
+              labelText={translate?.Landmark}
+              handleVal={handleVal}
+              disabled={userRole === "hth-supervisor"}
+            />
+          </span>
+          {/* <div className={styles.imgContainer}>
           <Textparser text={translate?.জমে_থাকা_আবর্জনা_বা_জলের_ছবি_তুলুন} />
           <a onClick={camera_button}>
             <img src="/images/camera_icon_to_upload.png"></img>
           </a>
         </div> */}
-        {/* {cameraClicked ? (
+          {/* {cameraClicked ? (
           <div className="d-flex flex-column justify-content-center align-items-center">
             <video id="video" width="320" height="240" autoPlay></video>
             <Button onClick={click_button}>Click Photo</Button>
@@ -435,8 +438,9 @@ export default function page() {
         >
           Submit
         </Button> */}
-      </>
-    </div>
+        </>
+      </div>
+    </>
   ) : (
     <></>
   );

@@ -9,6 +9,7 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import { useTeam } from "@/context/TeamContext"; //
 import swal from "sweetalert";
 import { sendRequest } from "@/api/sendRequest";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   const { teamNumber } = useTeam(); //
@@ -75,6 +76,7 @@ export default function page() {
 
   return userRole === "hth-member" ? (
     <>
+      <Header userRole={userRole} isOffCanvasVisible={false} />
       <div className={styles.teamContainer}>
         <div className={styles.searchbar}>
           <input placeholder="Auto Search"></input>
@@ -118,6 +120,7 @@ export default function page() {
     </>
   ) : userRole === "hth-supervisor" ? (
     <>
+      <Header userRole={userRole} isOffCanvasVisible={false} />
       <div className={styles.teamContainerHS}>
         <input placeholder="Auto Search"></input>
         <div className={styles.tableContainerHS}>
@@ -192,6 +195,7 @@ export default function page() {
     </>
   ) : userRole === "vct-member" ? (
     <>
+      <Header userRole={userRole} isOffCanvasVisible={false} />
       <div className={styles.teamContainer}>
         <input placeholder="Auto Search"></input>
         <div className={styles.tableContainer}>

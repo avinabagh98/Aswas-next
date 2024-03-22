@@ -11,6 +11,7 @@ import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
 import swal from "sweetalert";
 import { useRouter, useSearchParams } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   // State variables
@@ -33,6 +34,7 @@ export default function page() {
   const [pond_address, setPondAddress] = useState();
 
   //ohter variables
+  const [userRole, setUserRole] = useState("");
   const [flag, setFlag] = useState(false);
   const [otherDropdownValue, setOtherDropdownValue] = useState("1");
   //Language Function Fetcher
@@ -91,6 +93,7 @@ export default function page() {
     async function fetchData() {
       try {
         const token = await localStorage.getItem("token");
+        setUserRole(localStorage.getItem("role_name"));
         if (!token) {
           route.push("/home/login");
         } else {
@@ -253,6 +256,7 @@ export default function page() {
   return (
     (
       <>
+        <Header userRole={userRole} isOffCanvasVisible={false} />
         <div className={styles.householdentrycontainer}>
           <div className={styles.householdType}>
             <span>

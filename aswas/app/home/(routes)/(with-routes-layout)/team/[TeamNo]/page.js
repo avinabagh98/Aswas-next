@@ -6,14 +6,17 @@ import styles from "./TeamNum.module.css";
 import { useTeam } from "@/context/TeamContext"; //
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
+import Header from "@/components/Header/Header";
 export default function page({ params }) {
   const route = useRouter();
   const { teamNumber, setTeamNumber } = useTeam(); //
   const [api_data_TeamHouehold, setApi_Data_TeamHouehold] = useState();
+  const [userRole, setUserRole] = useState("hth-supervisor");
 
   //Localstorage and Token fetching
   useEffect(() => {
     setTeamNumber(params.TeamNo);
+    setUserRole(localStorage.getItem("role_name"));
     const team_id = localStorage.getItem("team_id");
     try {
       async function fetchData() {
@@ -54,6 +57,7 @@ export default function page({ params }) {
 
   return (
     <>
+      <Header userRole={userRole} isOffCanvasVisible={false} />
       <table className={styles.tableContainer}>
         <thead>
           <tr>

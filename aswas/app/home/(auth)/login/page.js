@@ -7,8 +7,9 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import { sendRequest } from "@/api/sendRequest";
 import { ShowOffCanvas } from "@/components/ShowOffCanvas";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import LocalStorageFetcher from "@/components/LocalStorageFetcher";
+import Header from "@/components/Header/Header";
 
 export default function Page() {
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function Page() {
   const loginData = {
     phone: username,
     password: password,
-    role_id: role_id
+    role_id: role_id,
   };
 
   // const loginHandler = async (e) => {
@@ -50,7 +51,10 @@ export default function Page() {
   const loginHandler = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, loginData);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
+        loginData
+      );
       const token = res.data.access_token;
       localStorage.setItem("token", token);
       localStorage.setItem("phone", username);
@@ -59,11 +63,11 @@ export default function Page() {
     } catch (error) {
       swal("Login Error", "Please enter valid credentials", "error");
     }
-
   };
 
   return (
     <>
+      <Header isOffCanvasVisible={false} />
       <div className={styles.loginContainer}>
         <h2>{translate?.user_login}</h2>
         <div className={styles.loginForm}>

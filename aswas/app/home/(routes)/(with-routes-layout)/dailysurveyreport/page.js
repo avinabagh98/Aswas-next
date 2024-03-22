@@ -6,6 +6,7 @@ import DynamicDropdown from "@/components/DynamicDropdown/DynamicDropdown";
 import { sendRequest } from "@/api/sendRequest";
 import swal from "sweetalert";
 import LanguageFetcher from "@/components/LanguageFetcher";
+import Header from "@/components/Header/Header";
 
 export default function page() {
   //language fetcher
@@ -141,6 +142,7 @@ export default function page() {
 
   return (
     <>
+      <Header userRole={userRole} isOffCanvasVisible={false} />
       <div>
         <div className={styles.dailySurveyReportContainer}>
           <DynamicDropdown
