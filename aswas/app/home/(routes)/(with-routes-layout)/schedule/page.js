@@ -227,6 +227,14 @@ export default function page() {
               })}
             </tbody>
           </Table>
+
+          <div>
+            <SingleButton
+              btnText="Daily Survey Report"
+              href={"/home/dailysurveyreport"}
+              onClick={handleDailySurveyBtn}
+            />
+          </div>
         </div>
       </>
     ) : userRole === "hth-supervisor" ? (

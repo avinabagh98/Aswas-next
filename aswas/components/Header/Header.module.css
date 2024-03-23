@@ -163,3 +163,30 @@
       text-decoration: none;
       color: inherit;
 }
+
+/* ////////////////////////////////////////////////// */
+
+.container {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+}
+
+.namebar {
+      padding: var(--globalPadding);
+      height: 60px;
+      width: 100vw;
+      font-size: var(--formTextSize);
+      color: var(--white);
+      background-color: var(--darkblue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+
+.namebar span {
+      margin: var(--globalMargin)
+}

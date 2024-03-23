@@ -64,6 +64,17 @@ export default function page() {
     ward_id: ward_id,
   };
 
+  const Other_formData = {
+    token: token,
+    household: household,
+    name: pond_no,
+    holding_number: holding_number,
+    property_type_id: property_type_id,
+    private_: private_,
+    address: pond_address,
+    location: locationString,
+  };
+
   const formDataUpdate = {
     token: token,
     household: household,

@@ -15,6 +15,7 @@ export default function page() {
   const [api_data, setAPI_Data] = useState([]);
   const [api_data_HS, setAPI_Data_HS] = useState([]);
   const [api_dataVCT, setAPI_DataVCT] = useState([]);
+  const [api_dataVCT_household, setAPI_DataVCT_Household] = useState([]);
   const [issurveyDone, setIssurveyDone] = useState(false);
   const [round, setRound] = useState(null);
   const route = useRouter();
@@ -83,6 +84,21 @@ export default function page() {
             if (response_vct.status === 1) {
               setAPI_DataVCT(response_vct.data);
             }
+
+            const response_householdData = await sendRequest(
+              "get",
+              `/properties/${localStorage.getItem("household_id_vct")}`,
+              null,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (response_householdData.status === 1) {
+              console.log("VCT_household_data", response_householdData.data);
+              setAPI_DataVCT_Household(response_householdData.data);
+            }
           }
         }
       }
@@ -126,6 +142,7 @@ export default function page() {
       const household_name_vct = e.target.name;
       localStorage.setItem("household_id_vct", household_id_vct);
       localStorage.setItem("household_name", household_name_vct);
+      localStorage.setItem("team_id", api_dataVCT_household?.team_id);
       route.push("/home/survey");
     };
 

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
+import Textparser from "@/components/home/Textparser";
 
 export default function Header({
   defaultHeader,
@@ -15,6 +16,11 @@ export default function Header({
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const name = localStorage.getItem("name");
+  const municipality_name = localStorage.getItem("municipality_name");
+  const ward_name = localStorage.getItem("ward_name");
+  const team_num = localStorage.getItem("team_number");
 
   const handleLogout = () => {
     swal({
@@ -42,7 +48,6 @@ export default function Header({
   return (
     <>
       <div className={styles.rowContainer}>
-        {/* Mobile Screen Header */}
         <div className={defaultHeader ? styles.defaultHeader : styles.header}>
           <div
             className={
@@ -258,11 +263,11 @@ export default function Header({
                   <></>
                 )}
               </>
-            ) : !defaultHeader ? (
+            ) : isOffCanvasVisible === false ? (
               <>
                 <div className={styles.headerOffcanvaBtn}>
                   <a onClick={handleBack}>
-                    <img src="/images/logout_menu_icon.png" alt="logo1"></img>
+                    <img src="/svgs/Back Button.svg" alt="logo1"></img>
                   </a>
                 </div>
               </>
@@ -284,6 +289,27 @@ export default function Header({
           </div>
         </div>
       </div>
+
+      {defaultHeader ? (
+        <></>
+      ) : (
+        <>
+          {name !== null ? (
+            <div className={styles.container}>
+              <div className={styles.namebar}>
+                <span>
+                  <Textparser text={`${name}(${userRole})`} />
+                  <br />
+                  <Textparser text={`${municipality_name} Ward-${ward_name}`} />
+                </span>
+                <span>{`Team-${team_num}`}</span>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </>
+      )}
     </>
   );
 }
