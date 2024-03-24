@@ -5,7 +5,6 @@ import Textparser from "@/components/home/Textparser";
 import styles from "./schedule.module.css";
 import { Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import SingleButton from "@/components/home/SingleButton";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
@@ -16,7 +15,6 @@ import Header from "@/components/Header/Header";
 
 export default function page() {
   const route = useRouter();
-  const translate = LanguageFetcher();
 
   //User Details state variables
   const [token, setToken] = useState("");
@@ -133,7 +131,7 @@ export default function page() {
 
     return userRole === "hth-member" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={true} />
+        <Header userRole={userRole} isOffCanvasVisible={false} />
         <div className={styles.hth_mem_text}>
           <Textparser text="Schedule" />
         </div>
@@ -183,8 +181,8 @@ export default function page() {
       </>
     ) : userRole === "vct-supervisor" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={true} />
-        <div className={styles.hth_mem_text}>
+        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <div className={styles.vct_supervisor_text}>
           <Textparser text="Schedule" />
         </div>
 
@@ -239,8 +237,8 @@ export default function page() {
       </>
     ) : userRole === "hth-supervisor" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={true} />
-        <div className={styles.text}>
+        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <div className={styles.hth_supervisor_text}>
           <Textparser text={"Schedule"} />
         </div>
 
@@ -289,14 +287,6 @@ export default function page() {
             </tbody>
           </Table>
         </div>
-
-        <div>
-          <SingleButton
-            btnText="Daily Survey Report"
-            href={"/home/dailysurveyreport"}
-            onClick={handleDailySurveyBtn}
-          />
-        </div>
       </>
     ) : (
       <>
@@ -339,6 +329,6 @@ export default function page() {
       </>
     );
   } catch (error) {
-    swal("Error", error.message, "error");
+    swal("Error", error, "error");
   }
 }

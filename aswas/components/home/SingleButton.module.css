@@ -1,5 +1,8 @@
 .btnContainer {
+      width: 100%;
+      margin-top: var(--globalMargin);
       display: flex;
+      justify-content: center;
       align-items: center;
 
 }
@@ -7,14 +10,14 @@
 .btnSpan {
 
       height: 55px;
-      width: 117px;
+      width: 90%;
       border-radius: 5px;
       background-color: #2190f1;
 }
 
 .btnContainer button {
       height: 50px;
-      width: 116px;
+      width: 100%;
       border: none;
       border-radius: 5px;
       color: whitesmoke;

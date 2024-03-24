@@ -1,7 +1,7 @@
 .checkbuttonContainer form {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .radio {
@@ -45,4 +45,60 @@
     width: auto;
     border-radius: 5px;
     background-color: darkblue;
+}
+
+
+@media only screen and (max-width: 400px) {
+
+    .checkbuttonContainer form {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .radio {
+        display: none;
+    }
+
+
+    .btnSpan {
+        height: 50px;
+        width: auto;
+        border-radius: 5px;
+        background-color: #2190f1;
+    }
+
+    .btnSpanchecked {
+        height: 50px;
+        width: auto;
+        border-radius: 5px;
+        background-color: darkblue;
+    }
+
+
+    .btnSpanLabel {
+        height: 45px;
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-size: 11px;
+        color: whitesmoke;
+        background-color: darkblue;
+        cursor: pointer;
+    }
+
+    .btnSpanLabelchecked {
+        height: 45px;
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-size: 11px;
+        color: var(--text-color);
+        background-color: skyblue;
+        cursor: pointer;
+    }
 }

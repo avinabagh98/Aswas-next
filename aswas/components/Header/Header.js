@@ -31,7 +31,8 @@ export default function Header({
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
+        localStorage.clear();
         route.push("/home");
         setShow(false);
         swal("You have successfully logged out", {
@@ -302,7 +303,7 @@ export default function Header({
                   <br />
                   <Textparser text={`${municipality_name} Ward-${ward_name}`} />
                 </span>
-                <span>{`Team-${team_num}`}</span>
+                {team_num ? <span>{`Team-${team_num}`}</span> : <></>}
               </div>
             </div>
           ) : (

@@ -1,18 +1,21 @@
-.hth_mem_text {
+.hth_mem_text,
+.hth_supervisor_text,
+.vct_supervisor_text {
       height: 35px;
-      padding: var(--globalPadding-half);
+      width: 100%;
+      padding: var(--globalPadding);
       font-size: 13px;
       font-weight: 400;
       color: var(--white);
-      margin: var(--globalMargin);
       background-color: grey;
       display: flex;
       align-items: center;
 
 }
 
+
 .tableContainer {
-      padding: var(--globalPadding-half);
+      padding: var(--globalPadding);
       width: 100%;
 }
 

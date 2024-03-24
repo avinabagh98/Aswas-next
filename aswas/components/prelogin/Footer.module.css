@@ -57,7 +57,7 @@
 
 }
 
-@media screen and (max-width: 600px) and (min-width:400px) {
+@media screen and (max-width: 400px) and (min-width:300px) {
 
       .footer {
             /* margin-top: var(--globalMargin); */

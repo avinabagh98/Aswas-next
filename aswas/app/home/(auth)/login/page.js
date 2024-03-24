@@ -59,7 +59,7 @@ export default function Page() {
       localStorage.setItem("token", token);
       localStorage.setItem("phone", username);
       swal("Successfully", "logged in", "success");
-      route.push("/home/schedule");
+      route.push("/home/dashboard");
     } catch (error) {
       swal("Login Error", "Please enter valid credentials", "error");
     }

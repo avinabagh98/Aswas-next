@@ -153,10 +153,16 @@
     gap: 20px;
 }
 
-.pageContainer h2 {
+.languageContainer h2,
+.roleContainer h2 {
+    font-size: 20px;
     text-align: center;
     text-decoration: underline;
     color: var(--text-color-skyblue);
+}
+
+.roleContainer h2 {
+    gap: 0;
 }
 
 .languageContainer,
