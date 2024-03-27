@@ -19,7 +19,7 @@
       height: 55px;
       width: 117px;
       border-radius: 5px;
-      background-color: #2190f1;
+      background-color: var(--buttonLightblue);
 }
 
 .btnCol button {
@@ -28,12 +28,12 @@
       border: none;
       border-radius: 5px;
       color: whitesmoke;
-      background-color: darkblue;
+      background-color: var(--buttonDarakblue);
       cursor: pointer;
 }
 
 .btnCol button:hover {
-      background-color: #2190f1;
+      background-color: var(--buttonLightblue);
 }
 
 .btnSpan:hover {
@@ -65,7 +65,7 @@
             height: 45px;
             width: 97px;
             border-radius: 5px;
-            background-color: #2190f1;
+            background-color: var(--buttonLightblue);
       }
 
       .btnCol button {
@@ -81,7 +81,7 @@
       }
 
       .btnCol button:hover {
-            background-color: #2190f1;
+            background-color: var(--buttonLightblue);
       }
 
       .btnSpan:hover {

@@ -12,6 +12,9 @@
       padding: 10px;
       color: var(--white);
       background-color: var(--skyblue);
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
 }
 
 
@@ -80,4 +83,44 @@
 
 .align-items-center {
       align-items: center;
+}
+
+
+/* ///////Is locked Dropdown CSS///////// */
+
+
+.dropdownContainer {
+      margin: 20px;
+}
+
+.dropdownLabel {
+      margin-bottom: 5px;
+      font-weight: bold;
+}
+
+.dropdownSelect {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+}
+
+.dropdownOption {
+      font-size: 16px;
+}
+
+.dropdownOption[disabled] {
+      color: #999;
+}
+
+.submitBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: var(--skyblue);
+      color: var(--white);
+      font-size: 16px;
+      cursor: pointer;
 }

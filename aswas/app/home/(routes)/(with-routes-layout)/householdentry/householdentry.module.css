@@ -59,6 +59,10 @@
       font-size: var(--formTextSize);
       color: var(--white);
       background-color: var(--skyblue);
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+      align-items: flex-start;
 }
 
 .SkeletonContainer {

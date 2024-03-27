@@ -51,10 +51,7 @@ export default function Page() {
   const loginHandler = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
-        loginData
-      );
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/login`,loginData)
       const token = res.data.access_token;
       localStorage.setItem("token", token);
       localStorage.setItem("phone", username);

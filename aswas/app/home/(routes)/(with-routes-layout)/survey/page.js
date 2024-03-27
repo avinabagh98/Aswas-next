@@ -592,7 +592,12 @@ export default function page() {
     }
   };
 
-  const dropdownOptions = ["Keliye Brindabon dekhiye diyeche", "Tala jhulche"];
+  const handleReasonSubmit = async (e) => {
+    e.preventDefault();
+    route.back();
+  }
+
+  const dropdownOptions = ["Misbehaved", "Abondoned", "Tala jhulche", "Other"];
 
   return userRole === "hth-member" ? (
     <>
@@ -609,6 +614,9 @@ export default function page() {
 
         <span className={styles.name}>
           <Textparser text={api_data_hosuehold?.name} />
+          <Textparser
+            text={`latitude:${location?.latitude}, longitude:${location?.longitude}`}
+          />
         </span>
 
         <div className={styles.content}>
@@ -646,7 +654,7 @@ export default function page() {
                 </select>
               </div>
 
-              <button className={styles.submitBtn}>Submit</button>
+              <button className={styles.submitBtn} onClick={handleReasonSubmit}>Submit</button>
             </>
           ) : isSurveyed === "1" ? (
             <>

@@ -155,6 +155,12 @@ export default function page() {
       route.push("/home/update-survey");
     };
 
+    const addnewHandler = (e) => {
+      e.preventDefault();
+      localStorage.setItem("flag", false);
+      route.push("/home/householdentry");
+    }
+
     return userRole === "hth-supervisor" ? (
       <>
         <Header userRole={userRole} isOffCanvasVisible={false} />
@@ -198,7 +204,7 @@ export default function page() {
             <input placeholder="Search"></input>
             <Button
               variant="secondary"
-              href="/home/householdentry"
+              onClick={addnewHandler}
               className={styles.btn}
             >
               ADD NEW

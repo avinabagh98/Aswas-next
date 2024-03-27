@@ -323,6 +323,9 @@ export default function page() {
                     flag ? "Update Householde Entry" : "New Household Entry"
                   }
                 />
+                <Textparser
+            text={`latitude:${location?.latitude}, longitude:${location?.longitude}`}
+          />
               </div>
               <Surveyques
                 id="household_name"

@@ -109,6 +109,8 @@ export default function page() {
     image: image,
   };
 
+
+  const dropdownOptions = ["Misbehaved", "Abondoned", "Tala jhulche", "Other"];
   //Localstorage and Token fetching
   useEffect(() => {
     setTeamID(localStorage.getItem("team_id"));
@@ -392,6 +394,9 @@ export default function page() {
 
         <span className={styles.name}>
           <Textparser text={household_name} />
+          <Textparser
+            text={`latitude:${location?.latitude}, longitude:${location?.longitude}`}
+          />
         </span>
 
         <div className={styles.content}>

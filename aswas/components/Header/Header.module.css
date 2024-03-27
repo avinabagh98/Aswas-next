@@ -1,6 +1,7 @@
 .rowContainer {
       height: 100%;
       width: 100%;
+
 }
 
 .header {
@@ -10,7 +11,7 @@
       width: 100%;
       height: 10vh;
       padding: 5px;
-      background-color: skyblue;
+      background-color:var(--skyblue);
       z-index: 100;
       display: flex;
       justify-content: left;
@@ -39,7 +40,7 @@
       width: 100%;
       height: 10vh;
       padding: 5px;
-      background-color: skyblue;
+      background-color: var(--skyblue);
       z-index: 100;
       display: flex;
       justify-content: center;
@@ -102,7 +103,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #87ceeb;
+      background-color: var(--skyblue);
 }
 
 .offCanvasHeaderLogo {

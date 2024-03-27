@@ -30,7 +30,7 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
                   : styles.btnSpanLabel
                   }`}
               >
-                English
+                ENGLISH
               </label>
             </div>
           </span>
@@ -56,7 +56,7 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
                   : styles.btnSpanLabel
                   }`}
               >
-                Bengali
+                BENGALI
               </label>
             </div>
           </span>
@@ -82,7 +82,7 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
                   : styles.btnSpanLabel
                   }`}
               >
-                Hindi
+                HINDI
               </label>
             </div>
           </span>
@@ -108,7 +108,7 @@ export default function Checkbutton({ handleRadioChange, radioValue }) {
                   : styles.btnSpanLabel
                   }`}
               >
-                Nepali
+                NEPALI
               </label>
             </div>
           </span>
