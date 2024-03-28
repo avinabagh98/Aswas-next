@@ -44,7 +44,7 @@ export default function Header({
   };
 
   const handleBack = () => {
-    route.back();
+    window.history.back();
   };
   return (
     <>
@@ -55,14 +55,14 @@ export default function Header({
               isOffCanvasVisible
                 ? styles.headerContent
                 : isOffCanvasVisible === false
-                ? styles.offcanvas_false_headerContent
-                : styles.defaultHeader
+                  ? styles.offcanvas_false_headerContent
+                  : styles.defaultHeader
             }
           >
             {isOffCanvasVisible ? (
               <>
                 {userRole === "hth-supervisor" ||
-                userRole === "vct-supervisor" ? (
+                  userRole === "vct-supervisor" ? (
                   <>
                     <div className={styles.headerOffcanvaBtn}>
                       <a onClick={handleShow}>
