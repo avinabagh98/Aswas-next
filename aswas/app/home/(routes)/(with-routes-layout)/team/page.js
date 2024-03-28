@@ -125,7 +125,7 @@ export default function page() {
       e.preventDefault();
       const household_id = e.target.id;
       localStorage.setItem("household_id", household_id);
-      localStorage.setItem("flag", true);
+      localStorage.setItem("flag", "true");
       route.push("/home/householdentry");
     };
 
@@ -157,7 +157,7 @@ export default function page() {
 
     const addnewHandler = (e) => {
       e.preventDefault();
-      localStorage.setItem("flag", false);
+      localStorage.setItem("flag", "false");
       route.push("/home/householdentry");
     }
 

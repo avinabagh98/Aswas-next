@@ -35,8 +35,9 @@ export default function page() {
 
   //ohter variables
   const [userRole, setUserRole] = useState("");
-  const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState();
   const [otherDropdownValue, setOtherDropdownValue] = useState("1");
+
   //Language Function Fetcher
   const translate = LanguageFetcher();
 
@@ -105,6 +106,7 @@ export default function page() {
       try {
         const token = await localStorage.getItem("token");
         setUserRole(localStorage.getItem("role_name"));
+        setFlag(localStorage.getItem("flag"));
         if (!token) {
           route.push("/home/login");
         } else {
@@ -114,7 +116,7 @@ export default function page() {
           setFlag(localStorage.getItem("flag"));
           const flag = localStorage.getItem("flag");
 
-          if (flag && householdId) {
+          if (flag === "true" && householdId) {
             setHouseholdId(householdId);
             //Read household by id
             const response = await sendRequest(
@@ -135,7 +137,7 @@ export default function page() {
               setHoldingNumber(data.holding_number || "");
               setAadharNumber(data.aadhaar_number || "");
               setMembers(data.members || "");
-              setRent(data.rent || "");
+              setRent(String(data.rent) || "");
               setPropertyType(data.property_type_id || "");
               setPrivate_(data.private_ || "");
               setAddress(data.address || "");
@@ -178,7 +180,8 @@ export default function page() {
   useEffect(() => {
     console.log("household", household);
     console.log("otherDropdownValue", otherDropdownValue);
-  }, [household, otherDropdownValue]);
+    console.log("flag", flag);
+  }, [household, otherDropdownValue, flag]);
 
   // Handler Functions
   const submitHandler = async (e) => {
@@ -194,7 +197,10 @@ export default function page() {
         let data = formData;
 
         // API SWITCHING BETWEEN PUT OR POST
-        if (flag) {
+
+        //Update Household
+        if (flag === "true") {
+          console.log("dropdown value", otherDropdownValue);
           endpoint += `/${household_id}`;
           method = "put";
           data = formDataUpdate;
@@ -225,6 +231,9 @@ export default function page() {
   };
 
   const handleVal = (id, val) => {
+    console.log("ID:", id);
+    console.log("Value:", val);
+
     // if (id === "ward") {
     //   setWardId(val);
     // }
@@ -263,6 +272,11 @@ export default function page() {
     console.log(e.target.value);
     setOtherDropdownValue(e.target.value);
   };
+
+  const handlehouseholdDropdown = (e) => {
+    console.log(e.target.value);
+    setRent(e.target.value);
+  }
 
   return (
     (
@@ -320,12 +334,12 @@ export default function page() {
               <div className={styles.titlebar}>
                 <Textparser
                   text={
-                    flag ? "Update Householde Entry" : "New Household Entry"
+                    flag === "true" ? "Update Householde Entry" : "New Household Entry"
                   }
                 />
                 <Textparser
-            text={`latitude:${location?.latitude}, longitude:${location?.longitude}`}
-          />
+                  text={`latitude:${location?.latitude}, longitude:${location?.longitude}`}
+                />
               </div>
               <Surveyques
                 id="household_name"
@@ -353,11 +367,29 @@ export default function page() {
               />
               <SurveyDropdown
                 id="ownertype"
-                value={rent}
                 labelText={translate?.owner_type}
                 options={dropdownOption}
-                handleVal={handleVal}
+                handleVal={(id, val) => {
+                  handleVal(id, val);
+                }}
+                value={rent === "1" ? "Rent" : "Own"}
               />
+
+
+              {/* <div className={styles.ownerTypeDropdown}>
+                <label htmlFor="ownerType">Owner Type:</label>
+                <select
+                  id="ownerType"
+                  name="ownerType"
+                  onChange={(e) => handleVal(e.target.id, e.target.value)}
+                // value={rent}
+                >
+                  <option value="Own">Own</option>
+                  <option value="Rent">Rent</option>
+                </select>
+              </div> */}
+
+
               <Surveyques
                 id={"holding_number"}
                 value={holding_number}
@@ -365,7 +397,7 @@ export default function page() {
                 handleVal={handleVal}
               />
             </>
-          ) : (
+          ) : ( //Other Households
             <>
               <div className={styles.titlebar}>
                 <Textparser text={"Other Details"} />
@@ -451,7 +483,7 @@ export default function page() {
           )}
 
           <Button variant="success" onClick={submitHandler}>
-            {flag ? "Update" : "Submit"}
+            {flag === "true" ? "Update" : "Submit"}
           </Button>
         </div>
       </>
