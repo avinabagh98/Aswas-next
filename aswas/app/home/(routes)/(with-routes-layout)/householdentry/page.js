@@ -24,7 +24,7 @@ export default function page() {
   const [members, setMembers] = useState("");
   const [rent, setRent] = useState("0");
   const [property_type_id, setPropertyType] = useState("");
-  const [private_, setPrivate_] = useState("");
+  const [private_, setPrivate_] = useState("0");
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState("");
   const [ward_id, setWardId] = useState("");
@@ -58,22 +58,9 @@ export default function page() {
     aadhaar_number: aadhaar_number,
     members: members,
     rent: rent,
-    property_type_id: property_type_id,
-    private_: private_,
     address: address,
     location: locationString,
     ward_id: ward_id,
-  };
-
-  const Other_formData = {
-    token: token,
-    household: household,
-    name: pond_no,
-    holding_number: holding_number,
-    property_type_id: property_type_id,
-    private_: private_,
-    address: pond_address,
-    location: locationString,
   };
 
   const formDataUpdate = {
@@ -85,11 +72,35 @@ export default function page() {
     aadhaar_number: aadhaar_number,
     members: members,
     rent: rent,
-    property_type_id: property_type_id,
-    private_: private_,
     address: address,
     ward_id: ward_id,
   };
+
+  const Other_formData = {
+    token: token,
+    household: household,
+    name: pond_no,
+    holding_number: holding_number,
+    property_type_id: otherDropdownValue,
+    private: private_,
+    address: pond_address,
+    location: locationString,
+  };
+
+  const Other_formDataUpdate = {
+    token: token,
+    household: household,
+    name: pond_no,
+    holding_number: holding_number,
+    property_type_id: otherDropdownValue,
+    private: private_,
+    address: pond_address,
+    location: locationString,
+  }
+
+
+
+
 
   const dropdownObject = {
     1: "Pond",
@@ -139,9 +150,14 @@ export default function page() {
               setMembers(data.members || "");
               setRent(String(data.rent) || "");
               setPropertyType(data.property_type_id || "");
-              setPrivate_(data.private_ || "");
               setAddress(data.address || "");
               setWardId(data.ward_id || "");
+              setHousehold(String(data.household) || "");
+              setPond_No(String(data.name) || "");
+              setPondAddress(String(data.address) || "");
+              setHoldingNumber(String(data.holding_number) || "");
+              setPrivate_(String(data.private) || "");
+              setOtherDropdownValue(String(data.property_type_id) || "");
             } else {
               swal("Error", response.msg, "error");
             }
@@ -185,49 +201,95 @@ export default function page() {
 
   // Handler Functions
   const submitHandler = async (e) => {
-    if (name === "" || members === "" || rent === "") {
-      swal("Error", "Please fill all the fields", "error");
-    } else {
-      e.preventDefault();
-      console.log("FormData :::", formData);
-      try {
-        //API call parameters set
-        let endpoint = "/properties";
-        let method = "post";
-        let data = formData;
+    if (household === "1") {
+      if (name === "" || members === "" || rent === "") {
+        swal("Error", "Please fill all the fields", "error");
+      } else {
+        e.preventDefault();
+        console.log("FormData :::", formData);
+        try {
+          //API call parameters set
+          let endpoint = "/properties";
+          let method = "post";
+          let data = formData;
 
-        // API SWITCHING BETWEEN PUT OR POST
+          // API SWITCHING BETWEEN PUT OR POST
 
-        //Update Household
-        if (flag === "true") {
-          console.log("dropdown value", otherDropdownValue);
-          endpoint += `/${household_id}`;
-          method = "put";
-          data = formDataUpdate;
-        }
-        //API call -- Create household
-
-        const householdEntry_response = await sendRequest(
-          method,
-          endpoint,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          //Update Household
+          if (flag === "true") {
+            endpoint += `/${household_id}`;
+            method = "put";
+            data = formDataUpdate;
           }
-        );
-        //API Response
-        if (householdEntry_response.status === 1) {
-          console.log("response after update", householdEntry_response.data);
-          localStorage.removeItem("flag");
-        }
-      } catch (error) {
-        swal("Error", error.message, "error");
-      }
+          //API call -- Create household
 
-      route.push("/home/team");
+          const householdEntry_response = await sendRequest(
+            method,
+            endpoint,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          //API Response
+          if (householdEntry_response.status === 1) {
+            console.log("response after update", householdEntry_response.data);
+            localStorage.removeItem("flag");
+          }
+        } catch (error) {
+          swal("Error", error.message, "error");
+        }
+
+        route.push("/home/team");
+      }
     }
+    if (household === "0") {
+      if (pond_no === "" || pond_address === "" || holding_number === "") {
+        swal("Error", "Please fill all the fields", "error");
+      } else {
+        e.preventDefault();
+        console.log("OtherFormData :::", Other_formData);
+        try {
+          //API call parameters set
+          let endpoint = "/properties";
+          let method = "post";
+          let data = Other_formData;
+
+          // API SWITCHING BETWEEN PUT OR POST
+
+          //Update Other Household
+          if (flag === "true") {
+            endpoint += `/${household_id}`;
+            method = "put";
+            data = Other_formDataUpdate;
+          }
+          //API call -- Create household
+
+          const OtherhouseholdEntry_response = await sendRequest(
+            method,
+            endpoint,
+            Other_formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          //API Response
+          if (OtherhouseholdEntry_response.status === 1) {
+            console.log("Other household response after update", OtherhouseholdEntry_response.data);
+            localStorage.removeItem("flag");
+          }
+        } catch (error) {
+          swal("Error", error.message, "error");
+        }
+
+        route.push("/home/team");
+      }
+    }
+
   };
 
   const handleVal = (id, val) => {
@@ -266,6 +328,7 @@ export default function page() {
     if (id === "pond_address") {
       setPondAddress(String(val) || "");
     }
+
   };
 
   const handleOtherDropdown = (e) => {
@@ -447,6 +510,7 @@ export default function page() {
                     onChange={(e) => {
                       setPrivate_(e.target.value);
                     }}
+                    checked={private_ === "1"}
                   ></input>
                   <label htmlFor="private">Private</label>
                 </span>
@@ -459,6 +523,7 @@ export default function page() {
                     onChange={(e) => {
                       setPrivate_(e.target.value);
                     }}
+                    checked={private_ === "0"}
                   ></input>
                   <label htmlFor="public">Public</label>
                 </span>
