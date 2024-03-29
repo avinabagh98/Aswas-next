@@ -3,10 +3,8 @@ import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import bg from "../public/images/app_background_image.jpg";
-import { TeamProvider } from "@/context/TeamContext"; // Import your context provider
 import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { OffcanvasProvider } from "@/context/OffcanvasContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,15 +25,9 @@ export default function RootLayout({ children }) {
           height: "100%",
         }}
       >
-        {/* Wrap your application with the context provider */}
-
-        <TeamProvider>
-          <OffcanvasProvider>
-            <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
-              {children}
-            </SkeletonTheme>
-          </OffcanvasProvider>
-        </TeamProvider>
+        <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
+          {children}
+        </SkeletonTheme>
       </body>
     </html>
   );

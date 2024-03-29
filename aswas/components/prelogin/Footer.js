@@ -9,11 +9,8 @@ export default function Footer() {
       <h5>{translate?.state_urban_development_agency}</h5>
       <h6>{translate?.urban_development_municipal_affairs_department}</h6>
       <p>{translate?.govt_of_west_bengal}</p>
-      <img
-        src="http://localhost:3000/images/prevent_img_icon.png"
-        className={styles.prevent}
-      ></img>
-      <img src="http://localhost:3000/images/spalsh_scree_bottom_design.png"></img>
+      <img src="/images/prevent_img_icon.png" className={styles.prevent}></img>
+      <img src="/images/spalsh_scree_bottom_design.png"></img>
     </div>
   );
 }
