@@ -20,8 +20,14 @@ export default function Page() {
 
   //First reload
   useEffect(() => {
-    setRole_id(localStorage.getItem("role_id"));
-    setRoleName(localStorage.getItem("role_name"));
+    if (typeof localStorage !== "undefined") {
+      setRole_id(localStorage.getItem("role_id"));
+      setRoleName(localStorage.getItem("role_name"));
+    }
+    else {
+      console.log("LocalStorage is not available");
+    }
+
   }, []);
 
   const loginData = {
@@ -45,6 +51,7 @@ export default function Page() {
         loginData
       );
       const token = res.data.access_token;
+
       localStorage.setItem("token", token);
       localStorage.setItem("phone", username);
       swal("Successfully", "logged in", "success");
