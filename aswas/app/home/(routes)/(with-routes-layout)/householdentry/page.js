@@ -38,6 +38,12 @@ export default function page() {
   const [flag, setFlag] = useState();
   const [otherDropdownValue, setOtherDropdownValue] = useState("1");
 
+  //Header-Loading Data States
+  const [username, setUserName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
   //Language Function Fetcher
   const translate = LanguageFetcher();
 
@@ -48,6 +54,13 @@ export default function page() {
   const dropdownOption = ["Own", "Rent"];
 
   // Other variables
+
+  const loadingHeaderData = {
+    name: username,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
 
   const formData = {
     token: token,
@@ -96,11 +109,7 @@ export default function page() {
     private: private_,
     address: pond_address,
     location: locationString,
-  }
-
-
-
-
+  };
 
   const dropdownObject = {
     1: "Pond",
@@ -121,6 +130,19 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
+          setUserRole(localStorage.getItem("role_name"));
+          setUserName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
+
           setToken(localStorage.getItem("token"));
           setWardId(localStorage.getItem("ward_id"));
           const householdId = localStorage.getItem("household_id");
@@ -279,7 +301,10 @@ export default function page() {
           );
           //API Response
           if (OtherhouseholdEntry_response.status === 1) {
-            console.log("Other household response after update", OtherhouseholdEntry_response.data);
+            console.log(
+              "Other household response after update",
+              OtherhouseholdEntry_response.data
+            );
             localStorage.removeItem("flag");
           }
         } catch (error) {
@@ -289,7 +314,6 @@ export default function page() {
         route.push("/home/team");
       }
     }
-
   };
 
   const handleVal = (id, val) => {
@@ -328,7 +352,6 @@ export default function page() {
     if (id === "pond_address") {
       setPondAddress(String(val) || "");
     }
-
   };
 
   const handleOtherDropdown = (e) => {
@@ -339,12 +362,16 @@ export default function page() {
   const handlehouseholdDropdown = (e) => {
     console.log(e.target.value);
     setRent(e.target.value);
-  }
+  };
 
   return (
     (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
         <div className={styles.householdentrycontainer}>
           <div className={styles.householdType}>
             <span>
@@ -397,7 +424,9 @@ export default function page() {
               <div className={styles.titlebar}>
                 <Textparser
                   text={
-                    flag === "true" ? "Update Householde Entry" : "New Household Entry"
+                    flag === "true"
+                      ? "Update Householde Entry"
+                      : "New Household Entry"
                   }
                 />
                 <Textparser
@@ -438,7 +467,6 @@ export default function page() {
                 value={rent === "1" ? "Rent" : "Own"}
               />
 
-
               {/* <div className={styles.ownerTypeDropdown}>
                 <label htmlFor="ownerType">Owner Type:</label>
                 <select
@@ -452,7 +480,6 @@ export default function page() {
                 </select>
               </div> */}
 
-
               <Surveyques
                 id={"holding_number"}
                 value={holding_number}
@@ -460,7 +487,8 @@ export default function page() {
                 handleVal={handleVal}
               />
             </>
-          ) : ( //Other Households
+          ) : (
+            //Other Households
             <>
               <div className={styles.titlebar}>
                 <Textparser text={"Other Details"} />

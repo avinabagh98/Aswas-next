@@ -8,6 +8,7 @@ import { sendRequest } from "@/api/sendRequest";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Header from "@/components/Header/Header";
+import Textparser from "@/components/home/Textparser";
 
 export default function page() {
   const [token, setToken] = useState();
@@ -16,23 +17,48 @@ export default function page() {
   const [api_data_HS, setAPI_Data_HS] = useState([]);
   const [api_dataVCT, setAPI_DataVCT] = useState([]);
   const [api_dataVCT_household, setAPI_DataVCT_Household] = useState([]);
-  const [issurveyDone, setIssurveyDone] = useState(false);
   const [round, setRound] = useState(null);
   const route = useRouter();
+  //Header-Loading Data States
+  const [name, setName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
+  const loadingHeaderData = {
+    name: name,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
 
   //Localstorage and Token fetching
   useEffect(() => {
     localStorage.removeItem("flag");
     localStorage.removeItem("household_id(survey-update)");
     localStorage.removeItem("household_name");
+    localStorage.removeItem("IsSurveyDone");
+
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
-        const roundNo = localStorage.getItem("round");
+        // const roundNo = localStorage.getItem("round");
         if (!token) {
           route.push("/home/login");
         } else {
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
           setUserRole(localStorage.getItem("role_name"));
+          setName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
+
           setToken(token);
           setRound(localStorage.getItem("round"));
 
@@ -108,11 +134,7 @@ export default function page() {
     }
   }, [userRole]);
 
-  useEffect(() => {
-    console.log("Api Data HTH Member", api_data);
-    console.log("Api Data HTH Supervisor", api_data_HS);
-    console.log("api data vct", api_dataVCT);
-  }, [api_data, api_data_HS, api_dataVCT]);
+  useEffect(() => {}, [api_data, api_data_HS, api_dataVCT]);
 
   try {
     const routeHandler = (e) => {
@@ -159,11 +181,18 @@ export default function page() {
       e.preventDefault();
       localStorage.setItem("flag", "false");
       route.push("/home/householdentry");
-    }
+    };
 
     return userRole === "hth-supervisor" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
+        <div className={styles.Pagetext}>
+          <Textparser text="Team Work Details" />
+        </div>
         <table className={styles.tableContainerHS}>
           <thead>
             <tr>
@@ -175,14 +204,13 @@ export default function page() {
           <tbody>
             {api_data_HS.map((item, index) => (
               <tr key={index}>
-                <td className={styles.teamNo}>{item.team.number}</td>
+                <td className={styles.HSteamNo}>{item.team.number}</td>
                 <td>{item.name}</td>
-                <td>
+                <td className="text-center">
                   <button
                     onClick={() => {
-                      console.log("clicked ", item.team.number);
                       localStorage.setItem("team_id", item.team.id);
-                      route.push(`/home/team/${item.team.number}`);
+                      route.push("/home/householdlist");
                     }}
                   >
                     <img
@@ -198,7 +226,14 @@ export default function page() {
       </>
     ) : userRole === "hth-member" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
+        <div className={styles.Pagetext}>
+          <Textparser text="Team Work Details" />
+        </div>
         <div className={styles.teamContainer}>
           <div className={styles.searchbar}>
             <input placeholder="Search"></input>
@@ -255,7 +290,10 @@ export default function page() {
                           onClick={(e) => {
                             if (row.has_ongoing_hth_member_survey) {
                               e.preventDefault();
-
+                              localStorage.setItem(
+                                "IsSurveyDone",
+                                row.has_ongoing_hth_member_survey
+                              );
                               localStorage.setItem("household_name", row.name);
                               localStorage.setItem(
                                 "household_id(survey-update)",
@@ -288,7 +326,16 @@ export default function page() {
       </>
     ) : userRole === "vct-supervisor" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
+
+        <div className={styles.Pagetext}>
+          <Textparser text="Team Work Details" />
+        </div>
+
         <div className={styles.teamContainer}>
           <div className={styles.searchbar}>
             <input placeholder="Search"></input>

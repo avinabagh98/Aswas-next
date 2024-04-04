@@ -32,11 +32,9 @@ export default function page() {
   };
 
   useEffect(() => {
-    localStorage.getItem("role_id");
-    localStorage.setItem("data", JSON.stringify(data));
-    localStorage.setItem("role_name", rolenName);
-    localStorage.setItem("role_id", roleValue);
-    console.log("In home page role set to", roleValue);
+    window.localStorage.setItem("data", JSON.stringify(data));
+    window.localStorage.setItem("role_name", rolenName);
+    window.localStorage.setItem("role_id", roleValue);
   }, [data, roleValue, rolenName]);
 
   return (

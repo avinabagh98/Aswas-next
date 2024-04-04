@@ -1,7 +1,7 @@
 "use client";
 
 import { Offcanvas } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Header.module.css";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
@@ -11,16 +11,17 @@ export default function Header({
   defaultHeader,
   isOffCanvasVisible,
   userRole,
+  loadingdata,
 }) {
   const route = useRouter();
-  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
 
-  const name = localStorage.getItem("name");
-  const municipality_name = localStorage.getItem("municipality_name");
-  const ward_name = localStorage.getItem("ward_name");
-  const team_num = localStorage.getItem("team_number");
+  const name = loadingdata?.name || null;
+  const municipality_name = loadingdata?.municipality_name || null;
+  const ward_name = loadingdata?.ward_name || null;
+  const team_num = loadingdata?.team_num || null;
 
   const handleLogout = () => {
     swal({
@@ -55,14 +56,14 @@ export default function Header({
               isOffCanvasVisible
                 ? styles.headerContent
                 : isOffCanvasVisible === false
-                  ? styles.offcanvas_false_headerContent
-                  : styles.defaultHeader
+                ? styles.offcanvas_false_headerContent
+                : styles.defaultHeader
             }
           >
             {isOffCanvasVisible ? (
               <>
                 {userRole === "hth-supervisor" ||
-                  userRole === "vct-supervisor" ? (
+                userRole === "vct-supervisor" ? (
                   <>
                     <div className={styles.headerOffcanvaBtn}>
                       <a onClick={handleShow}>
@@ -268,7 +269,7 @@ export default function Header({
               <>
                 <div className={styles.headerOffcanvaBtn}>
                   <a onClick={handleBack}>
-                    <img src="/svgs/Back Button.svg" alt="logo1"></img>
+                    <img src="/images/back_button.png" alt="back-button"></img>
                   </a>
                 </div>
               </>
@@ -281,7 +282,7 @@ export default function Header({
             >
               <img
                 src="/images/west_bengal_biswa_bangla_logo.png"
-                alt="logo1"
+                alt="back-button"
               ></img>
               <div className={styles.logoText}>
                 <p>VCM</p>
@@ -299,9 +300,21 @@ export default function Header({
             <div className={styles.container}>
               <div className={styles.namebar}>
                 <span>
-                  <Textparser text={`${name}(${userRole})`} />
+                  {userRole ? (
+                    <Textparser text={`${name}(${userRole})`} />
+                  ) : (
+                    <span className={styles.userRoleSelected}>
+                      <Textparser text={` ${name} `} />
+                    </span>
+                  )}
                   <br />
-                  <Textparser text={`${municipality_name} Ward-${ward_name}`} />
+                  {municipality_name ? (
+                    <Textparser
+                      text={`${municipality_name} Ward-${ward_name}`}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </span>
                 {team_num ? <span>{`Team-${team_num}`}</span> : <></>}
               </div>

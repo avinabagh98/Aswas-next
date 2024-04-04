@@ -6,7 +6,6 @@ import styles from "./schedule.module.css";
 import { Table } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import SingleButton from "@/components/home/SingleButton";
-import LanguageFetcher from "@/components/LanguageFetcher";
 import Skeleton from "react-loading-skeleton"; // Import react-loading-skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the CSS file
 import swal from "sweetalert";
@@ -19,10 +18,23 @@ export default function page() {
   //User Details state variables
   const [token, setToken] = useState("");
   const [userRole, setUserRole] = useState(null);
+  //Header-Loading Data States
+  const [name, setName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
   //other state variables
   const [api_data_schedule, setAPI_Data_Schedule] = useState([]);
-  const [api_data_userDetails, setAPI_Data_userDetails] = useState([]);
 
+  const loadingHeaderData = {
+    name: name,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
+
+  //Token Fetching and local storage fetching
   useEffect(() => {
     try {
       async function fetchData() {
@@ -30,20 +42,18 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
-          setUserRole(localStorage.getItem("role_name"));
-          setToken(token);
-
-          //Fetching user details
-          const user_details_response = await sendRequest(
-            "get",
-            "/user-details",
-            null,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
           );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
+          setUserRole(localStorage.getItem("role_name"));
+          setName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
 
           //Fetching schedule details
           const schedule_response = await sendRequest(
@@ -58,13 +68,7 @@ export default function page() {
           );
 
           if (schedule_response.status === 1) {
-            console.log("response", schedule_response.data);
             setAPI_Data_Schedule(schedule_response.data);
-          }
-
-          if (user_details_response.status === 1) {
-            console.log("User Details Response ::", user_details_response.data);
-            setAPI_Data_userDetails(user_details_response.data);
           }
         }
       }
@@ -76,38 +80,12 @@ export default function page() {
 
   //API Data Showing
   useEffect(() => {
-    console.log(api_data_schedule); // This will log the updated value of api_data
-    console.log(api_data_userDetails);
-    localStorage.setItem("user_id", api_data_userDetails.id);
-    localStorage.setItem("team_id", api_data_userDetails.team_id);
-    localStorage.setItem("name", api_data_userDetails.name);
-
-    if (api_data_userDetails.ward) {
-      localStorage.setItem("ward_id", api_data_userDetails.ward.id);
-      localStorage.setItem("ward_name", api_data_userDetails.ward.name);
-    }
-
-    if (api_data_userDetails.team) {
-      localStorage.setItem("team_number", api_data_userDetails.team.number);
-    }
-
-    if (api_data_userDetails.municipality) {
-      localStorage.setItem(
-        "municipality_id",
-        api_data_userDetails.municipality.id
-      );
-      localStorage.setItem(
-        "municipality_name",
-        api_data_userDetails.municipality.name
-      );
-    }
-
     api_data_schedule.map((item) => {
       if (item.status === "ONGOING") {
         localStorage.setItem("round", item.round);
       }
     });
-  }, [api_data_schedule, api_data_userDetails]);
+  }, [api_data_schedule]);
 
   //Handler Functions
   const handleMembersSurveyBtn = (e) => {
@@ -131,7 +109,11 @@ export default function page() {
 
     return userRole === "hth-member" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
         <div className={styles.hth_mem_text}>
           <Textparser text="Schedule" />
         </div>
@@ -181,7 +163,11 @@ export default function page() {
       </>
     ) : userRole === "vct-supervisor" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
         <div className={styles.vct_supervisor_text}>
           <Textparser text="Schedule" />
         </div>
@@ -237,7 +223,11 @@ export default function page() {
       </>
     ) : userRole === "hth-supervisor" ? (
       <>
-        <Header userRole={userRole} isOffCanvasVisible={false} />
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
         <div className={styles.hth_supervisor_text}>
           <Textparser text={"Schedule"} />
         </div>

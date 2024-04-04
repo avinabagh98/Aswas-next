@@ -26,7 +26,12 @@ export default function page() {
     []
   );
   const [api_data_schedule, setAPI_Data_Schedule] = useState([]);
-  // const [survey_data, setSurvey_Data] = useState([]);
+
+  //Header-Loading Data States
+  const [name, setName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
 
   const survey_data = [];
   const team_survey_body_data = {
@@ -38,6 +43,13 @@ export default function page() {
     end_date: endDate,
   };
 
+  const loadingHeaderData = {
+    name: name,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
+
   //Localstorage and Token fetching
   useEffect(() => {
     const team_id = localStorage.getItem("team_id");
@@ -47,6 +59,19 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
+          setUserRole(localStorage.getItem("role_name"));
+          setName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
+
           setToken(token);
           setUserRole(localStorage.getItem("role_name"));
           setUser_ID(localStorage.getItem("user_id"));
@@ -142,7 +167,11 @@ export default function page() {
 
   return (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={false} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
       <div>
         <div className={styles.dailySurveyReportContainer}>
           <DynamicDropdown

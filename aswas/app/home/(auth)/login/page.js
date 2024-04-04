@@ -4,24 +4,25 @@ import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { sendRequest } from "@/api/sendRequest";
-import { ShowOffCanvas } from "@/components/ShowOffCanvas";
+
 import axios from "axios";
 import swal from "sweetalert";
-import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import Header from "@/components/Header/Header";
 
 export default function Page() {
-  useEffect(() => {
-    ShowOffCanvas(true);
-  }, []);
+  const [role_id, setRole_id] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [role_name, setRoleName] = useState();
 
   const route = useRouter();
   const translate = LanguageFetcher();
-  const role_id = LocalStorageFetcher({ keyName: "role_id" });
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  //First reload
+  useEffect(() => {
+    setRole_id(localStorage.getItem("role_id"));
+    setRoleName(localStorage.getItem("role_name"));
+  }, []);
 
   const loginData = {
     phone: username,
@@ -29,29 +30,20 @@ export default function Page() {
     role_id: role_id,
   };
 
-  // const loginHandler = async (e) => {
-  //   e.preventDefault();
-  //   console.log("loginData:", loginData);
-
-  //   try {
-  //     const response = await sendRequest("post", "/login", loginData, {
-  //       "Content-Type": "application/json",
-  //     });
-
-  //     // Handle the response here
-  //     console.log("Login response:", response);
-  //     // You can add logic here to redirect the user or show a success message
-  //   } catch (error) {
-  //     // Handle errors, such as network errors or server errors
-  //     console.error("Login error:", error);
-  //     // You can add logic here to display an error message to the user
-  //   }
-  // };
+  const loadingHeaderData = {
+    name: role_name,
+    municipality_name: "",
+    team_num: "",
+    ward_name: "",
+  };
 
   const loginHandler = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/login`,loginData)
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
+        loginData
+      );
       const token = res.data.access_token;
       localStorage.setItem("token", token);
       localStorage.setItem("phone", username);
@@ -64,7 +56,7 @@ export default function Page() {
 
   return (
     <>
-      <Header isOffCanvasVisible={false} />
+      <Header isOffCanvasVisible={false} loadingdata={loadingHeaderData} />
       <div className={styles.loginContainer}>
         <h2>{translate?.user_login}</h2>
         <div className={styles.loginForm}>

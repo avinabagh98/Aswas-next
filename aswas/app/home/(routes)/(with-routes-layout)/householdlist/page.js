@@ -1,24 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import LocalStorageFetcher from "@/components/LocalStorageFetcher";
 import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { Button, Table } from "react-bootstrap";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { useTeam } from "@/context/TeamContext"; //
+import Textparser from "@/components/home/Textparser";
 import swal from "sweetalert";
 import { sendRequest } from "@/api/sendRequest";
 import Header from "@/components/Header/Header";
 
 export default function page() {
-  const { teamNumber } = useTeam(); //
   const translate = LanguageFetcher();
-
   const [userRole, setUserRole] = useState("");
   const [api_data_HSTeamhHousehold, setAPI_Data_HSTeamhHousehold] = useState(
     []
   );
+
+  //Header-Loading Data States
+  const [name, setName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
+  const loadingHeaderData = {
+    name: name,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
 
   const route = useRouter();
 
@@ -33,7 +43,18 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
           setUserRole(localStorage.getItem("role_name"));
+          setName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
           //api call households surveyed by teams
           const response_TeamHouehold = await sendRequest(
             "get",
@@ -63,7 +84,6 @@ export default function page() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("clicked");
     route.push("/home/survey");
   };
 
@@ -76,7 +96,14 @@ export default function page() {
 
   return userRole === "hth-member" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={false} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+      <div className={styles.Pagetext}>
+        <Textparser text="Team Work Details" />
+      </div>
       <div className={styles.teamContainer}>
         <div className={styles.searchbar}>
           <input placeholder="Auto Search"></input>
@@ -120,7 +147,14 @@ export default function page() {
     </>
   ) : userRole === "hth-supervisor" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={false} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+      <div className={styles.Pagetext}>
+        <Textparser text="Team Work Details" />
+      </div>
       <div className={styles.teamContainerHS}>
         <input placeholder="Auto Search"></input>
         <div className={styles.tableContainerHS}>
@@ -195,7 +229,14 @@ export default function page() {
     </>
   ) : userRole === "vct-member" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={false} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+      <div className={styles.Pagetext}>
+        <Textparser text="Team Work Details" />
+      </div>
       <div className={styles.teamContainer}>
         <input placeholder="Auto Search"></input>
         <div className={styles.tableContainer}>
@@ -231,6 +272,6 @@ export default function page() {
       </div>
     </>
   ) : (
-    <> userRole === ??? </>
+    <></>
   );
 }

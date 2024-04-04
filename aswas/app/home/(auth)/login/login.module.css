@@ -1,11 +1,8 @@
-/* ////////////NEW CSS MOBILE SCREENS/////////////////// */
-
-
 .loginContainer {
       height: auto;
       width: 100%;
-      padding: var(--globalPadding);
-      margin: var(--globalMargin);
+      padding: var(--globalPadding--half);
+      margin: var(--globalMargin--half);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -58,7 +55,7 @@
       font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
       font-weight: 700;
       border: none;
-      background-color: green;
+      background-color: var(--button-green);
       color: var(--white);
       cursor: pointer;
 }
@@ -69,16 +66,12 @@
       cursor: pointer;
 }
 
-/* Media queries for responsiveness */
 
-
-
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 400px) {
       .loginContainer {
             height: auto;
             width: 100%;
-            padding: var(--globalPadding);
-            margin: var(--globalMargin);
+            padding: var(--globalPadding-half);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -88,17 +81,17 @@
       .loginForm {
             width: 100%;
             height: auto;
-            margin-top: 1rem;
+            margin-top: var(--globalMargin);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 1rem;
+            gap: 10px;
       }
 
       .loginContainer h2 {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+            margin-top: var(--globalMargin);
+            margin-bottom: var(--globalMargin);
             text-align: center;
             text-decoration: underline;
             color: var(--darkblue);
@@ -124,14 +117,14 @@
       }
 
       .loginForm button {
-            margin-top: 2rem;
+            margin-top: var(--globalMargin);
             padding: var(--globalPadding);
             height: 44px;
             width: 100px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             font-weight: 700;
             border: none;
-            background-color: var(--green);
+            background-color: var(--button-green);
             color: var(--white);
             cursor: pointer;
       }

@@ -37,7 +37,7 @@
 }
 
 .btnSpan:hover {
-      background-color: darkblue;
+      background-color: var(--buttonDarakblue);
 }
 
 
@@ -76,7 +76,7 @@
             border: none;
             border-radius: 5px;
             color: whitesmoke;
-            background-color: darkblue;
+            background-color: var(--buttonDarakblue);
             cursor: pointer;
       }
 
@@ -85,6 +85,6 @@
       }
 
       .btnSpan:hover {
-            background-color: darkblue;
+            background-color: var(--buttonDarakblue);
       }
 }

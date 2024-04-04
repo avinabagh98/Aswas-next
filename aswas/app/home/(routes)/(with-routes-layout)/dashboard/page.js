@@ -17,12 +17,22 @@ export default function page() {
   //State Variables
   const [token, setToken] = useState("");
   const [userRole, setUserRole] = useState(null);
+  const [name, setName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
 
   //other state variables
   const [api_data_userDetails, setAPI_Data_userDetails] = useState([]);
 
-  //Token Fetching
+  const loadingHeaderData = {
+    name: name,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
 
+  //Token Fetching
   useEffect(() => {
     try {
       async function fetchData() {
@@ -46,7 +56,7 @@ export default function page() {
           );
 
           if (user_details_response.status === 1) {
-            console.log("User Details Response ::", user_details_response.data);
+            // console.log("User Details Response ::", user_details_response.data);
             setAPI_Data_userDetails(user_details_response.data);
           }
         }
@@ -57,20 +67,24 @@ export default function page() {
     }
   }, []);
 
-  //API Data Showing and LocalStorage Storing
+  //API Data Showing and LocalStorage Storing && State variable updating for Header
   useEffect(() => {
-    console.log("User Details Api Response::", api_data_userDetails);
-    localStorage.setItem("user_id", api_data_userDetails.id);
-    localStorage.setItem("team_id", api_data_userDetails.team_id);
-    localStorage.setItem("name", api_data_userDetails.name);
+    if (api_data_userDetails && Object.keys(api_data_userDetails).length > 0) {
+      localStorage.setItem("user_id", api_data_userDetails.id);
+      localStorage.setItem("team_id", api_data_userDetails.team_id);
+      localStorage.setItem("name", api_data_userDetails.name);
+      setName(api_data_userDetails.name);
+    }
 
     if (api_data_userDetails.ward) {
       localStorage.setItem("ward_id", api_data_userDetails.ward.id);
       localStorage.setItem("ward_name", api_data_userDetails.ward.name);
+      setWard_name(api_data_userDetails.ward.name);
     }
 
     if (api_data_userDetails.team) {
       localStorage.setItem("team_number", api_data_userDetails.team.number);
+      setTeam_num(api_data_userDetails.team.number);
     }
 
     if (api_data_userDetails.municipality) {
@@ -82,7 +96,11 @@ export default function page() {
         "municipality_name",
         api_data_userDetails.municipality.name
       );
+
+      setMunicipality_name(api_data_userDetails.municipality.name);
     }
+
+    console.log("Header loading data::", loadingHeaderData);
   }, [api_data_userDetails]);
 
   //Handler Functions
@@ -91,18 +109,31 @@ export default function page() {
     route.push("/home/dailysurveyreport");
   };
 
+  const handleSingleBtn = (e) => {
+    e.preventDefault();
+    route.push("/home/schedule");
+  };
+
   return userRole === "hth-member" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={true} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={true}
+        loadingdata={loadingHeaderData}
+      />
       <div className={styles.dailySurveyBtn}>
-        <SingleButton btnText="Schedule" href={"/home/schedule"} />
+        <SingleButton btnText="Schedule" onClick={handleSingleBtn} />
       </div>
     </>
   ) : userRole === "hth-supervisor" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={true} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={true}
+        loadingdata={loadingHeaderData}
+      />
       <div className={styles.dailySurveyBtn}>
-        <SingleButton btnText="Schedule" href={"/home/schedule"} />
+        <SingleButton btnText="Schedule" onClick={handleSingleBtn} />
       </div>
 
       <div>
@@ -115,9 +146,13 @@ export default function page() {
     </>
   ) : userRole === "vct-supervisor" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={true} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={true}
+        loadingdata={loadingHeaderData}
+      />
       <div className={styles.dailySurveyBtn}>
-        <SingleButton btnText="Schedule" href={"/home/schedule"} />
+        <SingleButton btnText="Schedule" onClick={handleSingleBtn} />
       </div>
 
       <div>

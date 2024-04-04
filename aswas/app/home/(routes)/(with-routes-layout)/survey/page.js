@@ -7,7 +7,6 @@ import Textparser from "@/components/home/Textparser";
 import { Button } from "react-bootstrap";
 import Resizer from "react-image-file-resizer";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { useTeam } from "@/context/TeamContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useRouter } from "next/navigation";
@@ -16,7 +15,7 @@ import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 
 export default function page() {
-  const { teamNumber } = useTeam();
+  const [teamNumber, setTeamNumber] = useState("");
   const translate = LanguageFetcher();
   const route = useRouter();
 
@@ -74,6 +73,7 @@ export default function page() {
   const [resolved_garbage_others, setResolvedGarbageOthers] = useState([]);
   const [resolve_start_date, setResolvedStartDate] = useState("");
   const [resolve_end_date, setResolvedEndDate] = useState("");
+  const [lock_reason, setLockReason] = useState("0");
 
   //Other State Variables
   const [userRole, setUserRole] = useState("");
@@ -88,6 +88,20 @@ export default function page() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [locationString, setLocationString] = useState("");
+  const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [IsSurveyDone, setIsSurveyDone] = useState("false");
+  //Header-Loading Data States
+  const [username, setUserName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
+  const loadingHeaderData = {
+    name: username,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
 
   const surveyDataHM = {
     token: token,
@@ -112,6 +126,7 @@ export default function page() {
       কতগুলো_বাসিন্দা_সঙ্গে_আলোচনা_করা_হল_ও_লিফলেট_দেওয়া_হল,
     landmark: Landmark,
     image: image,
+    lock_reason: lock_reason
   };
 
   const surveyDataHS = {
@@ -138,6 +153,7 @@ export default function page() {
     landmark: Landmark,
     image: image,
     remarks: remarks,
+    lock_reason: lock_reason
   };
 
   const surveyDataVCT = {
@@ -168,8 +184,21 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
           setUserRole(localStorage.getItem("role_name"));
+          setUserName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
+
           setToken(token);
+          setIsSurveyDone(localStorage.getItem("IsSurveyDone"));
 
           // Fetching Household data - HTH MEMBER
           if (role === "hth-member") {
@@ -188,25 +217,7 @@ export default function page() {
             }
           }
 
-          // Fetching Household data - VCT Supervisor
-          // if (role === "vct-supervisor") {
-          //   console.log("insride vct supervisor");
 
-          //   const response_vct = await sendRequest(
-          //     "get",
-          //     `properties/${household_id}/survey/hth-member`,
-          //     null,
-          //     {
-          //       headers: {
-          //         Authorization: `Bearer ${token}`,
-          //       },
-          //     }
-          //   );
-          //   if (response_vct.status === 1) {
-          //     setAPI_Data_vctSurvey(response_vct.data);
-          //     console.log(response_vct.data);
-          //   }
-          // }
         }
       }
       fetchData();
@@ -273,10 +284,43 @@ export default function page() {
 
     geolocation();
   }, []);
+
+
   //Location String
   useEffect(() => {
     setLocationString(`${location?.latitude},${location?.longitude}`);
   }, [location, locationString]);
+
+
+  //Dropdown Fetching
+  useEffect(() => {
+    try {
+
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "get",
+          `/lockreason`,
+          null,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+
+          const reasons = response.data.map((item) => item.reason_name);
+          setDropdownOptions(reasons);
+
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token])
+
 
   //API Data checking
   useEffect(() => {
@@ -285,21 +329,7 @@ export default function page() {
   }, [api_data_survey, api_data_vctSurvey]);
 
   //Functions
-  const resizeFile = (file) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        100,
-        100,
-        "JPEG",
-        100,
-        0,
-        (uri) => {
-          resolve(uri);
-        },
-        "base64"
-      );
-    });
+
 
   const camera_button = async () => {
     try {
@@ -349,6 +379,8 @@ export default function page() {
       setIsSurveyed("0");
       console.log("isLocked", isLocked);
     }
+
+
     if (value === "yes" && name === "field_2_form_5") {
       setField_2_form_5("1");
     }
@@ -500,11 +532,10 @@ export default function page() {
               survey_response.data
             );
             setApi_Data_Survey(survey_response.data);
-            setSurveyBtnDisable(true);
             route.push("/home/team");
           }
         } catch (error) {
-          swal("Error", error.message, "error");
+          swal("Error", error, "error");
         }
       }
     }
@@ -594,24 +625,73 @@ export default function page() {
 
   const handleReasonSubmit = async (e) => {
     e.preventDefault();
+    localStorage.removeItem("household_id");
+    //hth-member
+    if (userRole === "hth-member") {
+      try {
+        const survey_response = await sendRequest(
+          "post",
+          "/surveys",
+          surveyDataHM,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (survey_response.status === 1) {
+          console.log(
+            "survey_response hth mem submitted",
+            survey_response.data
+          );
+          setApi_Data_Survey(survey_response.data);
+          setSurveyBtnDisable(true);
+          route.push("/home/team");
+        }
+      } catch (error) {
+        swal("Error", error, "error");
+      }
+    }
+    //hth-supervisor
+    if (userRole === "hth-supervisor") {
+      try {
+        const survey_response = await sendRequest(
+          "post",
+          "/surveys",
+          surveyDataHS,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (survey_response.status === 1) {
+          console.log(
+            "survey_response hth supervisor submitted",
+            survey_response.data
+          );
+          setApi_Data_Survey(survey_response.data);
+          setSurveyBtnDisable(true);
+          route.push("/home/team");
+        }
+      } catch (error) {
+        swal("Error", error, "error");
+      }
+    }
     route.back();
-  }
+  };
 
-  const dropdownOptions = ["Misbehaved", "Abondoned", "Tala jhulche", "Other"];
+
+  // const dropdownOptions = ["Misbehaved", "Abondoned", "Tala jhulche", "Other"];
 
   return userRole === "hth-member" ? (
     <>
-      <Header userRole={userRole} isOffCanvasVisible={false} />
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
       <div className={styles.container}>
-        {/* <div className={styles.titlebar}>
-      <span>
-        <Textparser text={"Form-No-2"} />
-      </span>
-      <span>
-        <Textparser text={"Round-2"} />
-      </span>
-    </div> */}
-
         <span className={styles.name}>
           <Textparser text={api_data_hosuehold?.name} />
           <Textparser
@@ -620,7 +700,7 @@ export default function page() {
         </span>
 
         <div className={styles.content}>
-          {isLocked ? (
+          {(IsSurveyDone !== "true") ? (
             <>
               <Surveyoption
                 id={"isLocked"}
@@ -654,7 +734,9 @@ export default function page() {
                 </select>
               </div>
 
-              <button className={styles.submitBtn} onClick={handleReasonSubmit}>Submit</button>
+              <button className={styles.submitBtn} onClick={handleReasonSubmit}>
+                Submit
+              </button>
             </>
           ) : isSurveyed === "1" ? (
             <>
@@ -776,7 +858,6 @@ export default function page() {
               )}
               <Button
                 variant="success"
-                disabled={surveyBtnDisable} //does not work
                 onClick={(e) => handleSubmit(e, userRole)}
               >
                 Submit
@@ -790,7 +871,7 @@ export default function page() {
     </>
   ) : userRole === "hth-supervisor" ? (
     <>
-      <Header isOffCanvasVisible={false} />
+      <Header isOffCanvasVisible={false} loadingdata={loadingHeaderData} />
       <div className={styles.container}>
         <h1>testing {teamNumber}</h1>
         <div className={styles.titlebar}>
@@ -921,7 +1002,7 @@ export default function page() {
     </>
   ) : userRole === "vct-supervisor" ? (
     <>
-      <Header isOffCanvasVisible={false} />
+      <Header isOffCanvasVisible={false} loadingdata={loadingHeaderData} />
       <div className={styles.container}>
         <h4 className="text-decoration-underline text-center">Form No. 5</h4>
         <span className={styles.name}>

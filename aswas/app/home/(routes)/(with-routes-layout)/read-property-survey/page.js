@@ -5,11 +5,8 @@ import React, { useEffect, useState } from "react";
 import Surveyques from "@/components/home/Surveyques";
 import Surveyoption from "@/components/home/Surveyoption";
 import Textparser from "@/components/home/Textparser";
-import { Button } from "react-bootstrap";
 import Resizer from "react-image-file-resizer";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { useTeam } from "@/context/TeamContext";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
@@ -69,6 +66,19 @@ export default function page() {
   const [api_data_survey, setApi_Data_Survey] = useState([]);
   const [surveyBtnDisable, setSurveyBtnDisable] = useState(false);
 
+  //Header-Loading Data States
+  const [username, setUserName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
+  const loadingHeaderData = {
+    name: username,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
+
   // //Token initialzation and localstorage fetching
   useEffect(() => {
     async function fetchData() {
@@ -77,8 +87,20 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
-          setToken(localStorage.getItem("token"));
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
           setUserRole(localStorage.getItem("role_name"));
+          setUserName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
+
+          setToken(localStorage.getItem("token"));
           const householdId = localStorage.getItem("household_id");
 
           if (householdId) {
@@ -131,53 +153,6 @@ export default function page() {
     }
     fetchData();
   }, []);
-
-  //Functions
-  const resizeFile = (file) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        100,
-        100,
-        "JPEG",
-        100,
-        0,
-        (uri) => {
-          resolve(uri);
-        },
-        "base64"
-      );
-    });
-
-  const camera_button = async () => {
-    try {
-      setCameraClicked(true);
-      let stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: false,
-      });
-      video.srcObject = stream;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const click_button = () => {
-    try {
-      setCaptureClicked(true);
-      canvas
-        .getContext("2d")
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
-      let image_data_url = canvas.toDataURL("image/jpeg");
-      console.log(image_data_url);
-      setImage(image_data_url);
-      // resizeFile(image_data_url).then((data) => {
-      //   setImage(data);
-      // });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   //Handler functions
   const handleRadioChange_value = (event) => {
@@ -302,7 +277,11 @@ export default function page() {
 
   return userRole === "hth-supervisor" ? (
     <>
-      <Header userRole={"hth-supervisor"} isOffCanvasVisible={false} />
+      <Header
+        userRole={"hth-supervisor"}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
       <div className={styles.container}>
         <>
           <div className={styles.namebar}>
@@ -416,28 +395,6 @@ export default function page() {
               disabled={userRole === "hth-supervisor"}
             />
           </span>
-          {/* <div className={styles.imgContainer}>
-          <Textparser text={translate?.জমে_থাকা_আবর্জনা_বা_জলের_ছবি_তুলুন} />
-          <a onClick={camera_button}>
-            <img src="/images/camera_icon_to_upload.png"></img>
-          </a>
-        </div> */}
-          {/* {cameraClicked ? (
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <video id="video" width="320" height="240" autoPlay></video>
-            <Button onClick={click_button}>Click Photo</Button>
-            <canvas id="canvas" width="320" height="240"></canvas>
-          </div>
-        ) : (
-          <></>
-        )}
-        <Button
-          variant="success"
-          disabled={surveyBtnDisable} //does not work
-          onClick={(e) => handleSubmit(e, userRole)}
-        >
-          Submit
-        </Button> */}
         </>
       </div>
     </>

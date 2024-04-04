@@ -8,6 +8,20 @@
 
 }
 
+
+.Pagetext {
+      height: 35px;
+      width: 100%;
+      padding: var(--globalPadding);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--white);
+      background-color: grey;
+      display: flex;
+      align-items: center;
+
+}
+
 .teamContainer input {
       width: 100%;
       height: 35px;
@@ -115,7 +129,8 @@
 }
 
 .tableContainerHS {
-      margin-top: 20px;
+      margin-top: var(--globalMargin);
+      padding: var(--globalPadding);
 }
 
 .tableContainerHS table {

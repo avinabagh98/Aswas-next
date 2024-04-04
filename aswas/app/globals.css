@@ -1,6 +1,7 @@
 /* globals.css */
 
 :root {
+      --button-green: #32a852;
       --lightgreen: #9cffa4;
       --darkgreen: #3c9143;
       --red: #f2695a;

@@ -5,10 +5,7 @@ import Surveyoption from "@/components/home/Surveyoption";
 import styles from "./update-survey.module.css";
 import Textparser from "@/components/home/Textparser";
 import { Button } from "react-bootstrap";
-import Resizer from "react-image-file-resizer";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import { useTeam } from "@/context/TeamContext";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/api/sendRequest";
@@ -76,6 +73,19 @@ export default function page() {
   const [survey_id, setSurvey_id] = useState("");
   const [household_name, setHousehold_Name] = useState("");
 
+  //Header-Loading Data States
+  const [username, setUserName] = useState("");
+  const [municipality_name, setMunicipality_name] = useState("");
+  const [team_num, setTeam_num] = useState("");
+  const [ward_name, setWard_name] = useState("");
+
+  const loadingHeaderData = {
+    name: username,
+    municipality_name: municipality_name,
+    team_num: team_num,
+    ward_name: ward_name,
+  };
+
   const surveyDataHM = {
     token: token,
     // isSurveyed: isSurveyed,
@@ -109,7 +119,6 @@ export default function page() {
     image: image,
   };
 
-
   const dropdownOptions = ["Misbehaved", "Abondoned", "Tala jhulche", "Other"];
   //Localstorage and Token fetching
   useEffect(() => {
@@ -124,7 +133,19 @@ export default function page() {
         if (!token) {
           route.push("/home/login");
         } else {
+          //Initite states with local storage data
+          const name_local = await localStorage.getItem("name");
+          const municipality_name_local = await localStorage.getItem(
+            "municipality_name"
+          );
+          const team_num_local = await localStorage.getItem("team_num");
+          const ward_name_local = await localStorage.getItem("ward_name");
           setUserRole(localStorage.getItem("role_name"));
+          setUserName(name_local);
+          setMunicipality_name(municipality_name_local);
+          setTeam_num(team_num_local);
+          setWard_name(ward_name_local);
+
           setToken(token);
           const household_id_update = localStorage.getItem(
             "household_id(survey-update)"
@@ -381,17 +402,8 @@ export default function page() {
 
   return (
     <>
-      <Header isOffCanvasVisible={false} />
+      <Header isOffCanvasVisible={false} loadingdata={loadingHeaderData} />
       <div className={styles.container}>
-        {/* <div className={styles.titlebar}>
-        <span>
-          <Textparser text={"Form-No-2"} />
-        </span>
-        <span>
-          <Textparser text={"Round-2"} />
-        </span>
-      </div> */}
-
         <span className={styles.name}>
           <Textparser text={household_name} />
           <Textparser

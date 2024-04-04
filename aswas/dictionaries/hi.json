@@ -103,7 +103,7 @@
     "invalid_password": "Password must be :5 characters",
     "login_failed": "Login failed",
     "email": "Email",
-    "password": "Password",
+    "password": "पासवर्ड",
     "log_in": "Log in",
     "splash": "Splash",
     "please_wait": "Please Wait",
