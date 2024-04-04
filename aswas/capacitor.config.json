@@ -1,8 +1,0 @@
-{
-  "appId": "com.example.app",
-  "appName": "aswascap",
-  "webDir": "out",
-  "server": {
-    "androidScheme": "https"
-  }
-}
