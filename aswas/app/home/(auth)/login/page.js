@@ -19,17 +19,7 @@ export default function Page() {
 
   const route = useRouter();
   const translate = LanguageFetcher();
-  const { role } = useContext(RoleContext);
-
-  //First reload
-  // useEffect(() => {
-  //   if (typeof localStorage !== "undefined") {
-  //     setRole_id(localStorage.getItem("role_id"));
-  //     setRoleName(localStorage.getItem("role_name"));
-  //   } else {
-  //     console.log("LocalStorage is not available");
-  //   }
-  // }, []);
+  const { role, roleId } = useContext(RoleContext);
 
   useEffect(() => {
     setRoleName(role);
@@ -38,7 +28,7 @@ export default function Page() {
   const loginData = {
     phone: username,
     password: password,
-    role_id: role_id,
+    role_id: roleId,
   };
 
   const loadingHeaderData = {

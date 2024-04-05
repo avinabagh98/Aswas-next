@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    localStorage.clear();
+
     setTimeout(() => {
       router.push("/home");
     }, 3000);

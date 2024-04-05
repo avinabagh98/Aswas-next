@@ -20,31 +20,20 @@ export default function page() {
 
   const route = useRouter();
   const { setLanguageVal } = useContext(LanguageContext);
-  const { setRole } = useContext(RoleContext);
-
-  const data = {
-    language: language,
-    role_id: roleValue,
-    role_name: rolenName,
-  };
+  const { setRole, setRoleId } = useContext(RoleContext);
 
   const handleRadioChange = (event) => {
+
     setLanguage(event.target.value);
     setLanguageVal(event.target.value);
   };
 
   const handleBtnChange = (event) => {
     setRole(event.target.name);
-    setRoleValue(event.target.id);
-    setRolenName(event.target.name);
+    setRoleId(event.target.id);
     route.push("/home/login");
   };
 
-  // useEffect(() => {
-  //   window.localStorage.setItem("data", JSON.stringify(data));
-  //   window.localStorage.setItem("role_name", rolenName);
-  //   window.localStorage.setItem("role_id", roleValue);
-  // }, [data, roleValue, rolenName]);
 
   return (
     <div className={styles.pageContainer}>
