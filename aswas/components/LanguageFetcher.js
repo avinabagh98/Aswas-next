@@ -2,19 +2,19 @@
 
 import { getDictionary } from "@/getDictionary";
 import { useState, useEffect } from "react";
+//Import for Context API
+import { useContext } from "react";
+import LanguageContext from "@/contexts/LanguageContext";
 
 export default function LanguageFetcher() {
   const [language, setLanguage] = useState("");
   const [translate, setTranslate] = useState({});
 
+  //Context API
+  const { languageVal } = useContext(LanguageContext);
   useEffect(() => {
-    // Fetch language from local storage
-    const dataString = localStorage.getItem("data");
-    const dataObject = JSON.parse(dataString);
-    const storedLanguage = dataObject?.language || "en";
-
     // Update language state
-    setLanguage(storedLanguage);
+    setLanguage(languageVal);
 
     // Fetch translation based on language
     async function fetchTranslation(lang) {
@@ -26,7 +26,7 @@ export default function LanguageFetcher() {
       }
     }
 
-    fetchTranslation(storedLanguage);
+    fetchTranslation(languageVal);
   }, []);
   return translate;
 }

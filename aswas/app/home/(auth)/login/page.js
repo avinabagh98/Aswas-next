@@ -23,11 +23,9 @@ export default function Page() {
     if (typeof localStorage !== "undefined") {
       setRole_id(localStorage.getItem("role_id"));
       setRoleName(localStorage.getItem("role_name"));
-    }
-    else {
+    } else {
       console.log("LocalStorage is not available");
     }
-
   }, []);
 
   const loginData = {

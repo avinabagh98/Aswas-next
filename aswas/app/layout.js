@@ -5,6 +5,7 @@ import "./globals.css";
 import bg from "../public/images/app_background_image.jpg";
 import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import LanguageProvider from "@/contexts/LanguageProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,11 @@ export default function RootLayout({ children }) {
           height: "100%",
         }}
       >
-        <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
-          {children}
-        </SkeletonTheme>
+        <LanguageProvider>
+          <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
+            {children}
+          </SkeletonTheme>
+        </LanguageProvider>
       </body>
     </html>
   );
