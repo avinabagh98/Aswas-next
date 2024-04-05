@@ -8,6 +8,8 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
+import { useContext } from "react";
+import RoleContext from "@/contexts/RoleContext/RoleContext";
 
 export default function Page() {
   const [role_id, setRole_id] = useState();
@@ -17,16 +19,21 @@ export default function Page() {
 
   const route = useRouter();
   const translate = LanguageFetcher();
+  const { role } = useContext(RoleContext);
 
   //First reload
+  // useEffect(() => {
+  //   if (typeof localStorage !== "undefined") {
+  //     setRole_id(localStorage.getItem("role_id"));
+  //     setRoleName(localStorage.getItem("role_name"));
+  //   } else {
+  //     console.log("LocalStorage is not available");
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      setRole_id(localStorage.getItem("role_id"));
-      setRoleName(localStorage.getItem("role_name"));
-    } else {
-      console.log("LocalStorage is not available");
-    }
-  }, []);
+    setRoleName(role);
+  }, [role_name]);
 
   const loginData = {
     phone: username,

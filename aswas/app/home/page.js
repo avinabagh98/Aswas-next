@@ -11,6 +11,7 @@ import Header from "@/components/Header/Header";
 // //Context API
 import { useContext } from "react";
 import LanguageContext from "@/contexts/LanguageContext";
+import RoleContext from "@/contexts/RoleContext/RoleContext";
 
 export default function page() {
   const [language, setLanguage] = useState("en");
@@ -19,6 +20,7 @@ export default function page() {
 
   const route = useRouter();
   const { setLanguageVal } = useContext(LanguageContext);
+  const { setRole } = useContext(RoleContext);
 
   const data = {
     language: language,
@@ -32,6 +34,7 @@ export default function page() {
   };
 
   const handleBtnChange = (event) => {
+    setRole(event.target.name);
     setRoleValue(event.target.id);
     setRolenName(event.target.name);
     route.push("/home/login");
