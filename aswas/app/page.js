@@ -3,18 +3,25 @@
 import styles from "./page.module.css";
 import Footer from "@/components/prelogin/Footer";
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import UserContext from "@/contexts/UserContext/UserContext";
 
 export default function Home() {
   const router = useRouter();
+  const { token } = useContext(UserContext);
 
   useEffect(() => {
-
-    setTimeout(() => {
-      router.push("/home");
-    }, 3000);
-  });
+    if (token) {
+      setTimeout(() => {
+        router.push("/home/dashboard");
+      }, 3000);
+    } else {
+      setTimeout(() => {
+        router.push("/home");
+      }, 3000);
+    }
+  }, [token]);
 
   return (
     <>

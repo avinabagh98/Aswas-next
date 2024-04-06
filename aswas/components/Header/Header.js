@@ -33,7 +33,7 @@ export default function Header({
     }).then((willDelete) => {
       if (willDelete) {
         // localStorage.removeItem("token");
-        localStorage.clear();
+
         route.push("/home");
         setShow(false);
         swal("You have successfully logged out", {
