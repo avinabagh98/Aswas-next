@@ -10,6 +10,7 @@ import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import { useContext } from "react";
 import RoleContext from "@/contexts/RoleContext/RoleContext";
+import UserContext from "@/contexts/UserContext/UserContext";
 
 export default function Page() {
   const [role_id, setRole_id] = useState();
@@ -20,6 +21,7 @@ export default function Page() {
   const route = useRouter();
   const translate = LanguageFetcher();
   const { role, roleId } = useContext(RoleContext);
+  const { setToken, setUserName } = useContext(UserContext);
 
   useEffect(() => {
     setRoleName(role);
@@ -47,8 +49,9 @@ export default function Page() {
       );
       const token = res.data.access_token;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("phone", username);
+      // localStorage.setItem("token", token);
+      // localStorage.setItem("phone", username);
+      setToken(token)
       swal("Successfully", "logged in", "success");
       route.push("/home/dashboard");
     } catch (error) {

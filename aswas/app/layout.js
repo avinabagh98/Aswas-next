@@ -7,6 +7,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import LanguageProvider from "@/contexts/LanguageProvider";
 import RoleProvider from "@/contexts/RoleContext/RoleProvider";
+import UserProvider from "@/contexts/UserContext/UserProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,9 +30,11 @@ export default function RootLayout({ children }) {
       >
         <LanguageProvider>
           <RoleProvider>
-            <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
-              {children}
-            </SkeletonTheme>
+            <UserProvider>
+              <SkeletonTheme baseColor="#B0B4BA" highlightColor="#ffffff">
+                {children}
+              </SkeletonTheme>
+            </UserProvider>
           </RoleProvider>
         </LanguageProvider>
       </body>
